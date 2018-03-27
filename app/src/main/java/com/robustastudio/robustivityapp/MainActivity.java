@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
 GoogleSignInClient mGoogleSignInClient;
+   public static  GoogleSignInAccount account;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -56,11 +57,11 @@ GoogleSignInClient mGoogleSignInClient;
     }
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+             account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
             Toast.makeText(this,"Email :"+account.getEmail()+"SUCCESS",Toast.LENGTH_LONG).show();
-            Intent myIntent = new Intent(MainActivity.this, createProfile.class);
+            Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
             MainActivity.this.startActivity(myIntent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +31,11 @@ public class createuserprof extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: 26/03/2018 Save to database
-                UserProfile userprofile = new UserProfile("alaa","010033","kurdian@live.com");
+                UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString());
                 db.userDao().insertAll(userprofile);
+                Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
+                createuserprof.this.startActivity(myIntent);
+
             }
         });
 
