@@ -10,7 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import java.util.ArrayList;
+import com.robustastudio.robustivityapp.Models.UserProfile;
+
 import java.util.List;
 
 public class createProfile extends AppCompatActivity {

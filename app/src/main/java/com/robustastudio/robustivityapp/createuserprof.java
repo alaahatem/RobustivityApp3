@@ -4,11 +4,11 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.robustastudio.robustivityapp.Models.UserProfile;
 
 public class createuserprof extends AppCompatActivity {
     EditText name;
@@ -33,7 +33,7 @@ public class createuserprof extends AppCompatActivity {
                 // TODO: 26/03/2018 Save to database
                 UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString());
                 db.userDao().insertAll(userprofile);
-                Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
+                Intent myIntent = new Intent(createuserprof.this, UserProfile.viewprofile.class);
                 createuserprof.this.startActivity(myIntent);
 
             }

@@ -6,7 +6,7 @@
 
     android:background="@color/grayLight"
     android:orientation="vertical"
-    tools:context="com.robustastudio.robustivityapp.viewprofile">
+    tools:context="com.robustastudio.robustivityapp.Models.UserProfile$viewprofile">
 
     <RelativeLayout
         android:layout_width="match_parent"
