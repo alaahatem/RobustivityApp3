@@ -67,26 +67,6 @@ public class UserProfile {
     private String phone;
     @ColumnInfo(name = "user_email")
     private String email;
-    @ColumnInfo(name = "user_projects")
-    private String[] projects;
 
-    public String[] getProjects() {
-        return projects;
-    }
-
-    public void setProjects(String[] projects) {
-        this.projects = projects;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
-    }
-
-    @ColumnInfo(name = "user_status")
-    private String Status;
 
 }

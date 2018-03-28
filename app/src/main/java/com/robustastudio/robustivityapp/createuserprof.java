@@ -33,7 +33,7 @@ public class createuserprof extends AppCompatActivity {
                 // TODO: 26/03/2018 Save to database
                 UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString());
                 db.userDao().insertAll(userprofile);
-                Intent myIntent = new Intent(createuserprof.this, UserProfile.viewprofile.class);
+                Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
                 createuserprof.this.startActivity(myIntent);
 
             }
