@@ -24,6 +24,7 @@
         <activity android:name=".createuserprof" />
         <activity android:name=".viewprofile" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".UsersProfiles"></activity>
     </application>
 
 </manifest>

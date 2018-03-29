@@ -4,9 +4,12 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
@@ -16,6 +19,7 @@ public class createuserprof extends AppCompatActivity {
     EditText Email;
     EditText Phone;
     Button button;
+    String regx ="^[a-zA-Z0-9._-]{3,}$";
     private static final String TAG = "createuserprof";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +35,20 @@ public class createuserprof extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO: 26/03/2018 Save to database
-                UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString(),temp,"ff");
-                db.userDao().insertAll(userprofile);
-                Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
-                createuserprof.this.startActivity(myIntent);
-
+                if(isValidEmail(Email.getText())&&name.getText().toString().matches(regx)) {
+                    UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Online");
+                    db.userDao().insertAll(userprofile);
+                    Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
+                    createuserprof.this.startActivity(myIntent);
+                }
+                else{
+                    Toast.makeText(view.getContext(),"Please enter a valid credentials",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
+    }
+    public final static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }

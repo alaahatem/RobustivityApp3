@@ -15,14 +15,16 @@ public class viewprofile extends AppCompatActivity {
     TextView nametv;
     List<UserProfile> userprofiles;
     String UserEmail;
-
+    TextView userphone;
+    TextView userstatus;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewprofile);
         emailtv = findViewById(R.id.viewEmail);
         nametv = findViewById(R.id.viewName);
-
+        userphone=findViewById(R.id.viewphone);
+        userstatus=findViewById(R.id.viewStatus);
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
         userprofiles  = db.userDao().getAllprofiles();
         UserEmail= MainActivity.account.getEmail();
@@ -34,6 +36,9 @@ public class viewprofile extends AppCompatActivity {
             if(userprofiles.get(i).getEmail().equals(UserEmail)){
                 emailtv.setText(userprofiles.get(i).getEmail());
                 nametv.setText(userprofiles.get(i).getName());
+                userphone.setText(userprofiles.get(i).getPhone());
+                userstatus.setText(userprofiles.get(i).getStatus());
+
             }
         }
 

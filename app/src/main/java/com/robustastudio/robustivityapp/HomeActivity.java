@@ -15,6 +15,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Button myprofile = (Button)findViewById(R.id.myprofile);
         Button usersearch= (Button) findViewById(R.id.usersearch);
+        Button createuser =(Button)findViewById(R.id.CreateUser);
     myprofile.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -28,6 +29,15 @@ public class HomeActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent myIntent = new Intent(HomeActivity.this, createProfile.class);
             HomeActivity.this.startActivity(myIntent);
+        }
+    });
+
+    createuser.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent myIntent = new Intent(HomeActivity.this,createuserprof.class);
+            HomeActivity.this.startActivity(myIntent);
+
         }
     });
     }

@@ -1,5 +1,7 @@
 package com.robustastudio.robustivityapp;
 
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ import static android.content.ContentValues.TAG;
 class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     List<UserProfile> user_profile;
 
+
+
     public UserAdapter(List<UserProfile> user_profile) {
         this.user_profile = user_profile;
     }
@@ -44,7 +48,15 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext() ,user_profile.get(position).getName(),Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext() ,user_profile.get(position).getStatus(),Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(view.getContext(),UsersProfiles.class);
+
+                intent.putExtra("Username", user_profile.get(position).getName());
+                intent.putExtra("user_email",user_profile.get(position).getEmail());
+                intent.putExtra("phone",user_profile.get(position).getPhone());
+                intent.putExtra("Status",user_profile.get(position).getStatus());
+
+                view.getContext().startActivity(intent);
             }
         });
 
