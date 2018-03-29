@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 public class createuserprof extends AppCompatActivity {
+    public String[] temp = new String[]{"project1","project2"};
     EditText name;
     EditText Email;
     EditText Phone;
@@ -24,14 +25,13 @@ public class createuserprof extends AppCompatActivity {
         Email=findViewById(R.id.Email);
         Phone=findViewById(R.id.Phone);
         button=findViewById(R.id.button);
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
-                .allowMainThreadQueries().build();
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: 26/03/2018 Save to database
-                UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString());
+                UserProfile userprofile = new UserProfile(name.getText().toString(),Phone.getText().toString(),Email.getText().toString(),temp,"ff");
                 db.userDao().insertAll(userprofile);
                 Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
                 createuserprof.this.startActivity(myIntent);

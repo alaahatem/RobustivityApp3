@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp;
 
 import android.annotation.SuppressLint;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,14 +16,23 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.robustastudio.robustivityapp.Models.UserProfile;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 GoogleSignInClient mGoogleSignInClient;
    public static  GoogleSignInAccount account;
+   boolean checked =false;
+    List<UserProfile> userprofiles;
+
+
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+        userprofiles = db.userDao().getAllprofiles();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -55,14 +65,38 @@ GoogleSignInClient mGoogleSignInClient;
             handleSignInResult(task);
         }
     }
+
+    private void CheckNewUser() {
+
+        if (!userprofiles.isEmpty()) {
+            for (int i = 0; i < userprofiles.size(); i++) {
+                if (userprofiles.get(i).getEmail().toString().equals(account.getEmail())) {
+
+                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                    MainActivity.this.startActivity(myIntent);
+                    checked= true;
+
+                }
+            }
+            if(!checked){
+                Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
+                MainActivity.this.startActivity(myIntent);
+            }
+
+        }
+        else{
+            Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
+            MainActivity.this.startActivity(myIntent);
+        }
+    }
+
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
              account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
             Toast.makeText(this,"Email :"+account.getEmail()+"SUCCESS",Toast.LENGTH_LONG).show();
-            Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
-            MainActivity.this.startActivity(myIntent);
+            CheckNewUser();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.

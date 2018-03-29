@@ -8,13 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class createProfile extends AppCompatActivity {
+    List<UserProfile> userprofiles;
+    public UserAdapter userAdapter;
     private static final String TAG = "createProfile";
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -27,16 +33,28 @@ public class createProfile extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView =findViewById(R.id.recycler_view);
-//        user= new ArrayList<UserProfile>();
-//        for (int i = 0; i <10 ; i++) {
-//            UserProfile userprofile = new UserProfile("Alaa"+""+i,"0100038293","kurdianos@live.com");
-//            user.add(userprofile);
-//
-//        }
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
-                .allowMainThreadQueries().build();
+        EditText search = (EditText)findViewById(R.id.search);
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        List<UserProfile> userprofiles= db.userDao().getAllprofiles();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+//                filter(editable.toString());
+            }
+        });
+
+
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+
+       userprofiles= db.userDao().getAllprofiles();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UserAdapter(userprofiles);
         recyclerView.setAdapter(adapter);
@@ -50,5 +68,17 @@ public class createProfile extends AppCompatActivity {
             }
         });
     }
+//    private void filter(String text) {
+//        ArrayList<UserProfile> filteredList = new ArrayList<>();
+//
+//        for ( UserProfile item : userprofiles) {
+//            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(item);
+//            }
+//        }
+//
+//        userAdapter.filterlist(filteredList);
+//    }
+
 
 }

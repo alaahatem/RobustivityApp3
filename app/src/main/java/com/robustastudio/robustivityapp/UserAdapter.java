@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +41,11 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public int getItemCount() {
         return user_profile.size();
     }
+    public void filterlist(ArrayList<UserProfile> filteredList) {
+        user_profile = filteredList;
+        notifyDataSetChanged();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView name;
@@ -51,4 +57,5 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         }
     }
+
 }
