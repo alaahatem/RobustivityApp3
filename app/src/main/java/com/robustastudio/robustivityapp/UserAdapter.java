@@ -1,15 +1,20 @@
 package com.robustastudio.robustivityapp;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by hp on 26/03/2018.
@@ -30,19 +35,29 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(UserAdapter.ViewHolder holder, int position) {
-        
+    public void onBindViewHolder(UserAdapter.ViewHolder holder, final int position) {
+
         holder.name.setText(user_profile.get(position).getName());
 
         holder.email.setText(user_profile.get(position).getEmail());
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext() ,user_profile.get(position).getName(),Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return user_profile.size();
     }
-    public void filterlist(ArrayList<UserProfile> filteredList) {
+    public void filterlist(List<UserProfile> filteredList) {
+
         user_profile = filteredList;
+
         notifyDataSetChanged();
     }
 
@@ -50,11 +65,12 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView name;
         public TextView email;
+        public LinearLayout linearLayout;
         public ViewHolder(View itemView) {
             super(itemView);
             name= itemView.findViewById(R.id.name);
             email=itemView.findViewById(R.id.Email);
-
+            linearLayout =itemView.findViewById(R.id.linear_layout);
         }
     }
 

@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
@@ -19,12 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class createProfile extends AppCompatActivity {
+    List<UserProfile> filteredList;
     List<UserProfile> userprofiles;
-    public UserAdapter userAdapter;
+
     private static final String TAG = "createProfile";
     RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
+    public UserAdapter adapter;
     FloatingActionButton fab;
+
 //    ArrayList<UserProfile> user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class createProfile extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                filter(editable.toString());
+                filter(editable.toString());
             }
         });
 
@@ -68,17 +71,22 @@ public class createProfile extends AppCompatActivity {
             }
         });
     }
-//    private void filter(String text) {
-//        ArrayList<UserProfile> filteredList = new ArrayList<>();
-//
-//        for ( UserProfile item : userprofiles) {
-//            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-//                filteredList.add(item);
-//            }
-//        }
-//
-//        userAdapter.filterlist(filteredList);
-//    }
+    private void filter(String text) {
+         filteredList = new ArrayList<>();
+
+
+        for ( UserProfile item : userprofiles) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+
+
+
+            }
+
+        }
+
+adapter.filterlist(filteredList);
+    }
 
 
 }
