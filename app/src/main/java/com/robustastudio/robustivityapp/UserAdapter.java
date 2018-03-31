@@ -48,7 +48,7 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext() ,user_profile.get(position).getStatus(),Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext() ,user_profile.get(position).getName(),Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(view.getContext(),UsersProfiles.class);
 
                 intent.putExtra("Username", user_profile.get(position).getName());

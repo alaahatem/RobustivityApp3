@@ -29,7 +29,7 @@ public class createuserprof extends AppCompatActivity {
         Email=findViewById(R.id.Email);
         Phone=findViewById(R.id.Phone);
         button=findViewById(R.id.button);
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").build();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

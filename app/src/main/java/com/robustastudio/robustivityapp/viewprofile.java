@@ -27,7 +27,7 @@ public class viewprofile extends AppCompatActivity {
         userstatus=findViewById(R.id.viewStatus);
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
         userprofiles  = db.userDao().getAllprofiles();
-        UserEmail= MainActivity.account.getEmail();
+        UserEmail= MainActivity.mAuth.getCurrentUser().getEmail();
 
         showProfile();
     }
