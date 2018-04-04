@@ -55,7 +55,7 @@ public class UsersProfiles extends AppCompatActivity {
         viewstatus=findViewById(R.id.viewStatus);
         viewname.setText(username);
         viewemail.setText(email);
-
+        viewstatus.setText(status);
 
     }
     private void sendNotification() {
