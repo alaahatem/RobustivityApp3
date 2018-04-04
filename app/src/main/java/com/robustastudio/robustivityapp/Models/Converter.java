@@ -16,9 +16,9 @@ public class Converter {
 
 
     @TypeConverter
-    public String  gettingListFromString(String [] name) {
+    public String  gettingListFromString(List<String> name) {
 
-        if (name.length > 0) {
+        if (name.size()> 0) {
             StringBuilder nameBuilder = new StringBuilder();
 
             for (String n : name) {
@@ -36,8 +36,8 @@ public class Converter {
     }
 
     @TypeConverter
-    public  String [] writingStringFromList(String name) {
-        String[] arr = name.split(",");
+    public List<String> writingStringFromList(String name) {
+        List<String> arr = Arrays.asList(name.split("\\s*,\\s*"));
         return arr;
     }
 }

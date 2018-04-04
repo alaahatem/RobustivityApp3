@@ -23,7 +23,7 @@ import java.util.List;
 @Entity
 public class UserProfile {
 
-    public UserProfile(String name, String phone, String email, String[] projects, String status) {
+    public UserProfile(String name, String phone, String email, List<String> projects, String status) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -49,7 +49,7 @@ public class UserProfile {
     @ColumnInfo(name = "user_email")
     private String email;
     @TypeConverters({Converter.class})
-    public String[] projects;
+    public List<String> projects;
     @ColumnInfo(name = "user_status")
     private String status ;
 
@@ -77,11 +77,11 @@ public class UserProfile {
         this.email = email;
     }
 
-    public String[] getProjects() {
+    public List<String> getProjects() {
         return projects;
     }
 
-    public void setProjects(String[] projects) {
+    public void setProjects(List<String> projects) {
         this.projects = projects;
     }
 

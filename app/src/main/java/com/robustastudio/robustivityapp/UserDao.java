@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
@@ -17,5 +18,7 @@ public interface UserDao {
     List<UserProfile> getAllprofiles();
     @Insert
     void insertAll(UserProfile...userProfiles);
+    @Query("UPDATE userprofile SET user_status=:status WHERE user_email = :email")
+    void updateUsers(String status , String email);
     
 }

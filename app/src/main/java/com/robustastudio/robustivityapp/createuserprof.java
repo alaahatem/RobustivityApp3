@@ -13,8 +13,11 @@ import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class createuserprof extends AppCompatActivity {
-    public String[] temp = new String[]{"project1","project2"};
+    public List<String> temp = new ArrayList<String>();
     EditText name;
     EditText Email;
     EditText Phone;
@@ -29,23 +32,38 @@ public class createuserprof extends AppCompatActivity {
         Email=findViewById(R.id.Email);
         Phone=findViewById(R.id.Phone);
         button=findViewById(R.id.button);
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").build();
-
-        button.setOnClickListener(new View.OnClickListener() {
+        new Thread(new Runnable() {
             @Override
-            public void onClick(View view) {
-                // TODO: 26/03/2018 Save to database
-                if(isValidEmail(Email.getText())&&name.getText().toString().matches(regx)) {
-                    UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Online");
-                    db.userDao().insertAll(userprofile);
-                    Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
-                    createuserprof.this.startActivity(myIntent);
-                }
-                else{
-                    Toast.makeText(view.getContext(),"Please enter a valid credentials",Toast.LENGTH_LONG).show();
-                }
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //your code
+                        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // TODO: 26/03/2018 Save to database
+                                if(isValidEmail(Email.getText())&&name.getText().toString().matches(regx)) {
+                                    UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Online");
+                                    db.userDao().insertAll(userprofile);
+                                    Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
+                                    createuserprof.this.startActivity(myIntent);
+                                }
+                                else{
+                                    Toast.makeText(view.getContext(),"Please enter a valid credentials",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
+                });
             }
-        });
+        }).start();
+
+
+
+
 
     }
     public final static boolean isValidEmail(CharSequence target) {
