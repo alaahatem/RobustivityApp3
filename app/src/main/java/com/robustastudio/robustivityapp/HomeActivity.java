@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
 Context context;
     List<UserProfile> userprofiles;
 String checkout = "Check out";
+    private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     static Button checkin;
@@ -33,7 +36,7 @@ String checkout = "Check out";
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         checkin = (Button)findViewById(R.id.checkin);
         Button myprofile = (Button) findViewById(R.id.myprofile);
@@ -50,7 +53,7 @@ String checkout = "Check out";
 
         if(bssid!=null) {
             if (bssid.equals("58:2a:f7:39:59:f8")) {
-
+            checkin.setText(checkedin);
             }
         }
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -94,6 +97,20 @@ String checkout = "Check out";
         public void onClick(View view) {
         mAuth.signOut();
 
+        }
+    });
+
+    checkin.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (checkin.getText().toString().equals("Check in")) {
+                mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+                checkin.setText("Check out");
+            }
+            else{
+                mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");
+                checkin.setText("Check in");
+            }
         }
     });
 

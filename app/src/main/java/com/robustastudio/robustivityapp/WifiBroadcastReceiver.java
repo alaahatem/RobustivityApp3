@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
@@ -25,12 +27,14 @@ import static android.content.ContentValues.TAG;
  */
 
 public class WifiBroadcastReceiver extends BroadcastReceiver {
+    private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthListener;
     static String bssid;
     public FirebaseAuth mAuth;
     List<UserProfile> userprofiles;
     @Override
     public void onReceive(Context context, Intent intent) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth =FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -62,9 +66,11 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 if (bssid.equals("58:2a:f7:39:59:f8")) {
                     for (int j = 0; j <userprofiles.size() ; j++) {
                         if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){
-                           Toast.makeText(context.getApplicationContext(),mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+                           Toast.makeText(context.getApplicationContext(),FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
                             userprofiles.get(j).setStatus("Checked in");
                             db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
+                        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+                            HomeActivity.checkin.setText("Check out");
                         }
                     }
                     }

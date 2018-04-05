@@ -11,12 +11,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class createuserprof extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+
     public List<String> temp = new ArrayList<String>();
     EditText name;
     EditText Email;
@@ -28,6 +35,10 @@ public class createuserprof extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createuserprof);
+        mAuth =FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
         name=findViewById(R.id.name);
         Email=findViewById(R.id.Email);
         Phone=findViewById(R.id.Phone);
@@ -46,8 +57,15 @@ public class createuserprof extends AppCompatActivity {
                             public void onClick(View view) {
                                 // TODO: 26/03/2018 Save to database
                                 if(isValidEmail(Email.getText())&&name.getText().toString().matches(regx)) {
-                                    UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Online");
-                                    db.userDao().insertAll(userprofile);
+
+
+
+                                        UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Online");
+                                        db.userDao().insertAll(userprofile);
+
+                                        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(Email.getText().toString())).setValue(userprofile);
+
+
                                     Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
                                     createuserprof.this.startActivity(myIntent);
                                 }
@@ -66,6 +84,8 @@ public class createuserprof extends AppCompatActivity {
 
 
     }
+
+
     public final static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }

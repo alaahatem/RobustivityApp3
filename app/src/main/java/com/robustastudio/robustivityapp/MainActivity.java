@@ -51,7 +51,7 @@ GoogleSignInClient mGoogleSignInClient;
                 .unsubscribeWhenNotificationsAreDisabled(true)
                 .init();
         mAuth = FirebaseAuth.getInstance();
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration().allowMainThreadQueries().build();
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -86,8 +86,6 @@ GoogleSignInClient mGoogleSignInClient;
 
 //        Logged_user = user.getEmail();
 //        OneSignal.sendTag("User_ID",Logged_in_user_email);
-
-
 
     }
     int RC_SIGN_IN = 10;
