@@ -10,7 +10,11 @@ import android.widget.Button;
  * Created by MALAK SHAKER on 3/29/2018.
  */
 
+<<<<<<< Updated upstream
 public class viewSectors extends AppCompatActivity{
+=======
+public class viewSectors extends AppCompatActivity {
+>>>>>>> Stashed changes
 
     Button AddSector ;
 

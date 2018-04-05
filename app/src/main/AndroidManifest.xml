@@ -22,11 +22,20 @@
             android:label="@string/title_activity_create_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".createuserprof" />
+<<<<<<< Updated upstream
         <activity android:name=".Models.UserProfile$viewprofile" />
         <activity
             android:name=".popAddSector"
             android:theme="@style/AppTheme.CustomTheme"></activity>
         <activity android:name=".Project"></activity>
+=======
+        <activity android:name=".viewprofile" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".viewProjects"/>
+        <activity android:name=".Project"/>
+        <activity android:name=".statistics"></activity>
+        <activity android:name=".UsersProfiles"></activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

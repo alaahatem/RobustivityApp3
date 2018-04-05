@@ -35,12 +35,20 @@
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
+<<<<<<< Updated upstream
+=======
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+>>>>>>> Stashed changes
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="46dp" />
 
@@ -53,12 +61,20 @@
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="92dp" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
+<<<<<<< Updated upstream
+=======
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+>>>>>>> Stashed changes
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="122dp" />
 
@@ -85,12 +101,21 @@
                     android:text="Start Date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/startDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="date" />
+=======
+                    android:inputType="date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
                 <TextView
                     android:id="@+id/textView8"
@@ -99,12 +124,21 @@
                     android:text="End Date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/endDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="date" />
+=======
+                    android:inputType="date"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
                 <TextView
                     android:id="@+id/textView9"
@@ -113,12 +147,21 @@
                     android:text="Tagline"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/tagline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="textPersonName" />
+=======
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
                 <TextView
                     android:id="@+id/textView11"
@@ -127,12 +170,21 @@
                     android:text="Account"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/account"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="textPersonName" />
+=======
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
                 <TextView
                     android:id="@+id/textView12"
@@ -141,12 +193,21 @@
                     android:text="Sector"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/sector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="textPersonName" />
+=======
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
                 <TextView
                     android:id="@+id/textView10"
@@ -155,18 +216,28 @@
                     android:text="Cost"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+<<<<<<< Updated upstream
                 <EditText
+=======
+                <TextView
+>>>>>>> Stashed changes
                     android:id="@+id/cost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+<<<<<<< Updated upstream
                     android:inputType="textPersonName" />
+=======
+                    android:inputType="textPersonName"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
+>>>>>>> Stashed changes
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< Updated upstream
                 android:orientation="horizontal">
 
                 <ImageView
@@ -183,6 +254,25 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Edit" />
+=======
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/statistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Statistics" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Edit" />
+
+>>>>>>> Stashed changes
             </LinearLayout>
 
         </LinearLayout>
