@@ -34,11 +34,12 @@ String checkout = "Check out";
     static String checkedin = "checkout";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        checkin = (Button)findViewById(R.id.checkin);
+
         Button myprofile = (Button) findViewById(R.id.myprofile);
         Button usersearch = (Button) findViewById(R.id.usersearch);
         Button createuser = (Button) findViewById(R.id.CreateUser);
@@ -100,19 +101,60 @@ String checkout = "Check out";
         }
     });
 
-    checkin.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (checkin.getText().toString().equals("Check in")) {
-                mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
-                checkin.setText("Check out");
+
+
+        new Thread(new Runnable() {
+            @Override
+
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkin = (Button)findViewById(R.id.checkin);
+                        //your code
+                        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+                        userprofiles =db.userDao().getAllprofiles();
+                        setButton();
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        checkin.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (checkin.getText().toString().equals("Check in")) {
+                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+                                    checkin.setText("Check out");
+                                    db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
+                                }
+                                else{
+                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");
+                                    checkin.setText("Check in");
+                                    db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());
+                                }
+                            }
+                        });
+
+                    }
+                });
             }
-            else{
-                mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");
-                checkin.setText("Check in");
+        }).start();
+
+
+
+
+
+    }
+    public  void setButton(){
+
+        for (int i = 0; i <userprofiles.size() ; i++) {
+            if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail())){
+                if(userprofiles.get(i).getStatus().equals("Checked in")){
+                    checkin.setText("Check out");
+                }
+                else{
+                    checkin.setText("Check in");
+                }
             }
         }
-    });
 
     }
 

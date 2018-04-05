@@ -70,7 +70,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                             userprofiles.get(j).setStatus("Checked in");
                             db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
-                            HomeActivity.checkin.setText("Check out");
+//                            HomeActivity.checkin.setText("Check out");
+
+
                         }
                     }
                     }
