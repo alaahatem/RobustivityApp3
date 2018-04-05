@@ -32,6 +32,7 @@ String checkout = "Check out";
     private FirebaseAuth.AuthStateListener mAuthListener;
     static Button checkin;
     static String checkedin = "checkout";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -39,7 +40,8 @@ String checkout = "Check out";
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-
+        Button projectsList = (Button) findViewById(R.id.projectsList);
+        Button project = (Button) findViewById(R.id.Project);
         Button myprofile = (Button) findViewById(R.id.myprofile);
         Button usersearch = (Button) findViewById(R.id.usersearch);
         Button createuser = (Button) findViewById(R.id.CreateUser);
@@ -100,6 +102,29 @@ String checkout = "Check out";
 
         }
     });
+
+        project.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(HomeActivity.this, Project.class);
+                HomeActivity.this.startActivity(myIntent);
+
+
+
+            }
+        });
+
+        projectsList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(HomeActivity.this, viewProjects.class);
+                HomeActivity.this.startActivity(myIntent);
+
+
+
+            }
+        });
+
 
 
 

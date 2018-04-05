@@ -34,6 +34,14 @@
             android:name=".createProfile"
             android:label="@string/title_activity_create_profile"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".popAddSector"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".viewProjects"/>
+        <activity android:name=".Project"/>
+        <activity android:name=".statistics"/>
         <activity android:name=".createuserprof" />
         <activity android:name=".viewprofile" />
         <activity android:name=".HomeActivity" />
