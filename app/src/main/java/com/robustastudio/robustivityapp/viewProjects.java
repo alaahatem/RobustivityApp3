@@ -51,7 +51,7 @@ public class viewProjects extends AppCompatActivity {
         m.add("mohamed");
         m.add("menna");
 
-        proj = new Projects("try1", "Fun",m, new Date(18,02,10), new Date(18,02,10), "whatever", "bla bla", "bla", 20.0);
+        proj = new Projects("Malak", "Fun",m, new Date(3918,2,10), new Date(18,2,10), "whatever", "bla bla", "bla", 20.0);
 
         viewProjects();
         addproj.setOnClickListener(new View.OnClickListener() {

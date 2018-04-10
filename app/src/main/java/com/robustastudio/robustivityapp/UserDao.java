@@ -35,6 +35,12 @@ public interface UserDao {
     @Insert
     void insertSector(Sectors s);
 
+    @Query("SELECT name FROM Sectors WHERE name = :name")
+    List<String> sector_exists(String name);
+
+    //@Query("IF NOT EXISTS (SELECT name FROM Sectors Where name = :sector_name) ")
+    //boolean theSectorExists(String sector_name)
+
     @Query("SELECT * FROM Projects WHERE project_name = :projectName")
     Projects getProjectDetails(String projectName);
 
@@ -63,6 +69,12 @@ public interface UserDao {
 
     @Query("SELECT project_Cost FROM Projects WHERE project_name = :projectName")
     Double getProjectDetails8(String projectName);
+
+    @Query("SELECT task_finished_hours FROM Tasks WHERE task_project_name = :project_name")
+    List<Float> get_task_finishedHours(String project_name);
+
+    @Query("SELECT task_estimated_hours FROM Tasks WHERE task_project_name = :project_name")
+    List<Float> get_task_totalHours(String project_name);
 
 
 }

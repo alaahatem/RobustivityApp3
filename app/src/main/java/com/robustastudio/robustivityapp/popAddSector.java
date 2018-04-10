@@ -1,15 +1,19 @@
 package com.robustastudio.robustivityapp;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.Sectors;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class popAddSector extends AppCompatActivity {
@@ -21,8 +25,8 @@ public List<String> Accounts;
         setContentView(R.layout.activity_pop_add_sector);
 
         Button done = (Button) findViewById(R.id.DoneBtn);
-        final EditText mEdit = (EditText) findViewById(R.id.name);
-
+        final EditText mEdit = (EditText) findViewById(R.id.sectorName);
+        Accounts = new ArrayList<>();
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -37,9 +41,28 @@ public List<String> Accounts;
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = mEdit.getText().toString();
-                Sectors s = new Sectors(name,Accounts);
-                db.userDao().insertSector(s);
+                try {
+                    String name = mEdit.getText().toString();
+
+                   // Cursor c = db.rawQuery("SELECT * FROM Sectors Where name =")
+
+                    List<String> names =db.userDao().sector_exists(name);
+
+                    if(names.isEmpty() ){
+                        Sectors s = new Sectors(name, Accounts);
+                        db.userDao().insertSector(s);
+                        Intent myIntent = new Intent(popAddSector.this, viewSectors.class);
+                        popAddSector.this.startActivity(myIntent);
+                    }else {
+                        Toast.makeText(getApplicationContext(),"This sector exists",Toast.LENGTH_LONG).show();
+                    }
+
+
+
+                }catch (NullPointerException x){
+                    String name = mEdit.getText().toString();
+                    Toast.makeText(getApplicationContext(),"please enter a name"+name,Toast.LENGTH_LONG).show();
+                }
             }
         });
 

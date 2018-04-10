@@ -31,6 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="16dp" />
@@ -42,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="46dp" />
@@ -51,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Type"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="92dp" />
@@ -63,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-
+                    android:textColor="@color/cardview_dark_background"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
 
                     tools:layout_editor_absoluteX="16dp"
@@ -74,11 +77,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Engagement"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/engagement"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="198dp">
@@ -90,6 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Start Date"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -99,6 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:textColor="@color/cardview_dark_background"
                     android:inputType="date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
 
@@ -108,6 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End Date"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -118,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="date"
+                    android:textColor="@color/cardview_dark_background"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
 
 
@@ -126,6 +134,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tagline"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -136,6 +145,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
 
 
@@ -144,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Account"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -154,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title" />
 
 
@@ -162,6 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Sector"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -172,6 +185,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                 android:inputType="textPersonName"
+                    android:textColor="@color/cardview_dark_background"
                 android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
 
                      />
@@ -183,6 +197,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cost"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
 
@@ -192,7 +207,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
-
+                    android:textColor="@color/cardview_dark_background"
                     android:inputType="textPersonName"
                     android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"  />
 

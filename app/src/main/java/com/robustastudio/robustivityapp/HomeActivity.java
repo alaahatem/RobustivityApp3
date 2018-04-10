@@ -41,7 +41,7 @@ String checkout = "Check out";
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Button projectsList = (Button) findViewById(R.id.projectsList);
-        Button project = (Button) findViewById(R.id.Project);
+        Button sectors = (Button) findViewById(R.id.view_sectors);
         Button myprofile = (Button) findViewById(R.id.myprofile);
         Button usersearch = (Button) findViewById(R.id.usersearch);
         Button createuser = (Button) findViewById(R.id.CreateUser);
@@ -103,10 +103,12 @@ String checkout = "Check out";
         }
     });
 
-        project.setOnClickListener(new View.OnClickListener() {
+
+
+        projectsList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(HomeActivity.this, Project.class);
+                Intent myIntent = new Intent(HomeActivity.this, viewProjects.class);
                 HomeActivity.this.startActivity(myIntent);
 
 
@@ -114,10 +116,10 @@ String checkout = "Check out";
             }
         });
 
-        projectsList.setOnClickListener(new View.OnClickListener() {
+        sectors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(HomeActivity.this, viewProjects.class);
+                Intent myIntent = new Intent(HomeActivity.this, viewSectors.class);
                 HomeActivity.this.startActivity(myIntent);
 
 
