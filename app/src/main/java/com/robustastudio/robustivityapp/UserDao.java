@@ -61,8 +61,6 @@ public interface UserDao {
     @Query("SELECT project_tagline FROM Projects WHERE project_name = :projectName")
     String getProjectDetails5(String projectName);
 
-    @Query("SELECT project_sectorName FROM Projects WHERE project_name = :projectName")
-    String getProjectDetails6(String projectName);
 
     @Query("SELECT project_accountName FROM Projects WHERE project_name = :projectName")
     String getProjectDetails7(String projectName);
@@ -75,6 +73,9 @@ public interface UserDao {
 
     @Query("SELECT task_estimated_hours FROM Tasks WHERE task_project_name = :project_name")
     List<Float> get_task_totalHours(String project_name);
+
+    @Query("SELECT name FROM Sectors")
+    List<String> getAllSectors();
 
 
 }

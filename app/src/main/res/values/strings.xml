@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">RobustivityApp</string>
     <string name="title_activity_create_profile">createProfile</string>
+    <string name="title_activity_na">Na</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

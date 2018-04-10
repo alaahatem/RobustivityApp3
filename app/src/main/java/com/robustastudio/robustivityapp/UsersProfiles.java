@@ -71,9 +71,9 @@ public class UsersProfiles extends AppCompatActivity {
 
                     //This is a Simple Logic to Send Notification different Device Programmatically....
                     if (MainActivity.Logged_user.equals("sanaahatem86@gmail.com")) {
-                        send_email = "sanaahatem86@gmail.com";
+                        send_email = "shakermalak1@gmail.com";
                     } else {
-                        send_email="sanaahatem86@gmail.com";
+                        send_email="shakermalak1@gmail.com";
                     }
 
                     try {

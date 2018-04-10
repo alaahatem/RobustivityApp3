@@ -66,7 +66,7 @@ public class createuserprof extends AppCompatActivity {
                                         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(Email.getText().toString())).setValue(userprofile);
 
 
-                                    Intent myIntent = new Intent(createuserprof.this, viewprofile.class);
+                                    Intent myIntent = new Intent(createuserprof.this, HomeActivity.class);
                                     createuserprof.this.startActivity(myIntent);
                                 }
                                 else{

@@ -170,29 +170,6 @@
 
 
                 <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Sector"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-
-                <TextView
-
-                    android:id="@+id/sector"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                android:inputType="textPersonName"
-                    android:textColor="@color/cardview_dark_background"
-                android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
-
-                     />
-
-
-
-                <TextView
                     android:id="@+id/textView10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

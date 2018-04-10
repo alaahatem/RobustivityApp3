@@ -29,7 +29,7 @@ public class Projects {
     @PrimaryKey(autoGenerate = true)
     public int projectid;
 
-    public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String sectorName, String accountName, double project_cost) {
+    public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, double project_cost) {
 
         this.name = name;
         this.type = type;
@@ -37,7 +37,6 @@ public class Projects {
         StartDate = startDate;
         this.endDate = endDate;
         Tagline = tagline;
-        SectorName = sectorName;
         this.accountName = accountName;
         this.project_cost = project_cost;
     }
@@ -64,8 +63,6 @@ public class Projects {
     public String Tagline;
 
 
-    @ColumnInfo(name = "project_sectorName")
-    public String SectorName;
 
     @ColumnInfo(name = "project_accountName")
     public String accountName ;
@@ -99,9 +96,6 @@ public class Projects {
         return Tagline;
     }
 
-    public String getSectorName() {
-        return SectorName;
-    }
 
     public String getAccountName() {
         return accountName;
@@ -135,9 +129,6 @@ public class Projects {
         Tagline = tagline;
     }
 
-    public void setSectorName(String sectorName) {
-        SectorName = sectorName;
-    }
 
     public void setAccountName(String accountName) {
         this.accountName = accountName;

@@ -27,7 +27,7 @@ public class Project extends AppCompatActivity {
     public TextView StartDate;
     public TextView endDate;
     public TextView Tagline;
-    public TextView SectorName;
+
     public TextView accountName ;
     public TextView cost;
     private List<String> list;
@@ -68,7 +68,7 @@ public class Project extends AppCompatActivity {
         StartDate = findViewById(R.id.startDate);
         endDate = findViewById(R.id.endDate);
         Tagline = findViewById(R.id.tagline);
-        SectorName = findViewById(R.id.sector);
+
         accountName = findViewById(R.id.account);
         cost = findViewById(R.id.cost);
         statistics =findViewById(R.id.statistics);
@@ -82,7 +82,7 @@ public class Project extends AppCompatActivity {
        StartDate.setText(""+p.getStartDate());
       endDate.setText(""+p.getEndDate());
        Tagline.setText(p.getTagline());
-       SectorName.setText(p.getSectorName());
+
       accountName.setText(p.getAccountName());
        cost.setText(""+p.getProject_cost());
 
