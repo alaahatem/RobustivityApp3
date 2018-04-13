@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.robustastudio.robustivityapp.Project;
+import com.robustastudio.robustivityapp.R;
 
 import java.util.List;
 
@@ -62,6 +65,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
             @Override
             public void onClick(View view) {
                    Intent i = new Intent(ctx, Project.class);
+                   i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                    i.putExtra("projectName",projects.get(position));
                    ctx.startActivity(i);
 

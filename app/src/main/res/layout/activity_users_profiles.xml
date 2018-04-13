@@ -7,7 +7,7 @@
 
     android:background="@color/grayLight"
     android:orientation="vertical"
-    tools:context="com.robustastudio.robustivityapp.UsersProfiles">
+    tools:context=".UserProfiles.UsersProfilesImpl">
 
 
     <RelativeLayout
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="0100"
+
                 android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout

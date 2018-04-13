@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.robustastudio.robustivityapp.Adapters.EngagementListAdapter;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Projects;
 
 import java.util.Date;

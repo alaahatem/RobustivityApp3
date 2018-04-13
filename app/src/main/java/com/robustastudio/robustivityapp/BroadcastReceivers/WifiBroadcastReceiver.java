@@ -1,26 +1,25 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.BroadcastReceivers;
 
 import android.arch.persistence.room.Room;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
-import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.FirebaseApp;
+import com.robustastudio.robustivityapp.HomeActivity;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by hp on 03/04/2018.
@@ -67,7 +66,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                 if (bssid.equals("58:2a:f7:39:59:f8")) {
                     for (int j = 0; j <userprofiles.size() ; j++) {
                         if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){
-                           Toast.makeText(context.getApplicationContext(),FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
+                           Toast.makeText(context.getApplicationContext(), FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
                             userprofiles.get(j).setStatus("Checked in");
                             db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");

@@ -92,12 +92,12 @@
 
             <TextView
 
-                android:id="@+id/viewphone"
+                android:id="@+id/viewPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="0100"
+
                 android:textStyle="bold" />
         </LinearLayout>
 

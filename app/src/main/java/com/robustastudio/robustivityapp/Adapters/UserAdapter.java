@@ -1,9 +1,7 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.Adapters;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +10,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
+import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.UserProfiles.UsersProfilesImpl;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by hp on 26/03/2018.
  */
 
-class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     List<UserProfile> user_profile;
 
 
@@ -49,7 +46,7 @@ class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext() ,user_profile.get(position).getName(),Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(view.getContext(),UsersProfiles.class);
+                Intent intent = new Intent(view.getContext(),UsersProfilesImpl.class);
 
                 intent.putExtra("Username", user_profile.get(position).getName());
                 intent.putExtra("user_email",user_profile.get(position).getEmail());

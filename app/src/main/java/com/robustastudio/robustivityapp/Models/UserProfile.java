@@ -3,17 +3,8 @@ package com.robustastudio.robustivityapp.Models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.widget.TextView;
 
-import com.robustastudio.robustivityapp.AppDatabase;
-import com.robustastudio.robustivityapp.MainActivity;
-import com.robustastudio.robustivityapp.R;
 
 import java.util.List;
 

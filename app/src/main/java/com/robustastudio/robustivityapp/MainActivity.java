@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.onesignal.OneSignal;
+import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
@@ -62,7 +64,8 @@ GoogleSignInClient mGoogleSignInClient;
 
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             if(firebaseAuth.getCurrentUser()!=null){
-                CheckNewUser();
+                Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                MainActivity.this.startActivity(myIntent);
                 Logged_user =mAuth.getCurrentUser().getEmail();
                 OneSignal.sendTag("User_ID",Logged_user);
             }
@@ -118,29 +121,6 @@ GoogleSignInClient mGoogleSignInClient;
     }
 
 
-    private void CheckNewUser() {
-
-        if (!userprofiles.isEmpty()) {
-            for (int i = 0; i < userprofiles.size(); i++) {
-                if (userprofiles.get(i).getEmail().toString().equals(mAuth.getCurrentUser().getEmail())) {
-
-                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
-                    MainActivity.this.startActivity(myIntent);
-                    checked= true;
-
-                }
-            }
-            if(!checked){
-                Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-
-        }
-        else{
-            Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
-            MainActivity.this.startActivity(myIntent);
-        }
-    }
 
 //    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
 //        try {

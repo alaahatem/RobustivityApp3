@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.Database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.robustastudio.robustivityapp.Adapters.ProjectsAdapter;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Projects;
 
 import java.util.ArrayList;

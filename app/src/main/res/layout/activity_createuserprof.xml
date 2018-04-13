@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context="com.robustastudio.robustivityapp.createuserprof">
+    tools:context="com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity">
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

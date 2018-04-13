@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".WifiBroadcastReceiver">
+        <receiver android:name=".BroadcastReceivers.WifiBroadcastReceiver">
             <intent-filter android:priority="100">
                 <action android:name="android.net.wifi.STATE_CHANGE" />
             </intent-filter>
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".createProfile"
+            android:name=".CreateProfile.CreateProfileActivity"
             android:label="@string/title_activity_create_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -41,10 +41,10 @@
         <activity android:name=".Project" />
         <activity android:name=".viewSectors" />
         <activity android:name=".statistics" />
-        <activity android:name=".createuserprof" />
-        <activity android:name=".viewprofile" />
+        <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
+        <activity android:name=".ViewProfile.ViewProfileActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".UsersProfiles" />
+        <activity android:name=".UserProfiles.UsersProfilesImpl" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

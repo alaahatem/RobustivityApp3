@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.CreateProfile;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
@@ -12,18 +12,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
+import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.Adapters.UserAdapter;
+import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class createProfile extends AppCompatActivity {
+public class CreateProfileActivity extends AppCompatActivity implements CreateProfile {
     List<UserProfile> filteredList;
     List<UserProfile> userprofiles;
-
-    private static final String TAG = "createProfile";
+    private CreateProfilePresenter mCreateProfilePresenter;
+    private static final String TAG = "CreateProfileActivity";
     RecyclerView recyclerView;
     public UserAdapter adapter;
     FloatingActionButton fab;
@@ -31,12 +33,17 @@ public class createProfile extends AppCompatActivity {
 //    ArrayList<UserProfile> user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mCreateProfilePresenter = new CreateProfilePresenterImpl(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView =findViewById(R.id.recycler_view);
         EditText search = (EditText)findViewById(R.id.search);
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+
+        userprofiles= db.userDao().getAllprofiles();
+
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -50,14 +57,12 @@ public class createProfile extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
+                mCreateProfilePresenter.filter(editable.toString(),userprofiles);
+                adapter.filterlist(filteredList);
             }
         });
 
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
-
-       userprofiles= db.userDao().getAllprofiles();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UserAdapter(userprofiles);
         recyclerView.setAdapter(adapter);
@@ -65,28 +70,13 @@ public class createProfile extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(createProfile.this, createuserprof.class);
-                createProfile.this.startActivity(myIntent);
+                Intent myIntent = new Intent(CreateProfileActivity.this, CreateUserProfActivity.class);
+                CreateProfileActivity.this.startActivity(myIntent);
 
             }
         });
     }
-    private void filter(String text) {
-         filteredList = new ArrayList<>();
 
-
-        for ( UserProfile item : userprofiles) {
-            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
-
-
-
-            }
-
-        }
-
-adapter.filterlist(filteredList);
-    }
 
 
 }
