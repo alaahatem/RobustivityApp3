@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:context="com.robustastudio.robustivityapp.Models.UserProfile">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="358dp"
@@ -27,12 +33,26 @@
             >
 
             <ImageView
+                android:id="@+id/Image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp">
 
             </ImageView>
+
+            <Button
+                android:id="@+id/upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                tools:text="Upload" />
+
+            <Button
+                android:id="@+id/MyImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload Image" />
 
             <TextView
                 android:id="@+id/viewName"
@@ -47,6 +67,16 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="22dp"
+            android:text="Edit" />
 
 
     </RelativeLayout>
@@ -125,7 +155,6 @@
 
 
     </LinearLayout>
-
 
 
 </LinearLayout>

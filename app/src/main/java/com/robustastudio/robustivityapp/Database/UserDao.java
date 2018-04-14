@@ -22,6 +22,8 @@ public interface UserDao {
     void insertAll(UserProfile...userProfiles);
     @Query("UPDATE userprofile SET user_status=:status WHERE user_email = :email")
     void updateUsers(String status , String email);
+    @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone  WHERE user_email = :email")
+    void updateProfile(String name,String email,String phone);
     @Query("SELECT project_name FROM Projects WHERE project_accountName = :Account")
     List<String> getAllProjects(String Account);
 

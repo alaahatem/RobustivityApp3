@@ -40,44 +40,42 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
         mCreateUserProfPresenter = new CreateUserProfPresenterImpl(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_createuserprof);
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         final FirebaseUser user = mAuth.getCurrentUser();
 
-        name=findViewById(R.id.name);
-        Email=findViewById(R.id.Email);
-        Phone=findViewById(R.id.Phone);
-        button=findViewById(R.id.button);
+        name = findViewById(R.id.name);
+        Email = findViewById(R.id.Email);
+        Phone = findViewById(R.id.Phone);
+        button = findViewById(R.id.button);
 
-        name.setText(mAuth.getCurrentUser().getDisplayName());
-        Email.setText(mAuth.getCurrentUser().getEmail());
-        Phone.setText(mAuth.getCurrentUser().getPhoneNumber());
-         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
-        userProfiles= db.userDao().getAllprofiles();
-                        //your code
+        if (getIntent().hasExtra("name") && getIntent().hasExtra("email")&&getIntent().hasExtra("phone")) {
+            name.setText(getIntent().getStringExtra("name"));
+            Email.setText(getIntent().getStringExtra("email"));
+            Phone.setText(getIntent().getStringExtra("phone"));
+        }
 
-                        button.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                mCreateUserProfPresenter.InsertUser(Email,name,userProfiles);
+            db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
+            userProfiles = db.userDao().getAllprofiles();
+            //your code
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mCreateUserProfPresenter.InsertUser(Email, name, userProfiles);
 
 
+                }
+            });
 
+        }
 
-
-
-                            }
-                        });
-
-    }
 
     public void InsertUserSuccess() {
+        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("name").setValue(name.getText().toString());
+        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("phone").setValue(Phone.getText().toString());
 
-        UserProfile userprofile = new UserProfile(name.getText().toString(), Phone.getText().toString(), Email.getText().toString(), temp, "Off Premises");
-
-        db.userDao().insertAll(userprofile);
-
-        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(Email.getText().toString())).setValue(userprofile);
+        db.userDao().updateProfile(name.getText().toString(),Email.getText().toString(),Phone.getText().toString());
 
 
         Intent myIntent = new Intent(CreateUserProfActivity.this, HomeActivity.class);

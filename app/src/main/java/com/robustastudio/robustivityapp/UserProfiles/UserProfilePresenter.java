@@ -5,6 +5,6 @@ package com.robustastudio.robustivityapp.UserProfiles;
  */
 
 public interface UserProfilePresenter {
-    public void sendNotification();
+    public void sendNotification(String userEmail);
 
 }

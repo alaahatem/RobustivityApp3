@@ -26,7 +26,7 @@ public class UsersProfilesImpl extends AppCompatActivity implements UserProfiles
         ping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mUserProfilePresenter.sendNotification();
+                mUserProfilePresenter.sendNotification(getIntent().getStringExtra("user_email"));
             }
         });
 

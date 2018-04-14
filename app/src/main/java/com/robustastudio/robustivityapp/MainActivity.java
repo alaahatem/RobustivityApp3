@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp;
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,23 +24,28 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.onesignal.OneSignal;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "MainActivity";;
-    public static  FirebaseAuth mAuth;
+
+    public static FirebaseAuth mAuth;
     public static FirebaseUser user ;
 GoogleSignInClient mGoogleSignInClient;
     public static String  Logged_user;
-
+    public List<String> temp = new ArrayList<String>();
    public static  GoogleSignInAccount account;
    boolean checked =false;
+    private DatabaseReference mDatabase;
     List<UserProfile> userprofiles;
 
 
@@ -48,6 +54,7 @@ GoogleSignInClient mGoogleSignInClient;
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
@@ -56,19 +63,53 @@ GoogleSignInClient mGoogleSignInClient;
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration().allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
 
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            if(firebaseAuth.getCurrentUser()!=null){
-                Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
-                MainActivity.this.startActivity(myIntent);
-                Logged_user =mAuth.getCurrentUser().getEmail();
-                OneSignal.sendTag("User_ID",Logged_user);
+
+            if(firebaseAuth.getCurrentUser()!=null) {
+                if(userprofiles!=null) {
+                    for (int i = 0; i < userprofiles.size(); i++) {
+                        if (userprofiles.get(i).getEmail().equals(firebaseAuth.getCurrentUser().getEmail())) {
+                            checked = true;
+                        }
+                    }
+                    if (checked) {
+                        Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                        MainActivity.this.startActivity(myIntent);
+                        Logged_user = mAuth.getCurrentUser().getEmail();
+                        OneSignal.sendTag("User_ID", Logged_user);
+                    } else {
+                        UserProfile userprofile = new UserProfile(firebaseAuth.getCurrentUser().getDisplayName(),
+                                firebaseAuth.getCurrentUser().getPhoneNumber(), firebaseAuth.getCurrentUser().getEmail(), temp, "Off Premises");
+
+                        db.userDao().insertAll(userprofile);
+
+                        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
+                        Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                        MainActivity.this.startActivity(myIntent);
+                        Logged_user = mAuth.getCurrentUser().getEmail();
+                        OneSignal.sendTag("User_ID", Logged_user);
+                    }
+                }else{
+                    UserProfile userprofile = new UserProfile(firebaseAuth.getCurrentUser().getDisplayName(),
+                            firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getPhoneNumber(), temp, "Off Premises");
+
+                    db.userDao().insertAll(userprofile);
+
+                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
+                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                    MainActivity.this.startActivity(myIntent);
+                    Logged_user = mAuth.getCurrentUser().getEmail();
+                    OneSignal.sendTag("User_ID", Logged_user);
+
+                }
             }
+
             }
         };
 

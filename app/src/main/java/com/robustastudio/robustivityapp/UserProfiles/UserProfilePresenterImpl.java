@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp.UserProfiles;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.robustastudio.robustivityapp.MainActivity;
 
 import java.io.OutputStream;
@@ -18,6 +19,9 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
     UserProfiles UserProfilesView;
 
+
+
+
     public UserProfilePresenterImpl(UserProfiles userProfilesView) {
         UserProfilesView = userProfilesView;
 
@@ -26,7 +30,8 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
 
 
 
-    public void sendNotification() {
+    public void sendNotification(final String userEmail) {
+
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -38,11 +43,7 @@ public class UserProfilePresenterImpl implements UserProfilePresenter {
                     String send_email;
 
                     //This is a Simple Logic to Send Notification different Device Programmatically....
-                    if (MainActivity.Logged_user.equals("sanaahatem86@gmail.com")) {
-                        send_email = "alaacordi@gmail.com";
-                    } else {
-                        send_email="alaacordi@gmail.com";
-                    }
+                    send_email = userEmail;
 
                     try {
                         String jsonResponse;

@@ -15,8 +15,7 @@ import java.util.List;
 
 public class CreateUserProfPresenterImpl implements CreateUserProfPresenter {
     List<UserProfile> userProfiles;
-    String regx = "^[a-zA-Z0-9._-]{3,}$";
-    String pregx = "^\\+[0-9]{10,13}$";
+
     CreateUserProf mCreateUserProfile;
 
     public CreateUserProfPresenterImpl(CreateUserProf mCreateUserProfile) {
@@ -28,21 +27,13 @@ public class CreateUserProfPresenterImpl implements CreateUserProfPresenter {
     }
 
     public void InsertUser(EditText Email, EditText name, List<UserProfile> userProfiles) {
-         boolean Dup=false;
-        for (int i = 0; i < userProfiles.size(); i++) {
-            if (userProfiles.get(i).getEmail().equals(Email.getText().toString())) {
-                mCreateUserProfile.DuplicateEmail();
-                Dup = true;
 
-            }
-        }
-        if (Dup == false) {
-            if (isValidEmail(Email.getText().toString()) && name.getText().toString().matches(regx)) {
+            if (isValidEmail(Email.getText().toString())) {
                 mCreateUserProfile.InsertUserSuccess();
             } else {
                 mCreateUserProfile.InsertUserFailure();
             }
-        }
+
     }
 
 }
