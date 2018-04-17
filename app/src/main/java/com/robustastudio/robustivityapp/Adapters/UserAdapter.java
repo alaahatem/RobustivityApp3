@@ -61,7 +61,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return user_profile.size();
+        return null!=user_profile?user_profile.size():0;
     }
     public void filterlist(List<UserProfile> filteredList) {
 

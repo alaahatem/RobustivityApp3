@@ -4,8 +4,10 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -14,33 +16,22 @@ import java.util.List;
 @Entity
 public class UserProfile {
 
-    public UserProfile(String name, String phone, String email, List<String> projects, String status) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.projects = projects;
-        this.status = status;
+
+
+    public UserProfile() {
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-
-        return id;
-    }
-
-    @PrimaryKey(autoGenerate = true)
-    private int id;
+    @ColumnInfo(name = "image_uri")
+    private String Image;
     @ColumnInfo(name = "user_name")
     private String name;
     @ColumnInfo(name = "user_phone")
     private String phone;
+    @NonNull
+    @PrimaryKey
     @ColumnInfo(name = "user_email")
     private String email;
-    @TypeConverters({Converter.class})
-    public List<String> projects;
+//    @TypeConverters({Converter.class})
+//    public List<String> projects;
     @ColumnInfo(name = "user_status")
     private String status ;
 
@@ -50,6 +41,24 @@ public class UserProfile {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
+    }
+
+    public UserProfile(String image, String name, String phone, @NonNull String email, String status) {
+
+        Image = image;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+
+        this.status = status;
     }
 
     public String getPhone() {
@@ -68,13 +77,7 @@ public class UserProfile {
         this.email = email;
     }
 
-    public List<String> getProjects() {
-        return projects;
-    }
 
-    public void setProjects(List<String> projects) {
-        this.projects = projects;
-    }
 
     public String getStatus() {
         return status;

@@ -8,36 +8,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.robustastudio.robustivityapp.Constants.Constants;
 import com.robustastudio.robustivityapp.CreateProfile.CreateProfileActivity;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
 Context context;
-    List<UserProfile> userprofiles;
+
 String checkout = "Check out";
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     static Button checkin;
     static String checkedin = "checkout";
-
+    static AppDatabase db=null;
+    List<UserProfile> userprofiles;
+    boolean stored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+         stored = false;
         Button projectsList = (Button) findViewById(R.id.projectsList);
         Button sectors = (Button) findViewById(R.id.view_sectors);
         Button myprofile = (Button) findViewById(R.id.myprofile);
@@ -45,7 +53,44 @@ String checkout = "Check out";
         Button createuser = (Button) findViewById(R.id.CreateUser);
         Button logout = (Button) findViewById(R.id.logout);
 
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
+        userprofiles = db.userDao().getAllprofiles();
+        DatabaseReference ref = mDatabase.child("user_profile");
+        ref.addValueEventListener(new ValueEventListener() {
+            List<UserProfile> usertemp= new ArrayList<>();
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String email = postSnapshot.child("email").getValue(String.class);
+                    String image = postSnapshot.child("image").getValue(String.class);
+                    String name= postSnapshot.child("name").getValue(String.class);
+                    String phone = postSnapshot.child("phone").getValue(String.class);
+                    String status = postSnapshot.child("status").getValue(String.class);
+                    UserProfile userp = new UserProfile(image,name,phone,email,status);
+                    for (int i = 0; i < userprofiles.size() ; i++) {
 
+                        if(userprofiles.get(i).getEmail().equals(email)){
+
+                            stored= true;
+                        }
+
+                     }
+                     if(!stored){
+                        db.userDao().insertAll(userp);
+                     }
+                     else{
+
+                     }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         mAuth = FirebaseAuth.getInstance();

@@ -12,14 +12,23 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.Adapters.UserAdapter;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CreateProfileActivity extends AppCompatActivity implements CreateProfile {
     List<UserProfile> filteredList;
@@ -29,6 +38,8 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
     RecyclerView recyclerView;
     public UserAdapter adapter;
     FloatingActionButton fab;
+    private DatabaseReference mDatabase;
+    public AppDatabase db = null;
 
 //    ArrayList<UserProfile> user;
     @Override
@@ -40,9 +51,35 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
         setSupportActionBar(toolbar);
         recyclerView =findViewById(R.id.recycler_view);
         EditText search = (EditText)findViewById(R.id.search);
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         userprofiles= db.userDao().getAllprofiles();
+        DatabaseReference ref = mDatabase.child("user_profile");
+        final List<UserProfile> userProfs = new ArrayList<>();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    UserProfile userprof = postSnapshot.getValue(UserProfile.class);
+                   userProfs.add(userprof);
+                    List<UserProfile>Sync= union(userProfs,userprofiles);
+                    for (int i = 0; i <Sync.size() ; i++) {
+//                       Toast.makeText(getApplicationContext(),Sync.get(i).getEmail(),Toast.LENGTH_LONG).show();
+                    }
+
+
+
+                    // here you can access to name property like university.name
+
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -57,7 +94,7 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mCreateProfilePresenter.filter(editable.toString(),userprofiles);
+               filteredList= mCreateProfilePresenter.filter(editable.toString(),userprofiles);
                 adapter.filterlist(filteredList);
             }
         });
@@ -75,6 +112,14 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
 
             }
         });
+    }
+    public <T> List<T> union(List<T> list1, List<T> list2) {
+        Set<T> set = new HashSet<T>();
+
+        set.addAll(list1);
+        set.addAll(list2);
+
+        return new ArrayList<T>(set);
     }
 
 

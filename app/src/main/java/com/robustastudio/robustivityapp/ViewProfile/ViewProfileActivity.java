@@ -1,11 +1,14 @@
 package com.robustastudio.robustivityapp.ViewProfile;
 
+import android.Manifest;
 import android.arch.persistence.room.Room;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -79,11 +82,14 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
         Upload = findViewById(R.id.upload);
         Edit = findViewById(R.id.edit);
         mAuth =FirebaseAuth.getInstance();
+
         mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,DbName).allowMainThreadQueries().build();
         userprofiles  = db.userDao().getAllprofiles();
         mprogressBar = findViewById(R.id.progress);
+        mprogressBar.setVisibility(View.INVISIBLE);
     mViewProfilePresenter.ShowProfile(userprofiles);
 
 
@@ -91,9 +97,23 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
 MyImage.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-        OpenFileChooser();
+        try {
+        if (ActivityCompat.checkSelfPermission(ViewProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ViewProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_REQUEST);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"ACCESS",Toast.LENGTH_LONG).show();
+            OpenFileChooser();
+
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 });
+
+
 Edit.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
@@ -105,12 +125,15 @@ Edit.setOnClickListener(new View.OnClickListener() {
         ViewProfileActivity.this.startActivity(myIntent);
     }
 });
+
 Upload.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
         if (mUploadTask != null && mUploadTask.isInProgress()) {
+
             Toast.makeText(ViewProfileActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
         } else {
+            mprogressBar.setVisibility(View.VISIBLE);
             uploadFile();
         }
     }
@@ -120,6 +143,7 @@ Upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 downloadedImage=dataSnapshot.getValue(String.class);
+                if(!downloadedImage.isEmpty())
                 Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
 
             }
@@ -156,6 +180,7 @@ Upload.setOnClickListener(new View.OnClickListener() {
                             }, 500);
                             Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/taskmanagement-1522006863027.appspot.com/o/Uploads%2F1523667879875.jpeg?alt=media&token=7c3effa9-4035-42ea-8bde-f83fcaf16fea").centerCrop().fit().into(Image);
                             Toast.makeText(ViewProfileActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
+                            mprogressBar.setVisibility(View.INVISIBLE);
 
 
                             mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image").setValue(taskSnapshot.getDownloadUrl().toString());
@@ -209,6 +234,21 @@ Upload.setOnClickListener(new View.OnClickListener() {
 
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults)
+    {
+        switch (requestCode) {
+            case PICK_IMAGE_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    OpenFileChooser();
+                } else {
+                    //do something like displaying a message that he didn`t allow the app to access gallery and you wont be able to let him select from gallery
+                }
+                break;
+        }
+    }
 
 
 

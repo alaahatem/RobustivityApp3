@@ -1,28 +1,64 @@
 package com.robustastudio.robustivityapp.UserProfiles;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.robustastudio.robustivityapp.FirebaseApp;
 import com.robustastudio.robustivityapp.R;
+import com.squareup.picasso.Picasso;
+
+import static com.robustastudio.robustivityapp.MainActivity.mAuth;
 
 public class UsersProfilesImpl extends AppCompatActivity implements UserProfiles {
     TextView viewname ;
     TextView viewemail;
     TextView viewphone;
     TextView viewstatus;
-    Button ping ;
+    String downloadedImage;
+    FloatingActionButton ping ;
+    ImageView imageView;
+    private DatabaseReference mDatabaseRef;
     private UserProfilePresenter mUserProfilePresenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mUserProfilePresenter = new UserProfilePresenterImpl(this );
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_profiles);
+        imageView = findViewById(R.id.imageview);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
         getIncomingIntent();
         ping = findViewById(R.id.ping);
+        DatabaseReference ref = mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString( getIntent().getStringExtra("user_email"))).child("image");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                downloadedImage=dataSnapshot.getValue(String.class);
+                if(!downloadedImage.isEmpty())
+                Picasso.get().load(downloadedImage).centerCrop().fit().into(imageView);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
         ping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

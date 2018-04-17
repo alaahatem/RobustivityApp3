@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface CreateProfilePresenter {
-    void filter(String s, List<UserProfile>user);
+    List<UserProfile> filter(String s, List<UserProfile>user);
 }

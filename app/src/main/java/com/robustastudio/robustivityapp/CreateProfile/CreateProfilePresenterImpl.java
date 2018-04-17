@@ -2,6 +2,7 @@ package com.robustastudio.robustivityapp.CreateProfile;
 
 import android.content.Context;
 
+import com.robustastudio.robustivityapp.Adapters.UserAdapter;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class CreateProfilePresenterImpl implements CreateProfilePresenter{
 CreateProfile mCreateProfile;
    public static  List<UserProfile> filteredList;
     List<UserProfile> userprofiles;
+    public UserAdapter adapter;
 
 
     public CreateProfilePresenterImpl(CreateProfile mCreateProfile) {
@@ -23,7 +25,7 @@ CreateProfile mCreateProfile;
     }
 
 
-    public void filter(String text,List<UserProfile> user) {
+    public  List<UserProfile> filter(String text,List<UserProfile> user) {
         filteredList = new ArrayList<>();
 
 
@@ -33,10 +35,11 @@ CreateProfile mCreateProfile;
 
 
 
+
+
             }
 
         }
-
-//        adapter.filterlist(filteredList);
+        return filteredList;
     }
 }
