@@ -1,3 +1,4 @@
+/*
 package com.robustastudio.robustivityapp;
 
 import android.arch.persistence.room.Room;
@@ -52,3 +53,4 @@ public class createProfile extends AppCompatActivity {
     }
 
 }
+*/

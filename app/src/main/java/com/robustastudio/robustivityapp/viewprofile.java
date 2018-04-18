@@ -1,3 +1,4 @@
+/*
 package com.robustastudio.robustivityapp;
 
 import android.arch.persistence.room.Room;
@@ -42,3 +43,4 @@ public class viewprofile extends AppCompatActivity {
 
     }
 }
+*/

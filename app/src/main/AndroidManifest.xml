@@ -23,6 +23,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".createuserprof" />
         <activity android:name=".Models.UserProfile$viewprofile"></activity>
+        <activity android:name=".CreateProject.CreateProjectView"/>
+        <activity android:name=".CreateTask.CreateTaskView"/>
+        <activity android:name=".CreateTodo.CreateTodoView"/>
+        <activity android:name=".EditTask"/>
+        <activity android:name=".ViewTasks.ViewTasksView"/>
+        <activity android:name=".ViewTask.ViewTaskView"/>
+
     </application>
 
 </manifest>
