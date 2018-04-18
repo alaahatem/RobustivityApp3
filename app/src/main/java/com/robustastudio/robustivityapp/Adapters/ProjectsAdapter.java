@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.ViewSingleProject.Activity_Project;
 
 import java.util.List;
 
@@ -61,7 +64,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         VH.Card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   Intent i = new Intent(ctx, Project.class);
+                   Intent i = new Intent(ctx, Activity_Project.class);
                    i.putExtra("projectName",projects.get(position));
                    ctx.startActivity(i);
 
@@ -92,7 +95,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
        // public void onClick(View nv){
         //    int position = getAdapterPosition();
         //    String pname = this.names.get(position);
-         //   Intent i = new Intent(ctx, Project.class);
+         //   Intent i = new Intent(ctx, Activity_Project.class);
          //   i.putExtra("projectName",pname);
          //   this.ctx.startActivity(i);
 

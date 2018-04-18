@@ -23,29 +23,40 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "MainActivity";;
-    public static  FirebaseAuth mAuth;
-    public static FirebaseUser user ;
-GoogleSignInClient mGoogleSignInClient;
-    public static String  Logged_user;
 
-   public static  GoogleSignInAccount account;
-   boolean checked =false;
+    public static FirebaseAuth mAuth;
+    public static FirebaseUser user ;
+    GoogleSignInClient mGoogleSignInClient;
+    public static String  Logged_user;
+    public List<String> value = new ArrayList<String>();
+    public static  GoogleSignInAccount account;
+    static boolean checked;
+    List<String> mails = new ArrayList<>();
+    private DatabaseReference mDatabase;
     List<UserProfile> userprofiles;
 
 
-
+    private String webClientId = "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com";
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setContentView(R.layout.activity_main);
         OneSignal.startInit(this)
                 .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
                 .unsubscribeWhenNotificationsAreDisabled(true)
@@ -54,24 +65,127 @@ GoogleSignInClient mGoogleSignInClient;
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration().allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        checked =false;
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
+//        ref.addValueEventListener(new ValueEventListener() {
+//
+//            String temp;
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+//                    temp = postSnapshot.getKey();
+//                    mails.add(temp);
+//                    Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
 
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-            if(firebaseAuth.getCurrentUser()!=null){
-                CheckNewUser();
-                Logged_user =mAuth.getCurrentUser().getEmail();
-                OneSignal.sendTag("User_ID",Logged_user);
-            }
+            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+
+                if (firebaseAuth.getCurrentUser() != null) {
+                    DatabaseReference ref = mDatabase.child("user_profile");
+                    ref.addValueEventListener(new ValueEventListener() {
+                        //
+                        String temp;
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                temp = postSnapshot.getKey();
+                                mails.add(temp);
+
+
+                            }
+                            if (mails != null && !mails.isEmpty()) {
+                                for (int i = 0; i < mails.size(); i++) {
+                                    if (FirebaseApp.DecodeString(mails.get(i)).equals(firebaseAuth.getCurrentUser().getEmail())) {
+                                        checked = true;
+                                    }
+                                }
+                                if (checked) {
+                                    Toast.makeText(getApplicationContext(), "already there", Toast.LENGTH_LONG).show();
+                                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                                    MainActivity.this.startActivity(myIntent);
+                                    Logged_user = mAuth.getCurrentUser().getEmail();
+                                    OneSignal.sendTag("User_ID", Logged_user);
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "am new here", Toast.LENGTH_LONG).show();
+                                    UserProfile userprofile = new UserProfile("",firebaseAuth.getCurrentUser().getDisplayName(),
+                                            "", firebaseAuth.getCurrentUser().getEmail(),  "Off Premises");
+
+
+
+                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
+
+                                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                                    MainActivity.this.startActivity(myIntent);
+                                    Logged_user = mAuth.getCurrentUser().getEmail();
+                                    OneSignal.sendTag("User_ID", Logged_user);
+                                }
+
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "am the first here", Toast.LENGTH_LONG).show();
+                                UserProfile userprofile = new UserProfile("",firebaseAuth.getCurrentUser().getDisplayName(),
+                                        "", firebaseAuth.getCurrentUser().getEmail(), "Off Premises");
+
+
+                                mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
+
+                                Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                                MainActivity.this.startActivity(myIntent);
+                                Logged_user = mAuth.getCurrentUser().getEmail();
+                                OneSignal.sendTag("User_ID", Logged_user);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
             }
         };
 
+
+//
+//                    }else{
+//                        UserProfile userprofile = new UserProfile(firebaseAuth.getCurrentUser().getDisplayName(),
+//                                firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getPhoneNumber(), temp, "Off Premises");
+//
+//
+//
+//                        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
+//                        Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+//                        MainActivity.this.startActivity(myIntent);
+//                        Logged_user = mAuth.getCurrentUser().getEmail();
+//                        OneSignal.sendTag("User_ID", Logged_user);
+//
+//                    }
+//                }
+
+
+
+
         user=mAuth.getCurrentUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(webClientId)
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -80,8 +194,12 @@ GoogleSignInClient mGoogleSignInClient;
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 signIn();
             }
+
+
         });
 
 //        Logged_user = user.getEmail();
@@ -107,8 +225,14 @@ GoogleSignInClient mGoogleSignInClient;
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful, authenticate with Firebase
+
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                if(account.getEmail().endsWith("@gmail.com"))
+
+
+                    firebaseAuthWithGoogle(account);
+                else Toast.makeText(getApplicationContext(), "wrong domain sir", Toast.LENGTH_SHORT).show();
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
@@ -118,29 +242,6 @@ GoogleSignInClient mGoogleSignInClient;
     }
 
 
-    private void CheckNewUser() {
-
-        if (!userprofiles.isEmpty()) {
-            for (int i = 0; i < userprofiles.size(); i++) {
-                if (userprofiles.get(i).getEmail().toString().equals(mAuth.getCurrentUser().getEmail())) {
-
-                    Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
-                    MainActivity.this.startActivity(myIntent);
-                    checked= true;
-
-                }
-            }
-            if(!checked){
-                Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
-                MainActivity.this.startActivity(myIntent);
-            }
-
-        }
-        else{
-            Intent myIntent = new Intent(MainActivity.this, createuserprof.class);
-            MainActivity.this.startActivity(myIntent);
-        }
-    }
 
 //    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
 //        try {
@@ -160,6 +261,7 @@ GoogleSignInClient mGoogleSignInClient;
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -173,7 +275,7 @@ GoogleSignInClient mGoogleSignInClient;
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this,"failed ",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
 
                         // ...

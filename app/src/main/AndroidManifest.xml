@@ -31,20 +31,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".createProfile"
+            android:name=".CreateProfile.CreateProfileActivity"
             android:label="@string/title_activity_create_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".popAddSector"
+            android:name=".Add_sector.Activity_add_sector"
             android:theme="@style/AppTheme.CustomTheme"></activity>
-        <activity android:name=".viewProjects" />
-        <activity android:name=".Project" />
-        <activity android:name=".viewSectors" />
-        <activity android:name=".statistics" />
-        <activity android:name=".createuserprof" />
-        <activity android:name=".viewprofile" />
+        <activity android:name=".ViewProjects.Activity_View_Projects" />
+        <activity android:name=".ViewSingleProject.Activity_Project" />
+        <activity android:name=".View_Sectors.viewSectors" />
+        <activity android:name=".Statistics.Activity_show_statistics" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".UsersProfiles" />
+        <activity android:name=".ViewProfile.ViewProfileActivity" />
+        <activity android:name=".UserProfiles.UsersProfilesImpl" />
+        <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

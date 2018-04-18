@@ -5,22 +5,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.NetworkInfo;
-import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by hp on 03/04/2018.
@@ -56,7 +53,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             bssid = wifiInfo.getBSSID();
-
+            Toast.makeText(context.getApplicationContext(),bssid,Toast.LENGTH_LONG).show();
             final AppDatabase db = Room.databaseBuilder(context.getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
             userprofiles  = db.userDao().getAllprofiles();
                 Intent i = new Intent(context, HomeActivity.class);

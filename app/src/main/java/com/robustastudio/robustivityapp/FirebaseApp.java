@@ -7,9 +7,6 @@ import android.app.Application;
  */
 
 public class FirebaseApp extends Application{
-    public  void onCreate(){
-        super.onCreate();
-    }
 
     public static String EncodeString(String string) {
         return string.replace(".", ",");

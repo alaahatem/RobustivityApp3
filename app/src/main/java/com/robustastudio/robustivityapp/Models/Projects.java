@@ -29,7 +29,7 @@ public class Projects {
     @PrimaryKey(autoGenerate = true)
     public int projectid;
 
-    public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, double project_cost) {
+    public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
 
         this.name = name;
         this.type = type;
@@ -39,7 +39,11 @@ public class Projects {
         Tagline = tagline;
         this.accountName = accountName;
         this.project_cost = project_cost;
+        this.contracted_cost=contracted_cost;
+        this.planned_cost=planned_cost;
     }
+
+
 
     @ColumnInfo(name = "project_name")
     @NonNull
@@ -59,6 +63,22 @@ public class Projects {
     @TypeConverters({DateConverter.class})
     public Date endDate;
 
+    public float getContracted_cost() {
+        return contracted_cost;
+    }
+
+    public void setContracted_cost(float contracted_cost) {
+        this.contracted_cost = contracted_cost;
+    }
+
+    public float getPlanned_cost() {
+        return planned_cost;
+    }
+
+    public void setPlanned_cost(float planned_cost) {
+        this.planned_cost = planned_cost;
+    }
+
     @ColumnInfo(name = "project_tagline")
     public String Tagline;
 
@@ -68,7 +88,13 @@ public class Projects {
     public String accountName ;
 
     @ColumnInfo(name = "project_Cost")
-    public double project_cost;
+    public float project_cost;
+
+    @ColumnInfo(name = "project_contracted_cost")
+    public float contracted_cost;
+
+    @ColumnInfo(name = "project_planned_cost")
+    public float planned_cost;
 
 
     @NonNull
@@ -101,7 +127,7 @@ public class Projects {
         return accountName;
     }
 
-    public double getProject_cost() {
+    public float getProject_cost() {
         return project_cost;
     }
 
@@ -134,7 +160,7 @@ public class Projects {
         this.accountName = accountName;
     }
 
-    public void setProject_cost(double project_cost) {
+    public void setProject_cost(float project_cost) {
         this.project_cost = project_cost;
     }
 

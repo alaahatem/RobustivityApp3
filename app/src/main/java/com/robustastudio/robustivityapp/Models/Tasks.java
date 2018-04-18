@@ -47,8 +47,11 @@ public class Tasks {
     @ColumnInfo(name ="task_start_date")
     public Date StartDate ;
 
+    @ColumnInfo(name ="task_toggled_days")
+    public int days ;
 
-    public Tasks(String name, String title, String description, String assigne, List<String> members, Float estimated_hours, Date due_date, String project_name, Float finished_hours, Date StartDate) {
+
+    public Tasks(String name, String title, String description, String assigne, List<String> members, Float estimated_hours, Date due_date, String project_name, Float finished_hours, Date StartDate, int days) {
         this.name = name;
         this.title = title;
         this.description = description;
@@ -59,6 +62,15 @@ public class Tasks {
         this.project_name = project_name;
         this.finished_hours = finished_hours;
         this.StartDate = StartDate;
+        this.days=days;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
     }
 
     public String getProject_name() {

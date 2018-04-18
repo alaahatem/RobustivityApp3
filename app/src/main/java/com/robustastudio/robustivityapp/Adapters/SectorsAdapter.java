@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
+
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -18,7 +21,7 @@ import static android.content.ContentValues.TAG;
  * Created by MALAK SHAKER on 4/10/2018.
  */
 
-public class SectorsAdapter {
+public class SectorsAdapter extends RecyclerView.Adapter<SectorsAdapter.ViewHolder> {
 
 
     List<String> sectors;
@@ -60,7 +63,7 @@ public class SectorsAdapter {
         VH.Card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ctx, viewProjects.class);
+                Intent i = new Intent(ctx, Activity_View_Projects.class);
                 i.putExtra("sectorName",sectors.get(position));
                 ctx.startActivity(i);
 
@@ -89,7 +92,7 @@ public class SectorsAdapter {
         // public void onClick(View nv){
         //    int position = getAdapterPosition();
         //    String pname = this.names.get(position);
-        //   Intent i = new Intent(ctx, Project.class);
+        //   Intent i = new Intent(ctx, Activity_Project.class);
         //   i.putExtra("projectName",pname);
         //   this.ctx.startActivity(i);
 
