@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -186,6 +188,18 @@ GoogleSignInClient mGoogleSignInClient;
 
 
         user=mAuth.getCurrentUser();
+        GoogleBuilder();
+//        Logged_user = user.getEmail();
+//        OneSignal.sendTag("User_ID",Logged_in_user_email);
+
+    }
+    int RC_SIGN_IN = 10;
+    private void signIn() {
+        @SuppressLint("RestrictedApi") Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+
+    }
+    public void GoogleBuilder() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(webClientId)
                 .requestEmail()
@@ -203,16 +217,6 @@ GoogleSignInClient mGoogleSignInClient;
 
 
         });
-
-//        Logged_user = user.getEmail();
-//        OneSignal.sendTag("User_ID",Logged_in_user_email);
-
-    }
-    int RC_SIGN_IN = 10;
-    private void signIn() {
-        @SuppressLint("RestrictedApi") Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-
     }
 
     public void onStart() {
@@ -229,11 +233,17 @@ GoogleSignInClient mGoogleSignInClient;
                 // Google Sign In was successful, authenticate with Firebase
 
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if(account.getEmail().endsWith("@gmail.com"))
-               
+                if(account.getEmail().endsWith("@robustastudio.com"))
+
 
                 firebaseAuthWithGoogle(account);
-                else Toast.makeText(getApplicationContext(), "wrong domain sir", Toast.LENGTH_SHORT).show();
+                else {
+
+                    Toast.makeText(getApplicationContext(), "wrong domain sir", Toast.LENGTH_SHORT).show();
+
+                    mGoogleSignInClient.signOut();
+                    GoogleBuilder();
+                }
 
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -276,8 +286,8 @@ GoogleSignInClient mGoogleSignInClient;
                             user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(MainActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"You are not connected to the internet",Toast.LENGTH_SHORT).show();
+
                         }
 
                         // ...

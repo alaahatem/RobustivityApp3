@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "734558269858-a2r5eeo3psgb3giljmbq1i62698aj7ib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.robustastudio.robustivityapp",
+            "certificate_hash": "e8162cc2724e0e004e0db1d4d983d7e5f2a44548"
+          }
+        },
+        {
           "client_id": "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com",
           "client_type": 3
         },
