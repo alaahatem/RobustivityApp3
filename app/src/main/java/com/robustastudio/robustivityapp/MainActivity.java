@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
+import com.robustastudio.robustivityapp.BroadcastReceivers.ConnectivityBroadcastReceiver;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.UserProfile;
@@ -53,7 +54,7 @@ GoogleSignInClient mGoogleSignInClient;
     List<String> mails = new ArrayList<>();
     private DatabaseReference mDatabase;
     List<UserProfile> userprofiles;
-
+    ConnectivityBroadcastReceiver  conn = new ConnectivityBroadcastReceiver();
 
     private String webClientId = "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com";
 
@@ -72,7 +73,6 @@ GoogleSignInClient mGoogleSignInClient;
         checked =false;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
 
 //        ref.addValueEventListener(new ValueEventListener() {
@@ -233,7 +233,7 @@ GoogleSignInClient mGoogleSignInClient;
                 // Google Sign In was successful, authenticate with Firebase
 
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if(account.getEmail().endsWith("@robustastudio.com"))
+                if(account.getEmail().endsWith("@gmail.com"))
 
 
                 firebaseAuthWithGoogle(account);

@@ -1,63 +1,63 @@
 package com.robustastudio.robustivityapp.Models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 /**
  * Created by hp on 28/03/2018.
  */
-
+@Entity
 public class Accounts {
     public String getName() {
         return name;
     }
 
-    public Number getPhoneNumber() {
-
-        return PhoneNumber;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPhoneNumber(Number phoneNumber) {
-        PhoneNumber = phoneNumber;
+    public String getPhonenumber() {
+        return phonenumber;
+    }
+
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
-    public String[] getProjects() {
-        return Projects;
-    }
-
-    public void setProjects(String[] projects) {
-        Projects = projects;
-    }
-
-    public Accounts(String name, Number phoneNumber, String address, String email, String[] projects) {
+    public Accounts(String name, String phonenumber, String address, String email) {
 
         this.name = name;
-        PhoneNumber = phoneNumber;
-        Address = address;
-        Email = email;
-        Projects = projects;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.email = email;
     }
-
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "account_name")
     public String name;
-    public Number PhoneNumber;
-    public String Address ;
-    public String Email ;
-    public String [] Projects;
-
+    @ColumnInfo(name = "account_phone")
+    public String phonenumber;
+    @ColumnInfo(name = "account_address")
+    public String address;
+    @ColumnInfo(name = "account_email")
+    public String email;
 
 }

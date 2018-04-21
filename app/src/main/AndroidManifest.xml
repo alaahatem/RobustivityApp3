@@ -18,8 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver android:name=".BroadcastReceivers.WifiBroadcastReceiver">
+        <intent-filter android:priority="100">
+
+            <action android:name="android.net.wifi.STATE_CHANGE" />
+        </intent-filter>
+    </receiver>
+        <receiver android:name=".BroadcastReceivers.ConnectivityBroadcastReceiver">
             <intent-filter android:priority="100">
-                <action android:name="android.net.wifi.STATE_CHANGE" />
+
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
@@ -36,7 +43,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".popAddSector"
-            android:theme="@style/AppTheme.CustomTheme"></activity>
+            android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".viewProjects" />
         <activity android:name=".Project" />
         <activity android:name=".viewSectors" />
@@ -57,6 +64,8 @@
             ...
         </provider>
 
+        <activity android:name=".Accounts.AccountActivity" />
+        <activity android:name=".CreateAccounts.CreateActivity"></activity>
     </application>
 
 </manifest>

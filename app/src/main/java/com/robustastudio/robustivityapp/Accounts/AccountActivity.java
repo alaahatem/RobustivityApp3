@@ -1,0 +1,53 @@
+package com.robustastudio.robustivityapp.Accounts;
+
+import android.arch.persistence.room.Room;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+
+import com.robustastudio.robustivityapp.Adapters.AccountAdapter;
+import com.robustastudio.robustivityapp.Adapters.UserAdapter;
+import com.robustastudio.robustivityapp.CreateAccounts.CreateActivity;
+import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.HomeActivity;
+import com.robustastudio.robustivityapp.MainActivity;
+import com.robustastudio.robustivityapp.Models.Accounts;
+import com.robustastudio.robustivityapp.Models.UserProfile;
+import com.robustastudio.robustivityapp.R;
+
+import java.util.List;
+
+public class AccountActivity extends AppCompatActivity {
+Button create_account;
+    RecyclerView recyclerView;
+    List<Accounts> accounts;
+    public AccountAdapter adapter;
+    public AppDatabase db = null;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_account);
+
+        create_account = findViewById(R.id.createAccount);
+        recyclerView =findViewById(R.id.recycler_view_account);
+
+        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+        accounts= db.userDao().getAllAccounts();
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(AccountActivity.this, CreateActivity.class);
+                AccountActivity.this.startActivity(myIntent);
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AccountAdapter(accounts);
+        recyclerView.setAdapter(adapter);
+    }
+}

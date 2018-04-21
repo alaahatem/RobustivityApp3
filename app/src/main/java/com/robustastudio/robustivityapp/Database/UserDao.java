@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import com.robustastudio.robustivityapp.Models.Accounts;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.UserProfile;
@@ -20,10 +21,18 @@ public interface UserDao {
     List<UserProfile> getAllprofiles();
     @Insert
     void insertAll(UserProfile...userProfiles);
+    @Insert
+    void insertAccounts(Accounts...accounts);
+
+    @Query("SELECT *FROM Accounts")
+    List<Accounts> getAllAccounts();
+
     @Query("UPDATE userprofile SET user_status=:status WHERE user_email = :email")
     void updateUsers(String status , String email);
-    @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone  WHERE user_email = :email")
-    void updateProfile(String name,String email,String phone);
+    @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone ,user_status=:status  WHERE user_email = :email")
+    void updateProfile(String name,String email,String phone,String status);
+    @Query("UPDATE Accounts SET account_email=:email ,account_phone=:phone ,account_address=:address  WHERE account_name = :name")
+    void updateAccount(String name,String email,String phone,String address);
     @Query("SELECT project_name FROM Projects WHERE project_accountName = :Account")
     List<String> getAllProjects(String Account);
 
