@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.Adapters;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import com.robustastudio.robustivityapp.Models.Accounts;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.UserProfiles.UsersProfilesImpl;
+import com.robustastudio.robustivityapp.ViewAccount;
 
 import java.util.List;
 
@@ -31,10 +34,21 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(AccountAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(AccountAdapter.ViewHolder holder, final int position) {
         holder.account_name.setText(Account.get(position).getName());
 
         holder.account_email.setText(Account.get(position).getEmail());
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),ViewAccount.class);
+                intent.putExtra("account_name", Account.get(position).getName());
+                intent.putExtra("account_email", Account.get(position).getEmail());
+                intent.putExtra("account_address", Account.get(position).getAddress());
+                intent.putExtra("account_phone", Account.get(position).getPhonenumber());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.robustastudio.robustivityapp.Accounts.AccountActivity;
 import com.robustastudio.robustivityapp.Project;
 import com.robustastudio.robustivityapp.R;
 
@@ -64,7 +65,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         VH.Card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                   Intent i = new Intent(ctx, Project.class);
+                   Intent i = new Intent(ctx, AccountActivity.class);
                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                    i.putExtra("projectName",projects.get(position));
                    ctx.startActivity(i);

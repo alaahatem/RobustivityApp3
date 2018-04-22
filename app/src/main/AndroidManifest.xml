@@ -18,14 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver android:name=".BroadcastReceivers.WifiBroadcastReceiver">
-        <intent-filter android:priority="100">
-
-            <action android:name="android.net.wifi.STATE_CHANGE" />
-        </intent-filter>
-    </receiver>
+            <intent-filter android:priority="100">
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".BroadcastReceivers.ConnectivityBroadcastReceiver">
             <intent-filter android:priority="100">
-
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
@@ -65,7 +63,8 @@
         </provider>
 
         <activity android:name=".Accounts.AccountActivity" />
-        <activity android:name=".CreateAccounts.CreateActivity"></activity>
+        <activity android:name=".CreateAccounts.CreateActivity" />
+        <activity android:name=".ViewAccount"></activity>
     </application>
 
 </manifest>

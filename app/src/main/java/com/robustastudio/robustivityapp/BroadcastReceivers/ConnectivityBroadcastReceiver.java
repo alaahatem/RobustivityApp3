@@ -42,7 +42,7 @@ public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
         accounts= db.userDao().getAllAccounts();
         DatabaseReference ref = mDatabase.child("user_profile");
         DatabaseReference refac = mDatabase.child("Accounts");
-        Synchronize(context,accounts,userprofiles,ref,refac);
+//        Synchronize(context,accounts,userprofiles,ref,refac);
 
     }
     public boolean isOnline (Context context){
@@ -55,7 +55,7 @@ public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
 
     public void Synchronize(final Context context, final List<Accounts>accounts_sync, final List<UserProfile>userProfiles_sync, DatabaseReference refuser, DatabaseReference refacc){
         if(isOnline(context)){
-            Toast.makeText(context,"connected",Toast.LENGTH_LONG).show();
+//            Toast.makeText(context,"connected",Toast.LENGTH_LONG).show();
 
             refacc.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -65,19 +65,24 @@ public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
                         String account_email = postSnapshot.child("email").getValue(String.class);
                         String account_phone = postSnapshot.child("phonenumber").getValue(String.class);
                         String account_address = postSnapshot.child("address").getValue(String.class);
-                        Accounts acc = new Accounts(account_name,account_phone,account_address,account_email);
-                        if(accounts_sync!=null) {
+                        String account_sector = postSnapshot.child("sector").getValue(String.class);
+                        Accounts acc = new Accounts(account_name,account_phone,account_address,account_email,account_sector);
+
                                     for (int j = 0; j < accounts_sync.size(); j++) {
                                         if (accounts_sync.get(j).getName().equals(account_name)) {
                                             account_stored = true;
                                         }
                                     }
-                                }
-                                                if(!account_stored){
+
+
+                                if(!account_stored){
+                            Toast.makeText(context,acc.getName()+" "+"not stored",Toast.LENGTH_LONG).show();
+
                             db.userDao().insertAccounts(acc);
                         }
                         else{
-                            db.userDao().updateAccount(account_name,account_email,account_phone,account_address);
+                                    Toast.makeText(context,account_name+" "+"stored",Toast.LENGTH_LONG).show();
+                            db.userDao().updateAccount(account_name,account_email,account_phone,account_address,account_sector);
                         }
 
                     }
@@ -102,7 +107,7 @@ public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
                         UserProfile userp = new UserProfile(image,name,phone,email,status);
 
                         if(userProfiles_sync!=null) {
-                            Toast.makeText(context,email+" "+name,Toast.LENGTH_LONG).show();
+//                            Toast.makeText(context,email+" "+name,Toast.LENGTH_LONG).show();
                             for (int i = 0; i < userProfiles_sync.size(); i++) {
 
                                 if (userProfiles_sync.get(i).getEmail().equals(email)) {
@@ -134,7 +139,7 @@ public class ConnectivityBroadcastReceiver extends BroadcastReceiver {
             });
 
 
-            Toast.makeText(context,"CONNECTED!",Toast.LENGTH_LONG).show();
+//            Toast.makeText(context,"CONNECTED!",Toast.LENGTH_LONG).show();
         }
 
     }

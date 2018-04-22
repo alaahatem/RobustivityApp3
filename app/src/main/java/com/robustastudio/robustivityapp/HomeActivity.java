@@ -33,8 +33,8 @@ import java.util.List;
 
 
 public class HomeActivity extends AppCompatActivity {
-    boolean user_stored=false;
-    boolean account_stored=false;
+   public static boolean user_stored;
+   public static  boolean account_stored;
     Context context;
 
     String checkout = "Check out";
@@ -44,7 +44,8 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     static Button checkin;
     static String checkedin = "checkout";
-
+    DatabaseReference ref;
+    DatabaseReference refac;
     Button view_account;
     List<UserProfile> userprofiles;
     List<Accounts> accounts;
@@ -58,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         stored = false;
+        account_stored =false;
+        user_stored =false;
         Button projectsList = (Button) findViewById(R.id.projectsList);
         Button sectors = (Button) findViewById(R.id.view_sectors);
         Button myprofile = (Button) findViewById(R.id.myprofile);
@@ -66,8 +69,8 @@ public class HomeActivity extends AppCompatActivity {
         Button logout = (Button) findViewById(R.id.logout);
         view_account = findViewById(R.id.viewaccount);
          db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
-        DatabaseReference ref = mDatabase.child("user_profile");
-        DatabaseReference refac = mDatabase.child("Accounts");
+         ref = mDatabase.child("user_profile");
+         refac = mDatabase.child("Accounts");
 
         userprofiles = db.userDao().getAllprofiles();
         accounts = db.userDao().getAllAccounts();
@@ -188,7 +191,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 //
-Synchronize(getApplicationContext(),accounts,userprofiles,ref,refac);
+Synchronize(getApplicationContext());
     }
 
     public void setButton() {
@@ -220,46 +223,57 @@ Synchronize(getApplicationContext(),accounts,userprofiles,ref,refac);
         return (netInfo != null && netInfo.isConnected());
     }
 
-    public void Synchronize(final Context context, final List<Accounts> accounts_sync, final List<UserProfile> userProfiles_sync, DatabaseReference refuser, DatabaseReference refacc) {
-        if (isOnline(context)) {
-//            Toast.makeText(context, "connected", Toast.LENGTH_LONG).show();
+    public void Synchronize(final Context context) {
 
-            refacc.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        String account_name = postSnapshot.child("name").getValue(String.class);
-                        String account_email = postSnapshot.child("email").getValue(String.class);
-                        String account_phone = postSnapshot.child("phonenumber").getValue(String.class);
-                        String account_address = postSnapshot.child("address").getValue(String.class);
-                        Accounts acc = new Accounts(account_name, account_phone, account_address, account_email);
-                        if (accounts_sync != null) {
-                            for (int j = 0; j < accounts_sync.size(); j++) {
-                                if (accounts_sync.get(j).getName().equals(account_name)) {
-                                    account_stored = true;
-                                }
-                            }
-                        }
-                        if (!account_stored) {
-                            db.userDao().insertAccounts(acc);
-                        } else {
-                            db.userDao().updateAccount(account_name, account_email, account_phone, account_address);
-                        }
+           refac.addValueEventListener(new ValueEventListener() {
+               @Override
+               public void onDataChange(DataSnapshot dataSnapshot) {
+                   if (accounts != null) {
+                       for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                           account_stored = false;
+                           String address = postSnapshot.child("address").getValue(String.class);
+                           String email = postSnapshot.child("email").getValue(String.class);
+                           String name = postSnapshot.child("name").getValue(String.class);
+                           String phone = postSnapshot.child("phonenumber").getValue(String.class);
+                           String sector = postSnapshot.child("sector").getValue(String.class);
+                           Accounts acc = new Accounts(name, phone, address, email, sector);
 
-                    }
-                }
+                           if (accounts != null) {
+                               for (int i = 0; i < accounts.size(); i++) {
+                                   Toast.makeText(getApplicationContext(), accounts.get(i).getName(), Toast.LENGTH_LONG).show();
+                                   if (accounts.get(i).getName().equals(name)) {
+                                       account_stored = true;
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                                   }
+                               }
+                           }
+                           if (!account_stored) {
 
-                }
-            });
-            refuser.addValueEventListener(new ValueEventListener() {
+                                Toast.makeText(getApplicationContext(),name+" "+" not stored",Toast.LENGTH_LONG).show();
+                               db.userDao().insertAccounts(acc);
+                           } else {
+                               Toast.makeText(getApplicationContext(),name+" "+"  stored",Toast.LENGTH_LONG).show();
+                               db.userDao().updateAccount(name, email, phone, address, sector);
+                           }
+
+
+                       }
+                   }
+               }
+
+
+               @Override
+               public void onCancelled(DatabaseError databaseError) {
+
+               }
+           });
+            ref.addValueEventListener(new ValueEventListener() {
                 List<UserProfile> usertemp = new ArrayList<>();
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        user_stored =false;
                         String email = postSnapshot.child("email").getValue(String.class);
                         String image = postSnapshot.child("image").getValue(String.class);
                         String name = postSnapshot.child("name").getValue(String.class);
@@ -268,11 +282,11 @@ Synchronize(getApplicationContext(),accounts,userprofiles,ref,refac);
 
                         UserProfile userp = new UserProfile(image, name, phone, email, status);
 
-                        if (userProfiles_sync != null) {
+                        if (userprofiles != null) {
 //                            Toast.makeText(context, email + " " + name, Toast.LENGTH_LONG).show();
-                            for (int i = 0; i < userProfiles_sync.size(); i++) {
+                            for (int i = 0; i < userprofiles.size(); i++) {
 
-                                if (userProfiles_sync.get(i).getEmail().equals(email)) {
+                                if (userprofiles.get(i).getEmail().equals(email)) {
 
                                     user_stored = true;
 
@@ -306,4 +320,4 @@ Synchronize(getApplicationContext(),accounts,userprofiles,ref,refac);
 
 
     }
-}
+
