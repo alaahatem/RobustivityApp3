@@ -121,6 +121,7 @@ Edit.setOnClickListener(new View.OnClickListener() {
         myIntent.putExtra("name",nametv.getText().toString() );
         myIntent.putExtra("email",emailtv.getText().toString());
         myIntent.putExtra("phone",userphone.getText().toString());
+        myIntent.putExtra("status",userstatus.getText().toString());
         ViewProfileActivity.this.startActivity(myIntent);
     }
 });

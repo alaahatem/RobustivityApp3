@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.robustastudio.robustivityapp.Accounts.AccountActivity;
 import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.ViewAccount;
 import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
 
 import java.util.List;
@@ -63,7 +65,7 @@ public class SectorsAdapter extends RecyclerView.Adapter<SectorsAdapter.ViewHold
         VH.Card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ctx, Activity_View_Projects.class);
+                Intent i = new Intent(ctx, AccountActivity.class);
                 i.putExtra("sectorName",sectors.get(position));
                 ctx.startActivity(i);
 

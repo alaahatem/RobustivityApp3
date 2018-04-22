@@ -15,11 +15,12 @@ import java.util.List;
  */
 @Entity
 public class Sectors {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
     @NonNull
     public String name ;
-    @TypeConverters({Converter.class})
-    public List<String> accounts ;
+
 
 
     public String getName() {
@@ -30,17 +31,11 @@ public class Sectors {
         this.name = name;
     }
 
-    public List<String> getAccounts() {
-        return accounts;
-    }
 
-    public void setAccounts(List<String> accounts) {
-        this.accounts = accounts;
-    }
 
-    public Sectors(String name, List<String> accounts) {
+    public Sectors(String name) {
 
         this.name = name;
-        this.accounts = accounts;
+
     }
 }

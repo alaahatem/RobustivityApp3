@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,10 +20,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.CreateProfile.CreateProfileActivity;
+import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Accounts;
+import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
+import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
 
 import java.util.ArrayList;
@@ -36,12 +41,17 @@ Context context;
     List<UserProfile> userprofiles;
 String checkout = "Check out";
     private DatabaseReference mDatabase;
+    public static  boolean account_stored;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     static Button checkin;
     static String checkedin = "checkout";
     private DrawerLayout mDrawerLayout;
     static AppDatabase db=null;
+    List<String > sector_names;
+    DatabaseReference refac;
+    List<String > available;
+    List<Accounts> accounts;
 boolean stored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,9 @@ boolean stored;
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        sector_names = new ArrayList<>();
+        DatabaseReference reference = mDatabase.child("Sectors");
+        account_stored =false;
         stored = false;
        // Button projectsList = (Button) findViewById(R.id.projectsList);
         //Button sectors = (Button) findViewById(R.id.view_sectors);
@@ -61,8 +74,79 @@ boolean stored;
         NavigationView navigationView = findViewById(R.id.nav_view);
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
-        DatabaseReference ref = mDatabase.child("user_profile");
+        accounts = db.userDao().getAllAccounts();
 
+        DatabaseReference ref = mDatabase.child("user_profile");
+        refac = mDatabase.child("Accounts");
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d :dataSnapshot.getChildren()){
+                    sector_names.add(d.getKey());
+                    available = db.userDao().getAllSectors();
+                    for (int i = 0; i <available.size() ; i++) {
+                        Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
+                    }
+
+                    if(!available.contains(d.getKey())){
+
+                        Sectors s1 = new Sectors(d.getKey());
+                        db.userDao().insertSector(s1);
+                        // mpresenter.update_sectors(db,s1);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        refac.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (accounts != null) {
+                    accounts = db.userDao().getAllAccounts();
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        account_stored = false;
+                        String address = postSnapshot.child("address").getValue(String.class);
+                        String email = postSnapshot.child("email").getValue(String.class);
+                        String name = postSnapshot.child("name").getValue(String.class);
+                        String phone = postSnapshot.child("phonenumber").getValue(String.class);
+                        String sector = postSnapshot.child("sector").getValue(String.class);
+                        Accounts acc = new Accounts(name, phone, address, email, sector);
+
+                        if (accounts != null) {
+                            for (int i = 0; i < accounts.size(); i++) {
+                                Toast.makeText(getApplicationContext(), accounts.get(i).getName(), Toast.LENGTH_LONG).show();
+                                if (accounts.get(i).getName().equals(name)) {
+                                    account_stored = true;
+
+                                }
+                            }
+                        }
+                        if (!account_stored) {
+
+                            Toast.makeText(getApplicationContext(),name+" "+" not stored",Toast.LENGTH_LONG).show();
+                            db.userDao().insertAccounts(acc);
+                        } else {
+                            Toast.makeText(getApplicationContext(),name+" "+"  stored",Toast.LENGTH_LONG).show();
+                            db.userDao().updateAccount(name, email, phone, address, sector);
+                        }
+
+
+                    }
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ref.addValueEventListener(new ValueEventListener() {
             List<UserProfile> usertemp= new ArrayList<>();
             @Override
@@ -86,7 +170,7 @@ boolean stored;
                         db.userDao().insertAll(userp);
                     }
                     else{
-
+                        db.userDao().updateProfile(name,email,phone,status);
                     }
 
                 }
@@ -145,6 +229,15 @@ boolean stored;
                             Intent myIntent = new Intent(HomeActivity.this, viewSectors.class);
                             HomeActivity.this.startActivity(myIntent);
                         }
+                        if(menuItem.getItemId() == R.id.createTasknew){
+                            Intent myIntent = new Intent(HomeActivity.this, CreateTaskView.class);
+                            HomeActivity.this.startActivity(myIntent);
+                        }
+                        if(menuItem.getItemId() == R.id.viewtaskall){
+                            Intent myIntent = new Intent(HomeActivity.this, ViewTasksView.class);
+                            HomeActivity.this.startActivity(myIntent);
+                        }
+
                         if(menuItem.getItemId() == R.id.logout){
                             mAuth.signOut();
                         }

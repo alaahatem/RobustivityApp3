@@ -46,6 +46,20 @@
         <activity android:name=".UserProfiles.UsersProfilesImpl" />
         <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
 
+        <activity android:name=".CreateProject.CreateProjectView"/>
+        <activity android:name=".CreateTask.CreateTaskView"/>
+        <activity android:name=".ViewTasks.ViewTasksView"/>
+        <activity android:name=".ViewTask.ViewTaskView"/>
+        <activity android:name=".Accounts.AccountActivity" />
+        <activity android:name=".CreateAccounts.CreateActivity" />
+        <activity android:name=".ViewAccount"></activity>
+        <!--<activity android:name=".CreateTodo.CreateTodoView"/>-->
+
+        <!--<activity android:name=".CreateTask.CreateTaskView"/>
+
+        <activity android:name=".EditTask"/>
+        -->
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"

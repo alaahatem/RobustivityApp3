@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.R;
@@ -20,7 +22,8 @@ import java.util.List;
 
 public class Activity_add_sector extends AppCompatActivity  implements Add_sector_View{
 
-public List<String> Accounts;
+    public List<String> Accounts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

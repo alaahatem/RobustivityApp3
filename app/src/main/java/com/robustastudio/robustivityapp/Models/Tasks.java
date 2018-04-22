@@ -20,9 +20,6 @@ public class Tasks {
     @ColumnInfo(name="task_name")
     public String name ;
 
-    @ColumnInfo(name ="task_title")
-    public String title ;
-
     @ColumnInfo(name ="task_description")
     public String description;
 
@@ -47,13 +44,20 @@ public class Tasks {
     @ColumnInfo(name ="task_start_date")
     public Date StartDate ;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @ColumnInfo(name ="task_toggled_days")
     public int days ;
 
 
-    public Tasks(String name, String title, String description, String assigne, List<String> members, Float estimated_hours, Date due_date, String project_name, Float finished_hours, Date StartDate, int days) {
+    public Tasks(String name, String description, String assigne, List<String> members, Float estimated_hours, Date due_date, String project_name, Float finished_hours, Date StartDate, int days) {
         this.name = name;
-        this.title = title;
         this.description = description;
         this.assigne = assigne;
         this.members = members;
@@ -87,14 +91,6 @@ public class Tasks {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDescription() {

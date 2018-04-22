@@ -10,6 +10,15 @@
             android:title="Users" />
         <!--   android:icon="@drawable/ic_menu_gallery"-->
 
+        <item
+            android:id="@+id/createTasknew"
+            android:title="Create Task" />
+
+
+
+        <item
+            android:id="@+id/viewtaskall"
+            android:title="View Tasks" />
 
         <item
             android:id="@+id/projectsList"

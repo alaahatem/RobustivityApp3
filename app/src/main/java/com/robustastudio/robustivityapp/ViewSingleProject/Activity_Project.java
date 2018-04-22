@@ -97,7 +97,7 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
         name.setText(p.getName());
         type.setText(p.getType());
         SimpleDateFormat format = new SimpleDateFormat(
-                "EEE, MM d, ''yy");
+                "EEE, d/MM/yy");
 
         StartDate.setText(""+format.format(p.getStartDate()));
         endDate.setText(""+format.format(p.getEndDate()));

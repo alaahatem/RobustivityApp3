@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp.ViewProjects;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.robustastudio.robustivityapp.CreateProject.CreateProjectView;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.Adapters.ProjectsAdapter;
@@ -66,8 +68,11 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
         addproj.setOnClickListener(new View.OnClickListener() {
         //  @Override
          public void onClick(View view) {
-           db.userDao().insertAllProjects(proj);
-             Toast.makeText(getApplicationContext(),"Inserted"+proj.getName()+proj.getEngagement().get(1)+proj.getStartDate(),Toast.LENGTH_LONG).show();
+             Intent intent = new Intent(Activity_View_Projects.this, CreateProjectView.class);
+                startActivity(intent);
+
+           //db.userDao().insertAllProjects(proj);
+            // Toast.makeText(getApplicationContext(),"Inserted"+proj.getName()+proj.getEngagement().get(1)+proj.getStartDate(),Toast.LENGTH_LONG).show();
           }
          });
 

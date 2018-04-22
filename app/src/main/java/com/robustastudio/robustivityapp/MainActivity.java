@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.ArrayList;
@@ -48,7 +49,10 @@ public class MainActivity extends AppCompatActivity {
     static boolean checked;
     List<String> mails = new ArrayList<>();
     private DatabaseReference mDatabase;
+    private DatabaseReference reference;
     List<UserProfile> userprofiles;
+    public List<String> sector_names;
+    public List<String> available;
 
 
     private String webClientId = "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com";
@@ -64,10 +68,16 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration().allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
+
         super.onCreate(savedInstanceState);
         checked =false;
-
+        sector_names = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        reference = mDatabase.child("Sectors");
+
+
+
+
 
 
 
@@ -235,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
+                Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                 // ...
             }
         }

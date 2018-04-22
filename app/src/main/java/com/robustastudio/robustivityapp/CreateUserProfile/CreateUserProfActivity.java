@@ -53,6 +53,7 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
             name.setText(getIntent().getStringExtra("name"));
             Email.setText(getIntent().getStringExtra("email"));
             Phone.setText(getIntent().getStringExtra("phone"));
+
         }
 
             db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
@@ -75,7 +76,7 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("name").setValue(name.getText().toString());
         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("phone").setValue(Phone.getText().toString());
 
-        db.userDao().updateProfile(name.getText().toString(),Email.getText().toString(),Phone.getText().toString());
+        db.userDao().updateProfile(name.getText().toString(),Email.getText().toString(),Phone.getText().toString(),getIntent().getStringExtra("status"));
 
 
         Intent myIntent = new Intent(CreateUserProfActivity.this, HomeActivity.class);

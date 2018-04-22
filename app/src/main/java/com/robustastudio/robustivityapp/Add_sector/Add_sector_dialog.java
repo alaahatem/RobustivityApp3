@@ -11,8 +11,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.R;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CancellationException;
 
 /**
@@ -23,12 +27,14 @@ public class Add_sector_dialog extends AppCompatDialogFragment {
 
     public sectorDialog listener;
 
+
     public Dialog onCreateDialog(Bundle savedInstanceState){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.activity_pop_add_sector,null);
         final EditText mEdit =  view.findViewById(R.id.sectorName);
+
 
         builder.setView(view).setTitle("Add new sector").setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
