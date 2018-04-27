@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="BMW"
+
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -67,11 +67,11 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/sectortv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="New York, USA"
+
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="italic"
@@ -272,5 +272,19 @@
 
             tools:ignore="VectorDrawableCompat" />
 
+        <Button
+            android:id="@+id/Edit_account"
+            android:layout_width="51dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="132dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="Edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.589"
+            app:layout_constraintStart_toEndOf="@+id/emailtv" />
+
     </android.support.constraint.ConstraintLayout>
+
 </ScrollView>

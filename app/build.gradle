@@ -20,7 +20,7 @@ android {
                                 onesignal_google_project_number: "REMOTE"]
 
         applicationId "com.robustastudio.robustivityapp"
-        minSdkVersion 19
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -68,6 +68,7 @@ dependencies {
     compile 'com.github.tajchert:nammu:1.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 
 
 }

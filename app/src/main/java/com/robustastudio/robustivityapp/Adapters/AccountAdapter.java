@@ -44,6 +44,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
                 intent.putExtra("account_email", Account.get(position).getEmail());
                 intent.putExtra("account_address", Account.get(position).getAddress());
                 intent.putExtra("account_phone", Account.get(position).getPhonenumber());
+                intent.putExtra("account_sector",Account.get(position).getSector());
+                intent.putExtra("account_id",Account.get(position).getId());
+
                 v.getContext().startActivity(intent);
             }
         });

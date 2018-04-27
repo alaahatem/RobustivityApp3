@@ -12,17 +12,20 @@ import android.support.annotation.NonNull;
 public class Accounts {
 
 
-    public Accounts(@NonNull String name, String phonenumber, String address, String email, String sector) {
+
+    public Accounts(@NonNull String name, String phonenumber, String address, String email, String sector,int id) {
         this.name = name;
         this.phonenumber = phonenumber;
         this.address = address;
         this.email = email;
         this.sector = sector;
+        this.id = id;
+
     }
 
 
-    @PrimaryKey(autoGenerate = true)
-
+    @PrimaryKey
+@ColumnInfo(name = "account_id")
     public int id;
 
     @ColumnInfo(name = "account_name")
@@ -45,6 +48,7 @@ public class Accounts {
         this.name = name;
     }
 
+
     public String getPhonenumber() {
         return phonenumber;
     }
@@ -59,6 +63,14 @@ public class Accounts {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {

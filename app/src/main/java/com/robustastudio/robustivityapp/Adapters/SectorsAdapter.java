@@ -67,6 +67,7 @@ public class SectorsAdapter extends RecyclerView.Adapter<SectorsAdapter.ViewHold
             public void onClick(View view) {
                 Intent i = new Intent(ctx, AccountActivity.class);
                 i.putExtra("sectorName",sectors.get(position));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(i);
 
             }

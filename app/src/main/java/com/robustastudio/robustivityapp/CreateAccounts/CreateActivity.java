@@ -9,10 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.EditAccounts.EditAccountActivity;
 import com.robustastudio.robustivityapp.HomeActivity;
 import com.robustastudio.robustivityapp.Models.Accounts;
 import com.robustastudio.robustivityapp.R;
@@ -28,8 +33,11 @@ EditText account_phone ;
 EditText account_address ;
 Button save_account;
 Spinner dropdown;
+int temp =0;
     List<String> sectors;
     List<Accounts> accounts;
+    DatabaseReference refac;
+
     public AppDatabase db = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,7 @@ Spinner dropdown;
          save_account = findViewById(R.id.SaveAccount);
 
          mDatabase = FirebaseDatabase.getInstance().getReference();
+         refac = mDatabase.child("Accounts");
         dropdown = findViewById(R.id.spinner1);
         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
         sectors  = db.userDao().getAllSectors();
@@ -52,9 +61,16 @@ save_account.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
-        Accounts account = new Accounts(account_name.getText().toString(),account_phone.getText().toString(),account_address.getText().toString(),account_email.getText().toString(),dropdown.getSelectedItem().toString());
+accounts=db.userDao().getAllAccounts();
+temp = accounts.size();
 
-       mDatabase.child("Accounts").child(account_name.getText().toString()).setValue(account);
+               Accounts account = new Accounts(account_name.getText().toString(),account_phone.getText().toString(),account_address.getText().toString(),account_email.getText().toString(),dropdown.getSelectedItem().toString(),temp);
+               mDatabase.child("Accounts").child(account_name.getText().toString()).setValue(account);
+
+
+
+
+
 
         Intent myIntent = new Intent(CreateActivity.this,HomeActivity.class);
         CreateActivity.this.startActivity(myIntent);

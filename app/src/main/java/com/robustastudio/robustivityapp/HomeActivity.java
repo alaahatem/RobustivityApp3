@@ -8,6 +8,8 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,11 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.robustastudio.robustivityapp.Adapters.AccountAdapter;
+import com.robustastudio.robustivityapp.Adapters.TasksAdapter;
 import com.robustastudio.robustivityapp.CreateProfile.CreateProfileActivity;
 import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
+import com.robustastudio.robustivityapp.CreateTask.TaskAdapter;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Accounts;
 import com.robustastudio.robustivityapp.Models.Sectors;
+import com.robustastudio.robustivityapp.Models.Tasks;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
@@ -38,6 +44,7 @@ import Constants.Constants;
 
 public class HomeActivity extends AppCompatActivity {
 Context context;
+
     List<UserProfile> userprofiles;
 String checkout = "Check out";
     private DatabaseReference mDatabase;
@@ -51,7 +58,11 @@ String checkout = "Check out";
     List<String > sector_names;
     DatabaseReference refac;
     List<String > available;
+    List<Tasks>  tasks;
+    List<Tasks>  temptask;
     List<Accounts> accounts;
+    RecyclerView recyclerView;
+    public TasksAdapter adapter;
 boolean stored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +70,10 @@ boolean stored;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
+mAuth = FirebaseAuth.getInstance();
+        recyclerView =findViewById(R.id.recycler_view_tasks);
         sector_names = new ArrayList<>();
+        temptask = new ArrayList<>();
         DatabaseReference reference = mDatabase.child("Sectors");
         account_stored =false;
         stored = false;
@@ -75,9 +88,27 @@ boolean stored;
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
         accounts = db.userDao().getAllAccounts();
-
+        tasks =db.taskDao().getAllTasks();
         DatabaseReference ref = mDatabase.child("user_profile");
         refac = mDatabase.child("Accounts");
+
+
+        for (int i = 0; i <tasks.size() ; i++) {
+            for (int j = 0; j <tasks.get(i).getMembers().size() ; j++) {
+                Toast.makeText(getApplicationContext(),tasks.get(i).getMembers().get(j),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_LONG).show();
+                if(tasks.get(i).getMembers().get(j).equals("'"+mAuth.getCurrentUser().getDisplayName()+"'")){
+
+                    temptask.add(tasks.get(i));
+                }
+            }
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new TasksAdapter(temptask);
+        recyclerView.setAdapter(adapter);
+
+
+
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,9 +116,7 @@ boolean stored;
                 for(DataSnapshot d :dataSnapshot.getChildren()){
                     sector_names.add(d.getKey());
                     available = db.userDao().getAllSectors();
-                    for (int i = 0; i <available.size() ; i++) {
-                        Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
-                    }
+
 
                     if(!available.contains(d.getKey())){
 
@@ -116,12 +145,15 @@ boolean stored;
                         String name = postSnapshot.child("name").getValue(String.class);
                         String phone = postSnapshot.child("phonenumber").getValue(String.class);
                         String sector = postSnapshot.child("sector").getValue(String.class);
-                        Accounts acc = new Accounts(name, phone, address, email, sector);
+                        int id = postSnapshot.child("id").getValue(int.class);
+
+                        Accounts acc = new Accounts(name, phone, address, email, sector,id);
+
 
                         if (accounts != null) {
                             for (int i = 0; i < accounts.size(); i++) {
-                                Toast.makeText(getApplicationContext(), accounts.get(i).getName(), Toast.LENGTH_LONG).show();
-                                if (accounts.get(i).getName().equals(name)) {
+
+                                if (accounts.get(i).getId()==id) {
                                     account_stored = true;
 
                                 }
@@ -129,11 +161,12 @@ boolean stored;
                         }
                         if (!account_stored) {
 
-                            Toast.makeText(getApplicationContext(),name+" "+" not stored",Toast.LENGTH_LONG).show();
+
                             db.userDao().insertAccounts(acc);
                         } else {
-                            Toast.makeText(getApplicationContext(),name+" "+"  stored",Toast.LENGTH_LONG).show();
-                            db.userDao().updateAccount(name, email, phone, address, sector);
+
+
+                            db.userDao().updateAccount(name, email, phone, address, sector ,id );
                         }
 
 
@@ -321,7 +354,7 @@ boolean stored;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        checkin = (Button)findViewById(R.id.checkin);
+                        checkin = (Button)findViewById(R.id.Checkin);
                         //your code
                         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
                         userprofiles =db.userDao().getAllprofiles();
@@ -349,8 +382,9 @@ boolean stored;
         }).start();
 
 
-
-
+        for (int i = 0; i <tasks.size() ; i++) {
+            Toast.makeText(getApplicationContext(),tasks.get(i).getName(),Toast.LENGTH_LONG).show();
+        }
 
     }
     public  void setButton(){
@@ -367,6 +401,7 @@ boolean stored;
         }
 
     }
+
 
    public void onStart() {
         super.onStart();

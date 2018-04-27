@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 
 import com.robustastudio.robustivityapp.Models.Tasks;
 
+
 import java.util.List;
 
 /**
@@ -23,6 +24,8 @@ public interface TaskDao {
     int viewTask(String name, String tname);
     @Query("SELECT * FROM Tasks WHERE id=:id")
     Tasks getUser(int id);
+    @Query("SELECT *FROM Tasks")
+    List<Tasks> getAllTasks();
     @Delete
     void deleteTask(Tasks task);
     @Insert(onConflict = OnConflictStrategy.REPLACE)

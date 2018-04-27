@@ -36,7 +36,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Add_sector.Activity_add_sector"
-            android:theme="@style/AppTheme.CustomTheme"></activity>
+            android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".ViewProjects.Activity_View_Projects" />
         <activity android:name=".ViewSingleProject.Activity_Project" />
         <activity android:name=".View_Sectors.viewSectors" />
@@ -45,21 +45,21 @@
         <activity android:name=".ViewProfile.ViewProfileActivity" />
         <activity android:name=".UserProfiles.UsersProfilesImpl" />
         <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
-
-        <activity android:name=".CreateProject.CreateProjectView"/>
-        <activity android:name=".CreateTask.CreateTaskView"/>
-        <activity android:name=".ViewTasks.ViewTasksView"/>
-        <activity android:name=".ViewTask.ViewTaskView"/>
+        <activity android:name=".CreateProject.CreateProjectView" />
+        <activity android:name=".CreateTask.CreateTaskView" />
+        <activity android:name=".ViewTasks.ViewTasksView" />
+        <activity android:name=".ViewTask.ViewTaskView" />
         <activity android:name=".Accounts.AccountActivity" />
         <activity android:name=".CreateAccounts.CreateActivity" />
-        <activity android:name=".ViewAccount"></activity>
-        <!--<activity android:name=".CreateTodo.CreateTodoView"/>-->
+        <activity android:name=".ViewAccount" />
+        <!-- <activity android:name=".CreateTodo.CreateTodoView"/> -->
 
-        <!--<activity android:name=".CreateTask.CreateTaskView"/>
+
+        <!--
+        <activity android:name=".CreateTask.CreateTaskView"/>
 
         <activity android:name=".EditTask"/>
         -->
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -72,6 +72,7 @@
             ...
         </provider>
 
+        <activity android:name=".EditAccounts.EditAccountActivity"></activity>
     </application>
 
 </manifest>
