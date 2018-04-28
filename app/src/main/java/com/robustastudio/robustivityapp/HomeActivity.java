@@ -8,8 +8,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Adapters.AccountAdapter;
+import com.robustastudio.robustivityapp.Adapters.RecyclerTouchItemHelper;
+import com.robustastudio.robustivityapp.Adapters.RecyclerTouchItemHelperListener;
 import com.robustastudio.robustivityapp.Adapters.TasksAdapter;
 import com.robustastudio.robustivityapp.CreateProfile.CreateProfileActivity;
 import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
@@ -36,13 +41,17 @@ import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import Constants.Constants;
 
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements RecyclerTouchItemHelperListener {
 Context context;
 
     List<UserProfile> userprofiles;
@@ -94,10 +103,21 @@ mAuth = FirebaseAuth.getInstance();
 
 
         for (int i = 0; i <tasks.size() ; i++) {
+            Date Taskdate = tasks.get(i).getDue_date();
+            Date today = new Date();
+
+            SimpleDateFormat parser = new SimpleDateFormat("EEE, MM d,yyyy");
+            parser.format(today);
+            parser.format(Taskdate);
+
+            int days = (int) ((today.getTime()- Taskdate.getTime())/(1000 * 60 *60 * 24));
+
+
+            Toast.makeText(getApplicationContext(),String.valueOf(days),Toast.LENGTH_LONG).show();
             for (int j = 0; j <tasks.get(i).getMembers().size() ; j++) {
-                Toast.makeText(getApplicationContext(),tasks.get(i).getMembers().get(j),Toast.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getDisplayName(),Toast.LENGTH_LONG).show();
+
                 if(tasks.get(i).getMembers().get(j).equals("'"+mAuth.getCurrentUser().getDisplayName()+"'")){
+                    if(days+693989==0)
 
                     temptask.add(tasks.get(i));
                 }
@@ -105,10 +125,14 @@ mAuth = FirebaseAuth.getInstance();
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new TasksAdapter(temptask);
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-
-
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback
+                = new RecyclerTouchItemHelper(0,ItemTouchHelper.LEFT, this);
+            new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -401,6 +425,9 @@ mAuth = FirebaseAuth.getInstance();
         }
 
     }
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    }
 
 
    public void onStart() {
@@ -408,4 +435,16 @@ mAuth = FirebaseAuth.getInstance();
 
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth.addAuthStateListener(mAuthListener);}
+
+    @Override
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        if(viewHolder instanceof TasksAdapter.ViewHolder){
+            String name = temptask.get(viewHolder.getAdapterPosition()).getName();
+            final Tasks deletedTask = temptask.get(viewHolder.getAdapterPosition());
+            final int deleteIndex =viewHolder.getAdapterPosition();
+
+            adapter.removeItem(deleteIndex);
+
+        }
+    }
 }

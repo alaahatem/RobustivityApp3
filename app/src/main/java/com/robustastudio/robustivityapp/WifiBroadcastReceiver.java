@@ -62,7 +62,9 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 
             if(bssid!=null) {
                 if (bssid.equals("58:2a:f7:39:59:f8")) {
+                    if(mAuth.getCurrentUser()!=null)
                     for (int j = 0; j <userprofiles.size() ; j++) {
+
                         if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){
                            Toast.makeText(context.getApplicationContext(),FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
                             userprofiles.get(j).setStatus("Checked in");

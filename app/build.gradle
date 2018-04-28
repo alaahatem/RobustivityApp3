@@ -59,6 +59,8 @@ dependencies {
     compile 'com.github.lzyzsd:circleprogress:1.2.1'
     compile 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //compile 'com.itextpdf:itextg:5.5.11'
 
     compile fileTree(include: ['*.jar'], dir: 'libs')

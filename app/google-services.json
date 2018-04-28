@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com",
+          "client_id": "734558269858-713jjk0cn0qqkak4tl6sh43rbfhcglln.apps.googleusercontent.com",
           "client_type": 3
         },
         {
-          "client_id": "734558269858-m63sfg9ccaioa3fq4b3u46okg0kf1jaf.apps.googleusercontent.com",
+          "client_id": "734558269858-4df7hefpen8vkbbb9m60j2qo7huqvau9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.robustastudio.robustivityapp",
@@ -27,7 +27,23 @@
           }
         },
         {
-          "client_id": "734558269858-un7vjk8a2an7p66cskclvn2o8di2bt10.apps.googleusercontent.com",
+          "client_id": "734558269858-94ule6cd71kaej4vahkuu9pcdhpvbpvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.robustastudio.robustivityapp",
+            "certificate_hash": "37f62073f426da3d467875aa4302c2901afdd389"
+          }
+        },
+        {
+          "client_id": "734558269858-a2r5eeo3psgb3giljmbq1i62698aj7ib.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.robustastudio.robustivityapp",
+            "certificate_hash": "e8162cc2724e0e004e0db1d4d983d7e5f2a44548"
+          }
+        },
+        {
+          "client_id": "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -44,7 +60,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com",
+              "client_id": "734558269858-713jjk0cn0qqkak4tl6sh43rbfhcglln.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

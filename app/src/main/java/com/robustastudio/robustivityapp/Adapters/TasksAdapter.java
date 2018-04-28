@@ -34,9 +34,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     public TasksAdapter(List<Tasks> tasks) {
        this.Tasks = tasks;
-//        for (int i = 0; i <tasks.size() ; i++) {
-//            expandState.append(i,false);
-//        }
+        for (int i = 0; i <tasks.size() ; i++) {
+            expandState.append(i,false);
+        }
     }
     @Override
     public int getItemViewType(int position) {
@@ -88,7 +88,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 holder.expandableLinearLayout.toggle();
             }
         });
-        holder.TaskViewChild.setText(Tasks.get(position).getDescription());
+        holder.TaskViewChild.setText("Description : "+Tasks.get(position).getDescription()+"\n" +"Assigned by : "+Tasks.get(position).getAssigne());
         }
 
     private ObjectAnimator changeRotate(RelativeLayout button, float from, float to) {
@@ -97,7 +97,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         animator.setInterpolator(Utils.createInterpolator(Utils.LINEAR_INTERPOLATOR));
         return animator;
     }
+    public void removeItem(int position){
+        Tasks.remove(position);
+        notifyItemRemoved(position);
+    }
 
+    public void restoreItem(Tasks task , int position){
+        Tasks.add(position,task);
+    }
     @Override
     public int getItemCount() {
         return null!=Tasks?Tasks.size():0;
