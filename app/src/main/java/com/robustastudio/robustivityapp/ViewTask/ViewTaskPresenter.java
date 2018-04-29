@@ -19,7 +19,7 @@ public class ViewTaskPresenter implements ViewTaskPresenterInt{
     @Override
     public void viewTask(AppDatabase db,String temp) {
         int id=db.taskDao().viewTask("test",temp);
-
+        System.out.println(id);
         Tasks task=db.taskDao().getUser(id);
         System.out.println(task.getName()+"--> "+task.getId());
         view.viewTask(String.valueOf(task.getId()),task.getName(),task.getDescription(),task.getAssignee(),task.getMembers(),task.getEstimated_hours(),task.due_date,task.finished_hours,task.startDate,task.getProjectname());

@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.AppDatabase;
 import com.robustastudio.robustivityapp.R;
 
@@ -26,7 +28,8 @@ public class CreateTodoView extends AppCompatActivity {
     Button addMember,addTodo;
     RecyclerView recycle;
     List<String>members=new ArrayList<>();
-    CreateTodoPresenter presenter=new CreateTodoPresenter();
+    CreateTodoPresenter presenter=new CreateTodoPresenter(this);
+    DatabaseReference firebase;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_todo_mvp);
@@ -41,6 +44,7 @@ public class CreateTodoView extends AppCompatActivity {
         addTodo=findViewById(R.id.addTodo);
         recycle=findViewById(R.id.todoMembersList);
         recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        firebase= FirebaseDatabase.getInstance().getReference();
         addMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +59,7 @@ public class CreateTodoView extends AppCompatActivity {
                 presenter.checkTextField(member,members);
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
-                presenter.addTodo(db,members,startTimeH.getText().toString()+":"+startTimeM.getText().toString(),new Date(Integer.parseInt(todoDatey.getText().toString()),Integer.parseInt(todoDatem.getText().toString()),Integer.parseInt(todoDated.getText().toString())),Double.valueOf(todoDuration.getText().toString()));
+                presenter.addTodo(db,firebase,members,startTimeH.getText().toString()+":"+startTimeM.getText().toString(),new Date(Integer.parseInt(todoDatey.getText().toString()),Integer.parseInt(todoDatem.getText().toString()),Integer.parseInt(todoDated.getText().toString())),Double.valueOf(todoDuration.getText().toString()));
                 Toast.makeText(CreateTodoView.this, "zay elfol", Toast.LENGTH_SHORT).show();
 
             }

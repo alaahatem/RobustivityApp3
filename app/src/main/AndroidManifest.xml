@@ -26,7 +26,7 @@
         <activity android:name=".CreateProject.CreateProjectView"/>
         <activity android:name=".CreateTask.CreateTaskView"/>
         <activity android:name=".CreateTodo.CreateTodoView"/>
-        <activity android:name=".EditTask"/>
+        <activity android:name=".EditTask.EditTaskView"/>
         <activity android:name=".ViewTasks.ViewTasksView"/>
         <activity android:name=".ViewTask.ViewTaskView"/>
 

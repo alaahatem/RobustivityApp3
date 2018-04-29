@@ -5,19 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.robustastudio.robustivityapp.CreateProject.CreateProjectView;
 import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
 import com.robustastudio.robustivityapp.CreateTodo.CreateTodoView;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstantceState) {
         super.onCreate(savedInstantceState);
-
-
         setContentView(R.layout.home_screen);
-
         Button b1,b2,b3,b4;
         b1=findViewById(R.id.createProject);
         b2=findViewById(R.id.createTask);

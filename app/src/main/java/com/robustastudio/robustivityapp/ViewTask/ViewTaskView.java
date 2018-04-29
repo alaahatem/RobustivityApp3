@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.robustastudio.robustivityapp.AppDatabase;
-import com.robustastudio.robustivityapp.EditTask;
+import com.robustastudio.robustivityapp.EditTask.EditTaskView;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
     TextView viewID,viewName,viewDesciption, viewAssignee, viewEstimatedHours, viewStartDate, viewDueDate, viewFinishedHours, viewProjectName;
     Button delete,edit;
     ViewTaskPresenter presenter;
-
+    List<String>members=new ArrayList<>();
     public ViewTaskView() {
     }
 
@@ -54,6 +56,7 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         Intent intent=getIntent();
         String temp=intent.getStringExtra("taskName");
         presenter.viewTask(db,temp);
+        recycle.setAdapter(new ViewTaskAdapter(members));
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +68,8 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1=new Intent(ViewTaskView.this,EditTask.class);
+                Intent intent1=new Intent(ViewTaskView.this,EditTaskView.class);
+                intent1.putExtra("id",Integer.parseInt(viewID.getText().toString()));
                 startActivity(intent1);
             }
         });
@@ -80,9 +84,14 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         viewDesciption.setText(description);
         viewAssignee.setText(assignee);
         viewEstimatedHours.setText(String.valueOf(estimated_hours));
-        viewStartDate.setText(String.valueOf(startDate));
-        viewDueDate.setText(String.valueOf(due_date));
+        startDate.setYear(startDate.getYear()-1900);
+        startDate.setMonth(startDate.getMonth()-1);
+        due_date.setYear(due_date.getYear()-1900);
+        due_date.setMonth(due_date.getMonth()-1);
+        viewStartDate.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(startDate)));
+        viewDueDate.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(due_date)));
         viewFinishedHours.setText(String.valueOf(finished_hours));
         viewProjectName.setText(projectname);
+        this.members=members;
     }
 }

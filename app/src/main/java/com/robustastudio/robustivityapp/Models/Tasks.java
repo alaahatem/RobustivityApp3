@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity(tableName = "Tasks")
 public class Tasks {
-    @PrimaryKey(autoGenerate=true)
+    @PrimaryKey
     @ColumnInfo(name ="id")
     public int id;
     @ColumnInfo(name="task_name")
@@ -42,7 +42,8 @@ public class Tasks {
     @ColumnInfo(name = "project_name")
     public String projectname;
 
-    public Tasks(String name, String description, String assignee, List<String> members, float estimated_hours, Date due_date, float finished_hours, Date startDate, String projectname) {
+    public Tasks(int id,String name, String description, String assignee, List<String> members, float estimated_hours, Date due_date, float finished_hours, Date startDate, String projectname) {
+       this.id=id;
         this.name = name;
         this.description = description;
         this.assignee = assignee;
@@ -53,6 +54,8 @@ public class Tasks {
         this.startDate = startDate;
         this.projectname = projectname;
     }
+
+    public Tasks(){}
 
     public int getId() {
         return id;

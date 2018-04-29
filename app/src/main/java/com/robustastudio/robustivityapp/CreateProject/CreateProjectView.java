@@ -11,7 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Projects;
+import com.robustastudio.robustivityapp.Models.Tasks;
 import com.robustastudio.robustivityapp.R;
 
 import java.util.ArrayList;
@@ -27,7 +34,12 @@ public class CreateProjectView extends AppCompatActivity{
     Button addEngagement,done;
     List<String>engagementList=new ArrayList<>();
     RecyclerView recycle;
-    CreateProjectPresenter presenter=new CreateProjectPresenter();
+    CreateProjectPresenter presenter=new CreateProjectPresenter(this);
+
+    List<Projects> p;
+    DatabaseReference firebase;
+    DatabaseReference ref;
+    public int id;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_project_mvp);
@@ -48,6 +60,26 @@ public class CreateProjectView extends AppCompatActivity{
         recycle.setAdapter(new ProjectAdapter(engagementList));
         addEngagement=findViewById(R.id.addEngagement);
         done=findViewById(R.id.addProject);
+        firebase = FirebaseDatabase.getInstance().getReference();
+        ref= firebase.child("Projects");
+        p= new ArrayList<>();
+        id=0;
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Projects t = postSnapshot.getValue(Projects.class);
+                    p.add(t);
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         addEngagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,14 +92,15 @@ public class CreateProjectView extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 presenter.checkTextField(engagement,engagementList);
+                id = p.size();
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
-                presenter.addProject(db,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
+                presenter.addProject(db,ref,id,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
                                 Integer.parseInt(startdated.getText().toString())),
                         new Date(Integer.parseInt(duedatey.getText().toString()),Integer.parseInt(duedatem.getText().toString()),
                                 Integer.parseInt(duedated.getText().toString())),
                                 engagementList,tagLine.getText().toString(),accountName.getText().toString(),Float.valueOf(projectCost.getText().toString()));
-                Toast.makeText(CreateProjectView.this, "kollo zal fol !!", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

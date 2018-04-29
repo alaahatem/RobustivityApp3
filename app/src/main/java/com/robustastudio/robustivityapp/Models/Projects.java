@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Entity (tableName = "Projects")
 public class Projects {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name="project_id")
     public int projectid;
     @ColumnInfo(name="project_name")
@@ -40,7 +40,8 @@ public class Projects {
     @ColumnInfo(name="project_cost")
     public float project_cost;
 
-    public Projects(@NonNull String name, String type, List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost) {
+    public Projects(int id,@NonNull String name, String type, List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost) {
+        this.projectid=id;
         this.name = name;
         this.type = type;
         this.engagement = engagement;
@@ -50,8 +51,18 @@ public class Projects {
         this.accountName = accountName;
         this.project_cost = project_cost;
     }
+    public Projects(){}
+
+    public int getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(int projectid) {
+        this.projectid = projectid;
+    }
 
     @NonNull
+
     public String getName() {
         return name;
     }

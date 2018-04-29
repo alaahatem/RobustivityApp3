@@ -8,38 +8,52 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <EditText
-            android:id="@+id/projectName"
+            android:id="@+id/editTaskName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView28"
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Type:"
+            android:text="Description:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <EditText
-            android:id="@+id/projectType"
+            android:id="@+id/editTaskDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Engagement"
+            android:text="Assignee:"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <EditText
+            android:id="@+id/editTaskAssignee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Members:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
@@ -48,7 +62,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/projectEngagement"
+                android:id="@+id/editTaskMembers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -56,20 +70,34 @@
                 android:inputType="textPersonName" />
 
             <Button
-                android:id="@+id/addEngagement"
+                android:id="@+id/addMembers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add Team" />
+                android:text="Add Member" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/engagementList"
-            android:layout_width="wrap_content"
+            android:id="@+id/editMemberList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/textView32"
+            android:id="@+id/textView48"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estimated Hours:"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
+        <EditText
+            android:id="@+id/editTaskEstimatedHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/textView50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Start Date:"
@@ -81,38 +109,38 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/startDay"
+                android:id="@+id/editStartDated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="DD"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/startMonth"
+                android:id="@+id/editStartDatem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="MM"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/startYear"
+                android:id="@+id/editStartDatey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="YYYY"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView34"
+            android:id="@+id/textView53"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Due Date:"
+            android:text="EndDate:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
@@ -121,80 +149,51 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/endDay"
+                android:id="@+id/editDueDated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="DD"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/endMonth"
+                android:id="@+id/editDueDatem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="MM"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/endYear"
+                android:id="@+id/editDueDatey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="YYYY"
-                android:inputType="number" />
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView36"
+            android:id="@+id/textView54"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tag Line:"
+            android:text="Project Name:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <EditText
-            android:id="@+id/projectTagLine"
+            android:id="@+id/editProjectName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/textView38"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Account Name:"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
-
-        <EditText
-            android:id="@+id/projectAccountName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/textView40"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Project Cost:"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
-
-        <EditText
-            android:id="@+id/projectCost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
 
         <Button
-            android:id="@+id/addProject"
+            android:id="@+id/editTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Done" />
-
+            android:text="Edit" />
     </LinearLayout>
 </ScrollView>

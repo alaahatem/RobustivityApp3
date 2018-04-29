@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp;
+package com.robustastudio.robustivityapp.EditTask;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.robustastudio.robustivityapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,18 @@ import java.util.List;
  */
 
 public class EditTaskAdapter extends RecyclerView.Adapter<EditTaskAdapter.ViewHolder> {
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
     List<String> members;
 
     public EditTaskAdapter(List<String> members) {
-        this.members = members;
+        this.members = new ArrayList<>(members);
     }
 
     @Override
@@ -34,11 +44,8 @@ public class EditTaskAdapter extends RecyclerView.Adapter<EditTaskAdapter.ViewHo
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                members=delete(members,position);
+                members.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,members.size());
-                notifyDataSetChanged();
-
             }
         });
     }
@@ -48,13 +55,7 @@ public class EditTaskAdapter extends RecyclerView.Adapter<EditTaskAdapter.ViewHo
 
         return members.size();
     }
-    public static List<String> delete(List<String>list,int pos){
-        List<String>temp=new ArrayList<>();
-        for(int i=0;i<list.size();i++)
-            if(i!=pos)
-                temp.add(list.get(i));
-        return temp;
-    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView item;
         Button delete;
