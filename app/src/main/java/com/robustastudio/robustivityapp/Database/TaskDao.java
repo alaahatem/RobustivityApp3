@@ -17,14 +17,22 @@ import java.util.List;
 public interface TaskDao {
     @Insert
     void addTask(Tasks task);
+
+
+    @Query("SELECT task_name FROM Tasks WHERE task_project_name = :name")
+    List<String> viewTasks(String name);
+
     @Query("SELECT task_name FROM Tasks")
     List<String> viewTasks();
     @Query("SELECT id FROM Tasks WHERE task_project_name=:name AND task_name=:tname")
     int viewTask(String name, String tname);
+
     @Query("SELECT * FROM Tasks WHERE id=:id")
     Tasks getUser(int id);
     @Delete
     void deleteTask(Tasks task);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void updateTask(Tasks task);
+    @Query("SELECT *FROM Tasks")
+    List<Tasks> getAllTasks();
 }

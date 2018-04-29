@@ -19,8 +19,10 @@ import java.util.List;
 
 public class ViewTasksAdapter extends RecyclerView.Adapter<ViewTasksAdapter.ViewHolder> {
     List<String> names;
-    public ViewTasksAdapter(List<String> names) {
+    String project;
+    public ViewTasksAdapter(List<String> names,String project) {
         this.names = names;
+        this.project=project;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class ViewTasksAdapter extends RecyclerView.Adapter<ViewTasksAdapter.View
             public void onClick(View v) {
                 Intent intent=new Intent(v.getContext(),ViewTaskView.class);
                 intent.putExtra("taskName", names.get(position));
-                intent.putExtra("projectName","hamada");
+                intent.putExtra("projectName",project);
                 v.getContext().startActivity(intent);
             }
         });

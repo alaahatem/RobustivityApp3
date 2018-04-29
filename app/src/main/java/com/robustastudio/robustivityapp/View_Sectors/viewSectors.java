@@ -27,7 +27,7 @@ import java.util.List;
  * Created by MALAK SHAKER on 3/29/2018.
  */
 
-public class viewSectors extends AppCompatActivity implements All_sectors_View,Add_sector_dialog.sectorDialog{
+public class  viewSectors extends AppCompatActivity implements All_sectors_View,Add_sector_dialog.sectorDialog{
 
 
     Button AddSector ;

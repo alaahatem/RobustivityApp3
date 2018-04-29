@@ -67,6 +67,7 @@ public class SectorsAdapter extends RecyclerView.Adapter<SectorsAdapter.ViewHold
             public void onClick(View view) {
                 Intent i = new Intent(ctx, AccountActivity.class);
                 i.putExtra("sectorName",sectors.get(position));
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ctx.startActivity(i);
 
             }
@@ -91,14 +92,7 @@ public class SectorsAdapter extends RecyclerView.Adapter<SectorsAdapter.ViewHold
             sectorName = (TextView) viewItem.findViewById(R.id.sectorName);
             Card =(CardView) viewItem.findViewById(R.id.cardID2);
         }
-        // public void onClick(View nv){
-        //    int position = getAdapterPosition();
-        //    String pname = this.names.get(position);
-        //   Intent i = new Intent(ctx, Activity_Project.class);
-        //   i.putExtra("projectName",pname);
-        //   this.ctx.startActivity(i);
 
-        //}
 
     }
 

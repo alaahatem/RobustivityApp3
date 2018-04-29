@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp.View_Sectors;
 
 import android.database.sqlite.SQLiteConstraintException;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,11 +34,24 @@ public class View_sectors_Presenter {
     public void name_isValid(AppDatabase db, String name, List<String> sectors,DatabaseReference reference){
         List<String> names = db.userDao().sector_exists(name);
         List<String> show;
+        List<Sectors> list = db.userDao().sectors_list();
+        int id=0;
+
 
         if(names.isEmpty()){
-       // if(!sectors.contains(name)){
-                 Sectors s = new Sectors(name);
+
+           /* for (int i=0;i<list.size();i++){
+                if(list.get(i).id >id ){
+                    id =list.get(i).id;
+                }
+            }
+            id = id+1;*/
+
+                 Sectors s = new Sectors(name,0);
+                 //s.setId(id);
+
                  db.userDao().insertSector(s);
+
                  try {
                      reference.child(name).setValue(s);
                  }catch (SQLiteConstraintException x){

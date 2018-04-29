@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
@@ -29,6 +31,11 @@ public class CreateProjectView extends AppCompatActivity{
     List<String>engagementList=new ArrayList<>();
     RecyclerView recycle;
     CreateProjectPresenter presenter=new CreateProjectPresenter();
+    Date start;
+    Date end;
+
+    DatabaseReference reference ;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_project_mvp);
@@ -59,18 +66,27 @@ public class CreateProjectView extends AppCompatActivity{
                 engagement.setText("");
             }
         });
+
+        reference = FirebaseDatabase.getInstance().getReference().child("Projects");
+
+
+
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.checkTextField(engagement,engagementList);
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
-                presenter.addProject(db,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
+                presenter.addProject(db,reference,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
                                 Integer.parseInt(startdated.getText().toString())),
                         new Date(Integer.parseInt(duedatey.getText().toString()),Integer.parseInt(duedatem.getText().toString()),
                                 Integer.parseInt(duedated.getText().toString())),
                                 engagementList,tagLine.getText().toString(),accountName.getText().toString(),Float.valueOf(projectCost.getText().toString()),Float.valueOf(contractedCost.getText().toString()),Float.valueOf(plannedCost.getText().toString()));
                 Toast.makeText(CreateProjectView.this, "kollo zal fol !!", Toast.LENGTH_SHORT).show();
+
+
+
+
 
                 Intent intent = new Intent(CreateProjectView.this, Activity_View_Projects.class);
                 startActivity(intent);

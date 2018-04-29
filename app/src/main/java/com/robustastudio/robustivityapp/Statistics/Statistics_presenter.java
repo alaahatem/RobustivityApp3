@@ -78,7 +78,7 @@ public class Statistics_presenter {
         /////set stoppage
         Date date = project.getStartDate();
         //Date date = new Date(18,2,10);
-        Date today = new Date(18,3,10);
+        Date today = new Date();
 
         SimpleDateFormat format = new SimpleDateFormat(
                 "EEE, MM d, yyyy");
@@ -132,7 +132,10 @@ public class Statistics_presenter {
         format.format(end);
         int total_project_days=  (int)( (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 
+
+
         int expected = total_days/total_project_days;
+
         float expected_float=(float) expected;
         val =String.format(".2f",expected_float);
         //float expect = Float.parseFloat(val);
@@ -151,9 +154,27 @@ public class Statistics_presenter {
         try {
             File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Mypdf/");
             file.mkdir();
-            File file1 = new File(file, "Statistics1.pdf");
+            File file1 = new File(file, "trial1.pdf");
             FileOutputStream output = new FileOutputStream(file1, false);
             mview.createimage(output);
+        }catch (FileNotFoundException x){
+            mview.fileNotFound();
+        }catch (ClassCastException ex){
+            mview.castclass();
+
+        }
+
+
+    }
+
+    public void createSheet(){
+
+        try {
+            File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Excel/");
+            file.mkdir();
+            File file1 = new File(file, "MyStatistics.xls");
+            FileOutputStream output = new FileOutputStream(file1, false);
+            mview.createExcel(output);
         }catch (FileNotFoundException x){
             mview.fileNotFound();
         }catch (ClassCastException ex){

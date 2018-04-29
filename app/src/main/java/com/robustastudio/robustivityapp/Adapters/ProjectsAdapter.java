@@ -65,6 +65,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
             @Override
             public void onClick(View view) {
                    Intent i = new Intent(ctx, Activity_Project.class);
+                   i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                    i.putExtra("projectName",projects.get(position));
                    ctx.startActivity(i);
 

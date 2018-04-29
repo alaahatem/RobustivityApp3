@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountActivity extends AppCompatActivity {
-Button create_account;
+    Button create_account;
     RecyclerView recyclerView;
     List<Accounts> accounts;
     List<Accounts> filteredaccounts;
@@ -48,11 +48,11 @@ Button create_account;
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if(filteredaccounts!=null)
-        for (int i = 0; i <accounts.size() ; i++) {
-            if(accounts.get(i).getSector().equals(sector_name)){
-                filteredaccounts.add(accounts.get(i));
+            for (int i = 0; i <accounts.size() ; i++) {
+                if(accounts.get(i).getSector().equals(sector_name)){
+                    filteredaccounts.add(accounts.get(i));
+                }
             }
-        }
         adapter = new AccountAdapter(filteredaccounts);
         recyclerView.setAdapter(adapter);
     }

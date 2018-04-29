@@ -28,7 +28,7 @@ import java.util.List;
 public class Activity_View_Projects extends AppCompatActivity implements All_Projects_View {
     Button addproj ;
     public List<String> projects;
-    // String accountname ;
+     String accountname ;
     Projects proj ;
     public View_Projects_Presenter presenter;
 
@@ -48,15 +48,20 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
         mRecyclerView = findViewById(R.id.projectsList);
 
         addproj = findViewById(R.id.btnAddProject);
+        accountname="";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            accountname = extras.getString("name");
+        }
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
-        projects = db.userDao().getAllProjects();
+        projects = db.userDao().getAllProjects(accountname);
 
-        presenter.get_all_projects(db);
+        presenter.get_all_projects(db,accountname);
 
 
-        // Bundle extras = getIntent().getExtras();
-        //if (extras != null) {
-        //   accountname = extras.getString("accountName");
+
+
          List<String> m = new ArrayList<>();
          m.add("Design");
          m.add("Front End");

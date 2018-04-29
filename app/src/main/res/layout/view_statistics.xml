@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <LinearLayout
-            android:id="@+id/statistics"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/statistics1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
 
             <TextView
                 android:id="@+id/project_toggled_hours"
@@ -47,8 +48,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
+                custom:donut_finished_color="@color/colorAccent"
+                custom:donut_text_color="@color/colorAccent"
                 custom:layout_constraintBottom_toBottomOf="parent"
                 custom:layout_constraintEnd_toEndOf="parent"
                 custom:layout_constraintHorizontal_bias="0.167"
@@ -71,8 +72,8 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
+                custom:donut_finished_color="@color/colorAccent"
+                custom:donut_text_color="@color/colorAccent"
                 custom:layout_constraintBottom_toBottomOf="parent"
                 custom:layout_constraintEnd_toEndOf="parent"
                 custom:layout_constraintHorizontal_bias="0.75"
@@ -111,103 +112,127 @@
                 android:layout_marginTop="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
 
-            <TextView
-                android:id="@+id/project_cost_flow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Project Cost Flow "
-                android:textColor="@color/colorAccent" />
+    </LinearLayout>
 
-            <com.github.lzyzsd.circleprogress.DonutProgress
-                android:id="@+id/cost_flow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
-                custom:layout_constraintBottom_toBottomOf="parent"
-                custom:layout_constraintEnd_toEndOf="parent"
-                custom:layout_constraintHorizontal_bias="0.75"
-                custom:layout_constraintStart_toStartOf="parent"
-                custom:layout_constraintTop_toTopOf="parent"
-                custom:layout_constraintVertical_bias="0.075" />
+            <LinearLayout
+                android:id="@+id/statistics2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <TextView
-                android:id="@+id/project_profitability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Project Profitability "
-                android:textColor="@color/colorAccent" />
+                <TextView
+                    android:id="@+id/project_cost_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project Cost Flow "
+                    android:textColor="@color/colorAccent"
+                    android:visibility="visible" />
 
-            <com.github.lzyzsd.circleprogress.DonutProgress
-                android:id="@+id/profitability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
-                custom:layout_constraintBottom_toBottomOf="parent"
-                custom:layout_constraintEnd_toEndOf="parent"
-                custom:layout_constraintHorizontal_bias="0.75"
-                custom:layout_constraintStart_toStartOf="parent"
-                custom:layout_constraintTop_toTopOf="parent"
-                custom:layout_constraintVertical_bias="0.075" />
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/cost_flow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    custom:donut_finished_color="@color/colorAccent"
+                    custom:donut_text_color="@color/colorAccent"
+                    custom:layout_constraintBottom_toBottomOf="parent"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintHorizontal_bias="0.75"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_bias="0.075" />
 
+                <TextView
+                    android:id="@+id/project_profitability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project Profitability "
+                    android:textColor="@color/colorAccent"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/project_expect_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Project Expected Progress "
-                android:textColor="@color/colorAccent" />
-
-            <com.github.lzyzsd.circleprogress.DonutProgress
-                android:id="@+id/expected_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
-                custom:layout_constraintBottom_toBottomOf="parent"
-                custom:layout_constraintEnd_toEndOf="parent"
-                custom:layout_constraintHorizontal_bias="0.75"
-                custom:layout_constraintStart_toStartOf="parent"
-                custom:layout_constraintTop_toTopOf="parent"
-                custom:layout_constraintVertical_bias="0.075" />
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/profitability"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    custom:donut_finished_color="@color/colorAccent"
+                    custom:donut_text_color="@color/colorAccent"
+                    custom:layout_constraintBottom_toBottomOf="parent"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintHorizontal_bias="0.75"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_bias="0.075" />
 
 
-            <TextView
-                android:id="@+id/project_velocity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Project Velocity "
-                android:textColor="@color/colorAccent" />
+                <TextView
+                    android:id="@+id/project_expect_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project Expected Progress "
+                    android:textColor="@color/colorAccent"
+                    android:visibility="visible" />
 
-            <com.github.lzyzsd.circleprogress.DonutProgress
-                android:id="@+id/velocity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                custom:donut_finished_color="@color/colorPrimaryDark"
-                custom:donut_text_color="@color/colorPrimaryDark"
-                custom:layout_constraintBottom_toBottomOf="parent"
-                custom:layout_constraintEnd_toEndOf="parent"
-                custom:layout_constraintHorizontal_bias="0.75"
-                custom:layout_constraintStart_toStartOf="parent"
-                custom:layout_constraintTop_toTopOf="parent"
-                custom:layout_constraintVertical_bias="0.075" />
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/expected_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    custom:donut_finished_color="@color/colorAccent"
+                    custom:donut_text_color="@color/colorAccent"
+                    custom:layout_constraintBottom_toBottomOf="parent"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintHorizontal_bias="0.75"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_bias="0.075" />
+
+
+               <!-- <TextView
+                    android:id="@+id/project_velocity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Project Velocity "
+                    android:textColor="@color/colorAccent"
+                    android:visibility="visible" />
+
+                <com.github.lzyzsd.circleprogress.DonutProgress
+                    android:id="@+id/velocity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:visibility="visible"
+                    custom:donut_finished_color="@color/colorPrimaryDark"
+                    custom:donut_text_color="@color/colorPrimaryDark"
+                    custom:layout_constraintBottom_toBottomOf="parent"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintHorizontal_bias="0.75"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_bias="0.075" />-->
+
+            </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal">
 
             <Button
                 android:id="@+id/export"
@@ -226,8 +251,28 @@
                 custom:layout_constraintTop_toTopOf="parent"
                 custom:layout_constraintVertical_bias="0.898" />
 
+               <Button
+                   android:id="@+id/export_excel"
+                   android:layout_width="wrap_content"
+                   android:layout_height="52dp"
+                   android:layout_marginBottom="8dp"
+                   android:layout_marginEnd="8dp"
+                   android:layout_marginStart="8dp"
+                   android:layout_marginTop="8dp"
+                   android:text="Export Excel sheet"
+                   android:textColor="@color/colorPrimaryDark"
+                   custom:layout_constraintBottom_toBottomOf="parent"
+                   custom:layout_constraintEnd_toEndOf="parent"
+                   custom:layout_constraintHorizontal_bias="0.916"
+                   custom:layout_constraintStart_toStartOf="parent"
+                   custom:layout_constraintTop_toTopOf="parent"
+                   custom:layout_constraintVertical_bias="0.898" />
+
+           </LinearLayout>
+
+
+
         </LinearLayout>
     </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>

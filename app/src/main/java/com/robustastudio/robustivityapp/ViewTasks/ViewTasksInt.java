@@ -9,5 +9,5 @@ import java.util.List;
  */
 
 public interface ViewTasksInt {
-    List<String> viewTasks(AppDatabase db);
+    List<String> viewTasks(AppDatabase db,String name);
 }

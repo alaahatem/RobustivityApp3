@@ -17,9 +17,10 @@ public class View_Projects_Presenter  {
         this.mview=mview;
     }
 
-    public void get_all_projects(AppDatabase db){
+    public void get_all_projects(AppDatabase db,String name){
         //final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
-        projects  = db.userDao().getAllProjects();
+        projects  = db.userDao().getAllProjects(name);
+
 
         if(projects.isEmpty()){
 

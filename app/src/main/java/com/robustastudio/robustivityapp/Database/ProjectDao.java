@@ -11,5 +11,5 @@ import com.robustastudio.robustivityapp.Models.Projects;
 @Dao
 public interface ProjectDao {
     @Insert
-    public void addProject(Projects project);
+    void addProject(Projects...project);
 }

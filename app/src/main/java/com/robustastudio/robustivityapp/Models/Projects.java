@@ -23,20 +23,25 @@ import java.util.jar.Attributes;
 public class Projects {
 
 
-    public Projects(@NonNull String name) {
+    /*public Projects(@NonNull String name) {
         this.name = name;
-    }
+    }*/
     @PrimaryKey(autoGenerate = true)
+    @NonNull
     public int projectid;
 
+    public Projects ()
+    {
+
+    }
     public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
 
         this.name = name;
         this.type = type;
         this.engagement=engagement;
-        StartDate = startDate;
+        this.startDate = startDate;
         this.endDate = endDate;
-        Tagline = tagline;
+        this.tagline = tagline;
         this.accountName = accountName;
         this.project_cost = project_cost;
         this.contracted_cost=contracted_cost;
@@ -55,13 +60,30 @@ public class Projects {
     @TypeConverters({Converter.class})
     public List<String> engagement;
 
+    @ColumnInfo(name = "project_tagline")
+    public String tagline;
+
+    @ColumnInfo(name = "project_accountName")
+    public String accountName ;
+
+    @ColumnInfo(name = "project_Cost")
+    public float project_cost;
+
+    @ColumnInfo(name = "project_contracted_cost")
+    public float contracted_cost;
+
+    @ColumnInfo(name = "project_planned_cost")
+    public float planned_cost;
+
+
     @ColumnInfo(name = "project_startDate")
     @TypeConverters({DateConverter.class})
-    public Date StartDate;
+    public Date startDate;
 
     @ColumnInfo(name = "project_endDate")
     @TypeConverters({DateConverter.class})
     public Date endDate;
+
 
     public float getContracted_cost() {
         return contracted_cost;
@@ -79,22 +101,7 @@ public class Projects {
         this.planned_cost = planned_cost;
     }
 
-    @ColumnInfo(name = "project_tagline")
-    public String Tagline;
 
-
-
-    @ColumnInfo(name = "project_accountName")
-    public String accountName ;
-
-    @ColumnInfo(name = "project_Cost")
-    public float project_cost;
-
-    @ColumnInfo(name = "project_contracted_cost")
-    public float contracted_cost;
-
-    @ColumnInfo(name = "project_planned_cost")
-    public float planned_cost;
 
 
     @NonNull
@@ -111,7 +118,7 @@ public class Projects {
     }
 
     public Date getStartDate() {
-        return StartDate;
+        return startDate;
     }
 
     public Date getEndDate() {
@@ -119,7 +126,7 @@ public class Projects {
     }
 
     public String getTagline() {
-        return Tagline;
+        return tagline;
     }
 
 
@@ -144,15 +151,15 @@ public class Projects {
     }
 
     public void setStartDate(Date startDate) {
-        StartDate = startDate;
+        this.startDate = startDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndDate(Date end) {
+        this.endDate = end;
     }
 
     public void setTagline(String tagline) {
-        Tagline = tagline;
+        this.tagline = tagline;
     }
 
 

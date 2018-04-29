@@ -13,9 +13,9 @@ public class ViewTasksPresenter implements ViewTasksInt {
     public ViewTasksPresenter() {
     }
     @Override
-    public List<String> viewTasks(AppDatabase db) {
+    public List<String> viewTasks(AppDatabase db,String name) {
         List<String>temp=new ArrayList<>();
-        temp=db.taskDao().viewTasks();
+        temp=db.taskDao().viewTasks(name);
         return temp;
     }
 }

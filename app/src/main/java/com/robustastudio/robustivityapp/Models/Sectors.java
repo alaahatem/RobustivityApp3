@@ -33,9 +33,11 @@ public class Sectors {
 
 
 
-    public Sectors(String name) {
+    public Sectors(String name,int id) {
 
         this.name = name;
+        this.id=id;
 
     }
+    public Sectors(){}
 }

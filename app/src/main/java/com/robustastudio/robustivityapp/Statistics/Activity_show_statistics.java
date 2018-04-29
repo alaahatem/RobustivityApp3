@@ -21,6 +21,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,16 +37,19 @@ import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.Models.Tasks;
 import com.robustastudio.robustivityapp.R;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.SplittableRandom;
 
 
 /**
@@ -73,7 +77,8 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
     private List<Float> finishedHours;
     private List<Float> estimatedHours;
     String value;
-    private Button export;
+    private Button export_pdf;
+    private Button export_excel;
     private int STORAGE_CODE =1;
     private int STORAGE_CODE_READ =2;
     public List<String> users;
@@ -98,8 +103,9 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
         cost_flow =findViewById(R.id.cost_flow);
         profitability =findViewById(R.id.profitability);
         expected_progress=findViewById(R.id.expected_progress);
-        velocity =findViewById(R.id.velocity);
-        export = findViewById(R.id.export);
+        //velocity =findViewById(R.id.velocity);
+        export_pdf = findViewById(R.id.export);
+        export_excel = findViewById(R.id.export_excel);
         String val;
         float totalprogress=0.0f;
 
@@ -156,7 +162,7 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
         final PrintAttributes x = new PrintAttributes.Builder().build();
 
-        export.setOnClickListener(new View.OnClickListener() {
+        export_pdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -165,6 +171,59 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
             }
         });
+
+        export_excel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mpresenter.createSheet();
+                Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
+
+    public void createExcel(FileOutputStream output){
+
+        Workbook wb = new HSSFWorkbook();
+
+        Cell c = null;
+
+        //Cell style for header row
+        CellStyle cs = wb.createCellStyle();
+        cs.setFillForegroundColor(HSSFColor.LIME.index);
+        cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+        //New Sheet
+        Sheet sheet1 = null;
+        sheet1 = wb.createSheet("myOrder");
+
+        // Generate column headings
+        Row row = sheet1.createRow(0);
+
+        c = row.createCell(0);
+        c.setCellValue("Item Number");
+        c.setCellStyle(cs);
+
+        c = row.createCell(1);
+        c.setCellValue("Quantity");
+        c.setCellStyle(cs);
+
+        c = row.createCell(2);
+        c.setCellValue("Price");
+        c.setCellStyle(cs);
+
+        sheet1.setColumnWidth(0, (15 * 500));
+        sheet1.setColumnWidth(1, (15 * 500));
+        sheet1.setColumnWidth(2, (15 * 500));
+
+        try{
+            wb.write(output);
+            Toast.makeText(getApplicationContext(),"Excel created",Toast.LENGTH_LONG).show();
+        }catch (IOException x){
+            Toast.makeText(getApplicationContext(),x.getMessage(),Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -251,7 +310,7 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
     public Bitmap get_Bitmap(Context context,View view){
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        view.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        view.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
         view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
@@ -273,12 +332,14 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
     public void createimage(FileOutputStream output){
 
-        Bitmap x = get_Bitmap(Activity_show_statistics.this,findViewById(R.id.statistics));
+        Bitmap x = get_Bitmap(Activity_show_statistics.this,findViewById(R.id.statistics1));
+        Bitmap y = get_Bitmap(Activity_show_statistics.this,findViewById(R.id.statistics2));
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(x.getWidth(), x.getHeight(), 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
+        PdfDocument.PageInfo pageInfo2 = new PdfDocument.PageInfo.Builder(y.getWidth(), y.getHeight(), 2).create();
 
+        PdfDocument.Page page = document.startPage(pageInfo);
         Canvas canvas = page.getCanvas();
 
         Paint paint = new Paint();
@@ -288,6 +349,17 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
         paint.setColor(Color.BLUE);
         canvas.drawBitmap(x, 0, 0 , null);
         document.finishPage(page);
+
+        PdfDocument.Page page2 = document.startPage(pageInfo);
+        Canvas canvas1 = page2.getCanvas();
+
+        Paint paint1 = new Paint();
+        paint1.setColor(Color.parseColor("#ffffff"));
+        canvas1.drawPaint(paint1);
+
+        paint1.setColor(Color.BLUE);
+        canvas1.drawBitmap(y, 0, 0 , null);
+        document.finishPage(page2);
 
         try{
             document.writeTo(output);

@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp.Database;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -33,17 +34,23 @@ public interface UserDao {
     List<String> getAllProjects(String Account);
     @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone ,user_status=:status WHERE user_email = :email")
     void updateProfile(String name,String email,String phone,String status);
-    @Query("UPDATE Accounts SET account_email=:email ,account_phone=:phone ,account_address=:address ,account_sector=:sector   WHERE account_name = :name")
-    void updateAccount(String name,String email,String phone,String address ,String sector);
+    @Query("UPDATE Accounts SET account_name =:name,account_email=:email ,account_phone=:phone ,account_address=:address ,account_sector=:sector   WHERE account_id= :id")
+    void updateAccount(String name,String email,String phone,String address ,String sector,int id);
+
     @Insert
     void insertAllProjects(Projects...projects);
 
     @Query("SELECT project_name FROM Projects")
     List<String> getAllProjects();
 
+    @Query("SELECT * FROM Projects")
+    List<Projects> query_all_projects();
+
 
     @Insert
-    void insertSector(Sectors s);
+    void insertSector(Sectors...s);
+
+
 
     @Query("SELECT name FROM Sectors WHERE name = :name")
     List<String> sector_exists(String name);
@@ -54,29 +61,6 @@ public interface UserDao {
     @Query("SELECT * FROM Projects WHERE project_name = :projectName")
     Projects getProjectDetails(String projectName);
 
-
-
-    @Query("SELECT project_name FROM Projects WHERE project_name = :projectName")
-    String getProjectDetails1(String projectName);
-
-    @Query("SELECT project_type FROM Projects WHERE project_name = :projectName")
-    String getProjectDetails2(String projectName);
-
-    @Query("SELECT project_startDate FROM Projects WHERE project_name = :projectName")
-    Date getProjectDetails3(String projectName);
-
-    @Query("SELECT project_endDate FROM Projects WHERE project_name = :projectName")
-    Date getProjectDetails4(String projectName);
-
-    @Query("SELECT project_tagline FROM Projects WHERE project_name = :projectName")
-    String getProjectDetails5(String projectName);
-
-
-    @Query("SELECT project_accountName FROM Projects WHERE project_name = :projectName")
-    String getProjectDetails7(String projectName);
-
-    @Query("SELECT project_Cost FROM Projects WHERE project_name = :projectName")
-    Double getProjectDetails8(String projectName);
 
     @Query("SELECT task_finished_hours FROM Tasks WHERE task_project_name = :project_name")
     List<Float> get_task_finishedHours(String project_name);
@@ -92,6 +76,9 @@ public interface UserDao {
 
     @Query("SELECT * FROM Projects WHERE project_name =:name")
     Projects get_the_project(String name);
+
+    @Query("SELECT * FROM Sectors")
+    List<Sectors> sectors_list();
 
 
 

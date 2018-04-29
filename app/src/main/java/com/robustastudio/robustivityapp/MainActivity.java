@@ -14,8 +14,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -30,7 +32,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
-import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     static boolean checked;
     List<String> mails = new ArrayList<>();
     private DatabaseReference mDatabase;
-    private DatabaseReference reference;
+    private DatabaseReference ref_sectors;
+    private DatabaseReference ref_projects;
     List<UserProfile> userprofiles;
     public List<String> sector_names;
     public List<String> available;
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         checked =false;
         sector_names = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        reference = mDatabase.child("Sectors");
+        ref_sectors = mDatabase.child("Sectors");
 
 
 
@@ -195,8 +197,10 @@ public class MainActivity extends AppCompatActivity {
 
         user=mAuth.getCurrentUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(webClientId)
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestEmail()
+                .requestIdToken(webClientId)
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         SignInButton signInButton = findViewById(R.id.sign_in_button);
@@ -262,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 //            CheckNewUser();
 //        } catch (ApiException e) {
 //            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+//            // Please refer to the GoogleSignInStatusCodes class ref_sectors for more information.
 //           Toast.makeText(this,"Something went wrong",Toast.LENGTH_LONG).show();
 //        }
 //    }

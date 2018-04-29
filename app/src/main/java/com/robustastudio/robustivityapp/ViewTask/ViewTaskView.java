@@ -27,6 +27,8 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
     TextView viewID,viewName,viewDesciption, viewAssignee, viewEstimatedHours, viewStartDate, viewDueDate, viewFinishedHours, viewProjectName;
     Button delete,edit;
     ViewTaskPresenter presenter;
+    String projectName;
+    String taskName;
 
     public ViewTaskView() {
     }
@@ -36,6 +38,16 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         super.onCreate(savedInstanceState);
         presenter = new ViewTaskPresenter(this);
         setContentView(R.layout.view_task);
+        projectName="";
+        taskName="";
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            projectName = extras.getString("projectName");
+            taskName = extras.getString("taskName");
+        }
+
         recycle=findViewById(R.id.viewMembers);
         recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         viewID=findViewById(R.id.viewID);
@@ -51,9 +63,13 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         delete=findViewById(R.id.delete);
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build();
-        Intent intent=getIntent();
-        String temp=intent.getStringExtra("taskName");
-        presenter.viewTask(db,temp);
+
+
+
+       // Intent intent=getIntent();
+        //String temp=intent.getStringExtra("taskName");
+
+        presenter.viewTask(db,taskName,projectName);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,6 +15,7 @@ import com.robustastudio.robustivityapp.Adapters.EngagementListAdapter;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.Statistics.Activity_show_statistics;
+import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,9 +33,12 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
     public TextView Tagline;
     public TextView accountName ;
     public TextView cost;
+    public TextView plannedCost;
+    public TextView contractedCost;
     private List<String> list;
 
     private Button statistics ;
+    private Button tasks ;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -55,7 +59,10 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
         Tagline = findViewById(R.id.tagline);
         accountName = findViewById(R.id.account);
         cost = findViewById(R.id.cost);
+        contractedCost = findViewById(R.id.contracted_cost);
+        plannedCost = findViewById(R.id.planned_cost);
         statistics =findViewById(R.id.statistics);
+        tasks =findViewById(R.id.tasks_btn);
 
 
         Bundle extras = getIntent().getExtras();
@@ -88,6 +95,16 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
            }
         });
 
+        tasks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), ViewTasksView.class);
+                //Projects p = mpresenter.get_project();
+                i.putExtra("projectName",projectName);
+                startActivity(i);
+            }
+        });
+
 
 }
 
@@ -104,6 +121,8 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
         Tagline.setText(p.getTagline());
         accountName.setText(p.getAccountName());
         cost.setText(""+p.getProject_cost());
+        contractedCost.setText(""+p.getContracted_cost());
+        plannedCost.setText(""+p.getPlanned_cost());
 
 
         mRecyclerView.setHasFixedSize(true);

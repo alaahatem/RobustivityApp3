@@ -7,6 +7,6 @@ import com.robustastudio.robustivityapp.Database.AppDatabase;
  */
 
 public interface ViewTaskPresenterInt {
-    void viewTask(AppDatabase db, String temp);
+    void viewTask(AppDatabase db, String temp,String project);
     void delete(int id, AppDatabase db);
 }
