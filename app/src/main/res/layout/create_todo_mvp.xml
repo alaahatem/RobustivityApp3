@@ -58,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:hint="HH"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/textView44"
@@ -75,7 +76,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:hint="MM"
+                android:inputType="number" />
         </LinearLayout>
 
         <TextView
@@ -96,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:hint="DD"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/todoDatem"
@@ -104,7 +107,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:hint="MM"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/todoDatey"
@@ -112,7 +116,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:hint="YYYY"
+                android:inputType="number" />
         </LinearLayout>
 
         <TextView
@@ -133,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/textView47"

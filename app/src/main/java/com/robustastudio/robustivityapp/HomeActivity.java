@@ -180,7 +180,7 @@ boolean stored;
 
                     if(!projects.contains(d.getKey())){
                         Projects pnew = d.getValue(Projects.class);
-                        Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
                         db.projectDao().addProject(pnew);
                        // Toast.makeText(getApplicationContext(),pnew.projectid,Toast.LENGTH_LONG).show();
                         // mpresenter.update_sectors(db,s1);

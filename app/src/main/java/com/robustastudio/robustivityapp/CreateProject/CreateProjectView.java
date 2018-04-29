@@ -9,13 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.R;
-import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,17 +27,17 @@ import java.util.List;
  * Created by sa2r_ on 4/14/2018.
  */
 
-public class CreateProjectView extends AppCompatActivity{
-    EditText name, type, engagement, startdated,startdatem,startdatey,duedated,duedatem,duedatey,tagLine, accountName, projectCost,contractedCost,plannedCost;
+public class CreateProjectView extends AppCompatActivity {
+    EditText name,plannedCost, contractedCost, type, engagement, startdated,startdatem,startdatey,duedated,duedatem,duedatey,tagLine, accountName, projectCost;
     Button addEngagement,done;
     List<String>engagementList=new ArrayList<>();
     RecyclerView recycle;
-    CreateProjectPresenter presenter=new CreateProjectPresenter();
-    Date start;
-    Date end;
+    CreateProjectPresenter presenter=new CreateProjectPresenter(this);
 
-    DatabaseReference reference ;
-
+    List<Projects> p;
+    DatabaseReference firebase;
+    DatabaseReference ref;
+    public int id;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_project_mvp);
@@ -51,13 +53,33 @@ public class CreateProjectView extends AppCompatActivity{
         tagLine=findViewById(R.id.projectTagLine);
         accountName=findViewById(R.id.projectAccountName);
         projectCost=findViewById(R.id.projectCost);
-        contractedCost=findViewById(R.id.contractedCost);
-        plannedCost=findViewById(R.id.plannedCost);
         recycle=findViewById(R.id.engagementList);
+        plannedCost=findViewById(R.id.plannedCost);
+        contractedCost=findViewById(R.id.contractedCost);
         recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recycle.setAdapter(new ProjectAdapter(engagementList));
         addEngagement=findViewById(R.id.addEngagement);
         done=findViewById(R.id.addProject);
+        firebase = FirebaseDatabase.getInstance().getReference();
+        ref= firebase.child("Projects");
+        p= new ArrayList<>();
+        id=0;
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Projects t = postSnapshot.getValue(Projects.class);
+                    p.add(t);
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         addEngagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,30 +88,19 @@ public class CreateProjectView extends AppCompatActivity{
                 engagement.setText("");
             }
         });
-
-        reference = FirebaseDatabase.getInstance().getReference().child("Projects");
-
-
-
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.checkTextField(engagement,engagementList);
+                id = p.size();
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
-                presenter.addProject(db,reference,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
+                presenter.addProject(db,ref,id,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
                                 Integer.parseInt(startdated.getText().toString())),
                         new Date(Integer.parseInt(duedatey.getText().toString()),Integer.parseInt(duedatem.getText().toString()),
                                 Integer.parseInt(duedated.getText().toString())),
                                 engagementList,tagLine.getText().toString(),accountName.getText().toString(),Float.valueOf(projectCost.getText().toString()),Float.valueOf(contractedCost.getText().toString()),Float.valueOf(plannedCost.getText().toString()));
-                Toast.makeText(CreateProjectView.this, "kollo zal fol !!", Toast.LENGTH_SHORT).show();
 
-
-
-
-
-                Intent intent = new Intent(CreateProjectView.this, Activity_View_Projects.class);
-                startActivity(intent);
             }
         });
     }

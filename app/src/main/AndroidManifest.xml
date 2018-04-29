@@ -54,7 +54,10 @@
         <activity android:name=".ViewAccount" />
         <activity android:name=".CreateTodo.CreateTodoView" />
         <activity android:name=".CollectionDemoActivity" />
-        <activity android:name=".EditAccounts.EditAccountActivity"></activity>
+        <activity android:name=".EditAccounts.EditAccountActivity">
+
+        </activity>
+        <activity android:name=".EditTask.EditTaskView"/>
 
         <!-- <activity android:name=".EditTask"/> -->
 

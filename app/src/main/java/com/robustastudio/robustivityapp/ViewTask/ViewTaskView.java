@@ -11,10 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.robustastudio.robustivityapp.Database.AppDatabase;
-/*import com.robustastudio.robustivityapp.EditTask;*/
+import com.robustastudio.robustivityapp.EditTask.EditTaskView;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,14 +24,14 @@ import java.util.List;
  * Created by sa2r_ on 4/18/2018.
  */
 
-public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
+public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt {
     RecyclerView recycle;
     TextView viewID,viewName,viewDesciption, viewAssignee, viewEstimatedHours, viewStartDate, viewDueDate, viewFinishedHours, viewProjectName;
     Button delete,edit;
     ViewTaskPresenter presenter;
-    String projectName;
-    String taskName;
-
+    List<String>members=new ArrayList<>();
+    String temp2;
+    String temp;
     public ViewTaskView() {
     }
 
@@ -38,16 +40,8 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         super.onCreate(savedInstanceState);
         presenter = new ViewTaskPresenter(this);
         setContentView(R.layout.view_task);
-        projectName="";
-        taskName="";
-
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            projectName = extras.getString("projectName");
-            taskName = extras.getString("taskName");
-        }
-
+        temp="";
+        temp2="";
         recycle=findViewById(R.id.viewMembers);
         recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         viewID=findViewById(R.id.viewID);
@@ -64,12 +58,22 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build();
 
+        Bundle extras = getIntent().getExtras();
+        temp2="";
 
 
-       // Intent intent=getIntent();
-        //String temp=intent.getStringExtra("taskName");
+        if (extras != null) {
+            temp2 = extras.getString("projectName");
+            temp=extras.getString("taskName");
+        }
 
-        presenter.viewTask(db,taskName,projectName);
+        //Intent intent=getIntent();
+        //temp2=intent.getStringExtra("projectName");
+
+        System.out.println(temp2);
+        presenter.viewTask(db,temp,temp2);
+
+        recycle.setAdapter(new ViewTaskAdapter(members));
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,8 +85,9 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Intent intent1=new Intent(ViewTaskView.this,EditTask.class);
-                //startActivity(intent1);
+                Intent intent1=new Intent(ViewTaskView.this,EditTaskView.class);
+                intent1.putExtra("id",Integer.parseInt(viewID.getText().toString()));
+                startActivity(intent1);
             }
         });
 
@@ -96,9 +101,14 @@ public class ViewTaskView extends AppCompatActivity implements ViewTaskViewInt{
         viewDesciption.setText(description);
         viewAssignee.setText(assignee);
         viewEstimatedHours.setText(String.valueOf(estimated_hours));
-        viewStartDate.setText(String.valueOf(startDate));
-        viewDueDate.setText(String.valueOf(due_date));
+        startDate.setYear(startDate.getYear()-1900);
+        startDate.setMonth(startDate.getMonth()-1);
+        due_date.setYear(due_date.getYear()-1900);
+        due_date.setMonth(due_date.getMonth()-1);
+        viewStartDate.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(startDate)));
+        viewDueDate.setText(String.valueOf(new SimpleDateFormat("dd-MM-yyyy").format(due_date)));
         viewFinishedHours.setText(String.valueOf(finished_hours));
         viewProjectName.setText(projectname);
+        this.members=members;
     }
 }

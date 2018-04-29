@@ -67,7 +67,7 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
          m.add("Front End");
          m.add("Web development");
 
-         proj = new Projects("Gazef Mobile App", "WebApp",m, new Date(18,3,10), new Date(18,2,10), "Branding", "BTECH", 20.0f,30.0f,25.0f);
+         //proj = new Projects("Gazef Mobile App", "WebApp",m, new Date(18,3,10), new Date(18,2,10), "Branding", "BTECH", 20.0f,30.0f,25.0f);
 
 
         addproj.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,9 @@ package com.robustastudio.robustivityapp.CreateTodo;
 
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Todo;
 
@@ -14,7 +16,9 @@ import java.util.List;
  */
 
 public class CreateTodoPresenter implements CreateTodoPresenterInt {
-    public CreateTodoPresenter() {
+    CreateTodoView view;
+    public CreateTodoPresenter(CreateTodoView view) {
+        this.view=view;
     }
 
     @Override
@@ -24,8 +28,17 @@ public class CreateTodoPresenter implements CreateTodoPresenterInt {
     }
 
     @Override
-    public void addTodo(AppDatabase db, List<String> list, String startTime, Date date, double duration) {
+    public void addTodo(AppDatabase db, DatabaseReference firebase, List<String> list, String startTime, Date date, double duration) {
+        boolean flag=false;
         Todo todo=new Todo(list,startTime,date,duration);
-        db.todoDao().addTodo(todo);
+        if (date.before(new Date())){
+            Toast.makeText(view, "Date of todo cant before todays date", Toast.LENGTH_LONG).show();
+            flag=true;
+        }
+        if (!flag) {
+            db.todoDao().addTodo(todo);
+            firebase.child("Todos").push().setValue(todo);
+
+        }
     }
 }

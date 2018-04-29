@@ -31,6 +31,7 @@ public class ViewTaskAdapter extends RecyclerView.Adapter<ViewTaskAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.item.setText(members.get(position));
 
+
     }
 
     @Override

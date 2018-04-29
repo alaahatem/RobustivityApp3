@@ -1,7 +1,6 @@
 package com.robustastudio.robustivityapp.ViewTasks;
 
 import android.arch.persistence.room.Room;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,24 +19,26 @@ import java.util.List;
 public class ViewTasksView extends AppCompatActivity {
     List<String>tasks=new ArrayList<>();
     RecyclerView recycle;
-    String name;
+    String projectName;
     ViewTasksPresenter presenter=new ViewTasksPresenter();
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_all_tasks);
-        name="";
 
-         Bundle extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
+        projectName="";
+
+
         if (extras != null) {
-            name = extras.getString("projectName");
+            projectName = extras.getString("projectName");
         }
 
         recycle=findViewById(R.id.allTasks);
         recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                 .allowMainThreadQueries().build();
-        tasks=presenter.viewTasks(db,name);
-        recycle.setAdapter(new ViewTasksAdapter(tasks,name));
+        tasks=presenter.viewTasks(db,projectName);
+        recycle.setAdapter(new ViewTasksAdapter(tasks,projectName));
 
     }
 }

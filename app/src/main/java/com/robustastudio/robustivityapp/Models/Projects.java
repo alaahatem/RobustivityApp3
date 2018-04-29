@@ -22,11 +22,7 @@ import java.util.jar.Attributes;
 
 public class Projects {
 
-
-    /*public Projects(@NonNull String name) {
-        this.name = name;
-    }*/
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @NonNull
     public int projectid;
 
@@ -34,8 +30,8 @@ public class Projects {
     {
 
     }
-    public Projects( @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
-
+    public Projects(int id, @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
+        this.projectid=id;
         this.name = name;
         this.type = type;
         this.engagement=engagement;
@@ -172,7 +168,13 @@ public class Projects {
     }
 
 
+    public int getProjectid() {
+        return projectid;
+    }
 
+    public void setProjectid(int projectid) {
+        this.projectid = projectid;
+    }
 
 }
 
