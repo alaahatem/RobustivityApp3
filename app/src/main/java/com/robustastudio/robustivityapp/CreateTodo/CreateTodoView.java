@@ -1,6 +1,7 @@
 package com.robustastudio.robustivityapp.CreateTodo;
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.HomeActivity;
 import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.Shortcuts_fragment;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,6 +65,8 @@ public class CreateTodoView extends AppCompatActivity {
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
                 presenter.addTodo(db,firebase,members,startTimeH.getText().toString()+":"+startTimeM.getText().toString(),new Date(Integer.parseInt(todoDatey.getText().toString()),Integer.parseInt(todoDatem.getText().toString()),Integer.parseInt(todoDated.getText().toString())),Double.valueOf(todoDuration.getText().toString()));
                 Toast.makeText(CreateTodoView.this, "zay elfol", Toast.LENGTH_SHORT).show();
+               /* Intent i = new Intent(CreateTodoView.this, Shortcuts_fragment.class);
+                startActivity(i);*/
 
             }
         });

@@ -22,7 +22,7 @@
                 android:id="@+id/project_toggled_hours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Project Toggled Hours"
+                android:text="Project Toggled Hours:"
                 android:textColor="@color/colorAccent" />
 
             <TextView
@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/colorAccent"
                 android:layout_marginTop="10dp"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
 
@@ -37,7 +38,7 @@
                 android:id="@+id/project_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Project Progress"
+                android:text="Project Progress:"
                 android:textColor="@color/colorAccent" />
 
             <com.github.lzyzsd.circleprogress.DonutProgress
@@ -61,7 +62,7 @@
                 android:id="@+id/project_stoppage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Project Stoppage"
+                android:text="Project Stoppage:"
                 android:textColor="@color/colorAccent" />
 
             <com.github.lzyzsd.circleprogress.DonutProgress
@@ -80,6 +81,13 @@
                 custom:layout_constraintStart_toStartOf="parent"
                 custom:layout_constraintTop_toTopOf="parent"
                 custom:layout_constraintVertical_bias="0.075" />
+
+        <TextView
+            android:id="@+id/contributers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project Top Contributers:"
+            android:textColor="@color/colorAccent" />
 
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/bar_chart"
@@ -110,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/colorAccent"
                 android:textAppearance="@style/TextAppearance.AppCompat" />
 
     </LinearLayout>
@@ -125,7 +134,7 @@
                     android:id="@+id/project_cost_flow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Project Cost Flow "
+                    android:text="Project Cost Flow:"
                     android:textColor="@color/colorAccent"
                     android:visibility="visible" />
 
@@ -151,7 +160,7 @@
                     android:id="@+id/project_profitability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Project Profitability "
+                    android:text="Project Profitability: "
                     android:textColor="@color/colorAccent"
                     android:visibility="visible" />
 
@@ -178,7 +187,7 @@
                     android:id="@+id/project_expect_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Project Expected Progress "
+                    android:text="Project Expected Progress: "
                     android:textColor="@color/colorAccent"
                     android:visibility="visible" />
 
@@ -232,18 +241,23 @@
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:orientation="horizontal">
+               android:orientation="horizontal"
+               android:gravity="center">
 
             <Button
                 android:id="@+id/export"
                 android:layout_width="wrap_content"
-                android:layout_height="52dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Export as PDF"
-                android:textColor="@color/colorPrimaryDark"
+                android:background="@drawable/rounded_dark"
+                android:fontFamily="sans-serif-smallcaps"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="@color/cardview_light_background"
+                android:text="PDF"
                 custom:layout_constraintBottom_toBottomOf="parent"
                 custom:layout_constraintEnd_toEndOf="parent"
                 custom:layout_constraintHorizontal_bias="0.916"
@@ -254,13 +268,18 @@
                <Button
                    android:id="@+id/export_excel"
                    android:layout_width="wrap_content"
-                   android:layout_height="52dp"
+                   android:layout_height="40dp"
                    android:layout_marginBottom="8dp"
                    android:layout_marginEnd="8dp"
                    android:layout_marginStart="8dp"
                    android:layout_marginTop="8dp"
-                   android:text="Export Excel sheet"
-                   android:textColor="@color/colorPrimaryDark"
+                   android:background="@drawable/rounded_dark"
+                   android:fontFamily="sans-serif-smallcaps"
+                   android:paddingLeft="20dp"
+                   android:paddingRight="20dp"
+
+                   android:textColor="@color/cardview_light_background"
+                   android:text="Excel sheet"
                    custom:layout_constraintBottom_toBottomOf="parent"
                    custom:layout_constraintEnd_toEndOf="parent"
                    custom:layout_constraintHorizontal_bias="0.916"

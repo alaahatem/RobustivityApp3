@@ -166,6 +166,7 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_LONG).show();
                 mpresenter.createFile();
                 Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
 
@@ -297,10 +298,10 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
 
             if(requestcode== STORAGE_CODE_READ&&grant.length >0 && grant[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getApplicationContext(),"granted for read",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),"granted for read",Toast.LENGTH_LONG).show();
             }
             else {
-                Toast.makeText(getApplicationContext(),"Not granted for read",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(),"Not granted for read",Toast.LENGTH_LONG).show();
             }
 
     }

@@ -37,9 +37,11 @@
         <activity
             android:name=".Add_sector.Activity_add_sector"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".ViewProjects.Activity_View_Projects" />
+        <activity android:name=".ViewProjects.Activity_View_Projects"  />
         <activity android:name=".ViewSingleProject.Activity_Project" />
-        <activity android:name=".View_Sectors.viewSectors" />
+        <activity android:name=".View_Sectors.viewSectors"
+            android:label="Sectors"
+             />
         <activity android:name=".Statistics.Activity_show_statistics" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".ViewProfile.ViewProfileActivity" />
@@ -51,13 +53,10 @@
         <activity android:name=".ViewTask.ViewTaskView" />
         <activity android:name=".Accounts.AccountActivity" />
         <activity android:name=".CreateAccounts.CreateActivity" />
-        <activity android:name=".ViewAccount" />
+        <activity android:name=".ViewAccount" android:label="Accounts"/>
         <activity android:name=".CreateTodo.CreateTodoView" />
         <activity android:name=".CollectionDemoActivity" />
-        <activity android:name=".EditAccounts.EditAccountActivity">
-
-        </activity>
-        <activity android:name=".EditTask.EditTaskView"/>
+        <activity android:name=".EditAccounts.EditAccountActivity"></activity>
 
         <!-- <activity android:name=".EditTask"/> -->
 
@@ -76,6 +75,9 @@
             android:name=".Main_Trial"
             android:label="@string/title_activity_main__trial"
             android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

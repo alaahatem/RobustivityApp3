@@ -60,8 +60,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
-            android:text="Sectors"
+            android:fontFamily="sans-serif-smallcaps"
 
+            android:text="Sectors"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
@@ -105,8 +106,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
-            android:text="My Profile"
+            android:fontFamily="sans-serif-smallcaps"
 
+            android:text="My Profile"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
@@ -149,8 +151,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
-            android:text="Users"
+            android:fontFamily="sans-serif-smallcaps"
 
+            android:text="Users"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
@@ -193,8 +196,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
-            android:text="Task"
+            android:fontFamily="sans-serif-smallcaps"
 
+            android:text="Task"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
@@ -238,8 +242,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginTop="10dp"
-            android:text="Todo"
+            android:fontFamily="sans-serif-smallcaps"
 
+            android:text="Todo"
             android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 

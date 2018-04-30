@@ -16,8 +16,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.HomeActivity;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.R;
+import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +40,7 @@ public class CreateProjectView extends AppCompatActivity {
     DatabaseReference firebase;
     DatabaseReference ref;
     public int id;
+    String account;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_project_mvp);
@@ -64,6 +67,12 @@ public class CreateProjectView extends AppCompatActivity {
         ref= firebase.child("Projects");
         p= new ArrayList<>();
         id=0;
+        account="";
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            account = extras.getString("name");
+        }
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,6 +110,9 @@ public class CreateProjectView extends AppCompatActivity {
                                 Integer.parseInt(duedated.getText().toString())),
                                 engagementList,tagLine.getText().toString(),accountName.getText().toString(),Float.valueOf(projectCost.getText().toString()),Float.valueOf(contractedCost.getText().toString()),Float.valueOf(plannedCost.getText().toString()));
 
+                Intent intent = new Intent(CreateProjectView.this, HomeActivity.class);
+
+                startActivity(intent);
             }
         });
     }

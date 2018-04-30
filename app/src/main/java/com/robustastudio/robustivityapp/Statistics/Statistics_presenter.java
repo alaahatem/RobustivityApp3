@@ -154,7 +154,7 @@ public class Statistics_presenter {
         try {
             File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Mypdf/");
             file.mkdir();
-            File file1 = new File(file, "trial1.pdf");
+            File file1 = new File(file, "trial2.pdf");
             FileOutputStream output = new FileOutputStream(file1, false);
             mview.createimage(output);
         }catch (FileNotFoundException x){
@@ -172,7 +172,7 @@ public class Statistics_presenter {
         try {
             File file = new File(Environment.getExternalStorageDirectory().getPath() + "/Excel/");
             file.mkdir();
-            File file1 = new File(file, "MyStatistics.xls");
+            File file1 = new File(file, "MyStatistics1.xls");
             FileOutputStream output = new FileOutputStream(file1, false);
             mview.createExcel(output);
         }catch (FileNotFoundException x){

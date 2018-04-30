@@ -49,13 +49,15 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
 
         addproj = findViewById(R.id.btnAddProject);
         accountname="";
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             accountname = extras.getString("name");
         }
 
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
-        projects = db.userDao().getAllProjects(accountname);
+        //projects = db.userDao().getAllProjects(accountname);
 
         presenter.get_all_projects(db,accountname);
 
@@ -74,6 +76,7 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
         //  @Override
          public void onClick(View view) {
              Intent intent = new Intent(Activity_View_Projects.this, CreateProjectView.class);
+             intent.putExtra("accountName",accountname);
                 startActivity(intent);
 
            //db.userDao().insertAllProjects(proj);

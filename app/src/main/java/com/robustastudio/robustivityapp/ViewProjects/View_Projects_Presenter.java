@@ -41,14 +41,4 @@ public class View_Projects_Presenter  {
 
 
 
-
-
-    //public void viewProjects(List<String> projects){
-
-
-
-
-
-    //}
-
 }
