@@ -33,6 +33,7 @@ import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
 import com.robustastudio.robustivityapp.CreateTodo.CreateTodoView;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Accounts;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.Tasks;
@@ -40,6 +41,7 @@ import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ String checkout = "Check out";
     List<String > sector_names;
     List<String> projects_id;
     DatabaseReference refac;
+    DatabaseReference refact;
     List<String > available;
     List<Accounts> accounts;
     List<String> projects;
@@ -73,11 +76,12 @@ String checkout = "Check out";
     RecyclerView recyclerView;
     List<Tasks>  tasks;
     List<Tasks>  temptask;
+    List<Activities> activities;
     public TasksAdapter adapter;
 
     Tabs_Adapter Tabs_Adapter;
     ViewPager mViewPager;
-
+boolean activity_stored;
 boolean stored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,15 +108,17 @@ boolean stored;
        // Button logout = (Button) findViewById(R.id.logout);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
         userprofiles = db.userDao().getAllprofiles();
         accounts = db.userDao().getAllAccounts();
         projects= db.userDao().getAllProjects();
         tasks =db.taskDao().getAllTasks();
 
+
         DatabaseReference ref = mDatabase.child("user_profile");
         refac = mDatabase.child("Accounts");
-
+        refact =mDatabase.child("Activities");
         ref_projects =mDatabase.child("Projects");
 
         /*for (int i = 0; i <tasks.size() ; i++) {
@@ -210,7 +216,7 @@ boolean stored;
 
                         Sectors s1 = (d.getValue(Sectors.class));
                         db.userDao().insertSector(s1);
-                        Toast.makeText(getApplicationContext(),"sec id"+s1.name,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getApplicationContext(),"sec id"+s1.name,Toast.LENGTH_LONG).show();
                         // mpresenter.update_sectors(db,s1);
                     }
 
@@ -272,19 +278,56 @@ boolean stored;
 
             }
         });
+
+        refact.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    activities = db.activitiesDao().getAllActivities();
+                    if (activities != null) {
+                        activity_stored = false;
+                        int id = postSnapshot.child("id").getValue(int.class);
+                        String type = postSnapshot.child("type").getValue(String.class);
+                        String content = postSnapshot.child("content").getValue(String.class);
+                        String cont = postSnapshot.child("cont").getValue(String.class);
+                        String date = postSnapshot.child("date").getValue(String.class);
+                        Activities activity = new Activities(id, type, content, cont,date);
+
+                        for (int i = 0; i < activities.size(); i++) {
+                            if (activities.get(i).getId() == id) {
+                                activity_stored = true;
+
+
+                            }
+                        }
+                        if (!activity_stored) {
+                            db.activitiesDao().insertActivities(activity);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         ref.addValueEventListener(new ValueEventListener() {
+
             List<UserProfile> usertemp= new ArrayList<>();
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String email = postSnapshot.child("email").getValue(String.class);
-                    String image = postSnapshot.child("image").getValue(String.class);
+                   String image = postSnapshot.child("image").getValue(String.class);
                     String name= postSnapshot.child("name").getValue(String.class);
                     String phone = postSnapshot.child("phone").getValue(String.class);
                     String status = postSnapshot.child("status").getValue(String.class);
                     UserProfile userp = new UserProfile(image,name,phone,email,status);
                     for (int i = 0; i < userprofiles.size() ; i++) {
-
+//                        Toast.makeText(getApplicationContext(),userprofiles.get(i).getImage(),Toast.LENGTH_LONG).show();
                         if(userprofiles.get(i).getEmail().equals(email)){
 
                             stored= true;
@@ -292,10 +335,12 @@ boolean stored;
 
                     }
                     if(!stored){
+
                         db.userDao().insertAll(userp);
                     }
                     else{
-                        db.userDao().updateProfile(name,email,phone,status);
+
+                        db.userDao().updateProfile(name,email,phone,status,image);
                     }
 
                 }
@@ -460,12 +505,26 @@ boolean stored;
                         checkin.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                String Image ="";
+                                if(userprofiles!=null &&mAuth.getCurrentUser()!=null)
+                                    for (int i = 0; i <userprofiles.size() ; i++) {
+                                        if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail()))
+                                            Image = userprofiles.get(i).getName();
+                                    }
+                                activities = db.activitiesDao().getAllActivities();
+
                                 if (checkin.getText().toString().equals("Check in")) {
+                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                                    Activities activity = new Activities(activities.size(),"Check in", mAuth.getCurrentUser().getDisplayName()+" has checked in",Image,time);
                                     mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+                                   mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
                                     checkin.setText("Check out");
                                     db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                                 }
                                 else{
+                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                                    Activities activity = new Activities(activities.size(),"Check out", mAuth.getCurrentUser().getDisplayName()+" has checked out",Image,time);
+                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
                                     mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");
                                     checkin.setText("Check in");
                                     db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());

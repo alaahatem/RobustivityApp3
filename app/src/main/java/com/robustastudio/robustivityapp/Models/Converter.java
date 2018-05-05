@@ -17,22 +17,28 @@ public class Converter {
 
     @TypeConverter
     public String  gettingListFromString(List<String> name) {
+        if(name!=null) {
+            if (name.size() > 0) {
+                StringBuilder nameBuilder = new StringBuilder();
 
-        if (name.size()> 0) {
-            StringBuilder nameBuilder = new StringBuilder();
+                for (String n : name) {
+                    nameBuilder.append("'").append(n.replace("'", "\\'")).append("',");
+                    // can also do the following
+                    // nameBuilder.append("'").append(n.replace("'", "''")).append("',");
+                }
 
-            for (String n : name) {
-                nameBuilder.append("'").append(n.replace("'", "\\'")).append("',");
-                // can also do the following
-                // nameBuilder.append("'").append(n.replace("'", "''")).append("',");
+                nameBuilder.deleteCharAt(nameBuilder.length() - 1);
+
+                return nameBuilder.toString();
             }
-
-            nameBuilder.deleteCharAt(nameBuilder.length() - 1);
-
-            return nameBuilder.toString();
-        } else {
+            else{
+                return "";
+            }
+        }
+        else{
             return "";
         }
+
     }
 
     @TypeConverter

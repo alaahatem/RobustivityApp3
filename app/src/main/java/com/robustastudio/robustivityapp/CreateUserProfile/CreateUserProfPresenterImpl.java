@@ -1,12 +1,15 @@
 package com.robustastudio.robustivityapp.CreateUserProfile;
 
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by hp on 13/04/2018.
@@ -25,14 +28,29 @@ public class CreateUserProfPresenterImpl implements CreateUserProfPresenter {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    public void InsertUser(EditText Email, EditText name, List<UserProfile> userProfiles) {
+    public void InsertUser(TextInputLayout phonelayout, EditText phone, EditText Email, EditText name, List<UserProfile> userProfiles) {
 
-            if (isValidEmail(Email.getText().toString())) {
+        if (isValidEmail(Email.getText().toString())) {
+
+            if(Patterns.PHONE.matcher(phone.getText().toString()).matches()) {
+
+
                 mCreateUserProfile.InsertUserSuccess();
-            } else {
-                mCreateUserProfile.InsertUserFailure();
+            }else{
+                mCreateUserProfile.seterror();
             }
+        } else {
+            mCreateUserProfile.InsertUserFailure();
+        }
 
-    }
+
+
+
+
+
+
+
+
+        }
 
 }

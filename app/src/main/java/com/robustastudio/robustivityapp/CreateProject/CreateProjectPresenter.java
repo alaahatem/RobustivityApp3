@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.CreateProject;
 
+import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.text.TextUtils;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.CreateTodo.CreateTodoView;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.Projects;
 
 import java.util.Date;
@@ -101,5 +103,12 @@ public class CreateProjectPresenter implements CreateProjectPresenterInt {
             Toast.makeText(view, "kollo zal fol !!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void addActivity(DatabaseReference firebase , AppDatabase db, String type , String content, String account_name, String time){
+        List<Activities> activities;
+        activities = db.activitiesDao().getAllActivities();
+        Activities activity = new Activities(activities.size(),type,content,account_name,time);
+        firebase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
     }
 }

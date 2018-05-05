@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,10 +37,13 @@ import com.google.firebase.storage.UploadTask;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.FirebaseApp;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import Constants.Constants;
@@ -53,6 +58,7 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
     String UserEmail;
     TextView userphone;
     TextView userstatus;
+    DatabaseReference mDatabase;
     Button Edit;
     private StorageTask mUploadTask;
     String DbName = Constants.AppdatabaseName;
@@ -66,6 +72,8 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     public static FirebaseAuth mAuth;
+    List<Activities> activities;
+     AppDatabase db = null;
     private List<com.robustastudio.robustivityapp.ViewProfile.Upload> mUploads;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +93,9 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
         mStorageRef = FirebaseStorage.getInstance().getReference("Uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
-        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,DbName).allowMainThreadQueries().build();
+        db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,DbName).allowMainThreadQueries().build();
         userprofiles  = db.userDao().getAllprofiles();
+        activities = db.activitiesDao().getAllActivities();
         mprogressBar = findViewById(R.id.progress);
         mprogressBar.setVisibility(View.INVISIBLE);
     mViewProfilePresenter.ShowProfile(userprofiles);
@@ -142,10 +151,23 @@ Upload.setOnClickListener(new View.OnClickListener() {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                downloadedImage=dataSnapshot.getValue(String.class);
-                if(!downloadedImage.isEmpty())
-                Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
+                downloadedImage = dataSnapshot.getValue(String.class);
+                if (downloadedImage != null) {
+                    if (!downloadedImage.isEmpty()) {
 
+
+                        Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
+                    }
+                    else{
+                        Picasso.get().load(R.drawable.theimage).fit().centerCrop().into(Image);
+                    }
+                }
+
+                else{
+//                    Toast.makeText(getApplicationContext(),"NO image",Toast.LENGTH_LONG).show();
+                   Picasso.get().load(R.drawable.theimage).fit().centerCrop().into(Image);
+
+                }
             }
 
             @Override
@@ -219,7 +241,13 @@ Upload.setOnClickListener(new View.OnClickListener() {
             mImageUri = data.getData();
 
             Picasso.get().load(mImageUri).into(Image);
+//            Toast.makeText(getApplicationContext(),nametv.getText().toString(),Toast.LENGTH_SHORT).show();
+            DatabaseReference ref = mDatabaseRef.child("Activities");
+//            db.activitiesDao().updateActivityImage(mImageUri.toString(),nametv.getText().toString());
+
         }
+
+
     }
 
 

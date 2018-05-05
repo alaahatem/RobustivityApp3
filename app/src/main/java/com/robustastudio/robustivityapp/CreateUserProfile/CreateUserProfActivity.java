@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp.CreateUserProfile;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,8 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
     EditText Email;
     EditText Phone;
     Button button;
+    TextInputLayout phone_layout;
+    TextInputLayout email_layout;
 
     CreateUserProfPresenter mCreateUserProfPresenter;
     private static final String TAG = "CreateUserProfActivity";
@@ -48,7 +51,8 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
         Email = findViewById(R.id.Email);
         Phone = findViewById(R.id.Phone);
         button = findViewById(R.id.button);
-
+        email_layout=findViewById(R.id.EmailLayout);
+        phone_layout = (TextInputLayout) findViewById(R.id.PhoneLayout);
         if (getIntent().hasExtra("name") && getIntent().hasExtra("email")&&getIntent().hasExtra("phone")) {
             name.setText(getIntent().getStringExtra("name"));
             Email.setText(getIntent().getStringExtra("email"));
@@ -63,7 +67,7 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mCreateUserProfPresenter.InsertUser(Email, name, userProfiles);
+                    mCreateUserProfPresenter.InsertUser(phone_layout,Phone,Email, name, userProfiles);
 
 
                 }
@@ -71,19 +75,27 @@ public class CreateUserProfActivity extends AppCompatActivity implements CreateU
 
         }
 
+    public void seterror(){
+        phone_layout.setError("Please enter a valid phone number");
+
+    }
+
+    public void setEmailerror(){
+        email_layout.setError("Please enter a valid email");
+    }
 
     public void InsertUserSuccess() {
         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("name").setValue(name.getText().toString());
         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("phone").setValue(Phone.getText().toString());
 
-        db.userDao().updateProfile(name.getText().toString(),Email.getText().toString(),Phone.getText().toString(),getIntent().getStringExtra("status"));
+        db.userDao().updateProfileInfo(name.getText().toString(),Email.getText().toString(),Phone.getText().toString(),getIntent().getStringExtra("status"));
 
 
         Intent myIntent = new Intent(CreateUserProfActivity.this, HomeActivity.class);
         CreateUserProfActivity.this.startActivity(myIntent);
     }
 public  void InsertUserFailure(){
-    Toast.makeText(getApplicationContext(),"Please enter a valid credentials",Toast.LENGTH_LONG).show();
+    setEmailerror();
 }
 
 

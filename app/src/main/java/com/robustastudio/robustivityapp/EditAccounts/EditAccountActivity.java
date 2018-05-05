@@ -3,7 +3,9 @@ package com.robustastudio.robustivityapp.EditAccounts;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +29,8 @@ EditText account_phone ;
 Spinner sec_spinner ;
 Button save ;
 String name , email, address,phone;
+TextInputLayout email_lay;
+TextInputLayout phone_lay;
 int id;
     public AppDatabase db = null;
     List<String> sectors;
@@ -43,6 +47,8 @@ int id;
         account_phone = findViewById(R.id.account_phone);
         sec_spinner = findViewById(R.id.sec_spinner);
         save = findViewById(R.id.account_save);
+        phone_lay = findViewById(R.id.phone_lay);
+        email_lay = findViewById(R.id.email_lay);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
 
@@ -64,14 +70,24 @@ int id;
 //
 //
 //
-
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("name").setValue(account_name.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("address").setValue(account_address.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("phonenumber").setValue(account_phone.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("sector").setValue(sec_spinner.getSelectedItem().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("email").setValue(account_email.getText().toString());
-                Intent myIntent = new Intent(EditAccountActivity.this, HomeActivity.class);
-                EditAccountActivity.this.startActivity(myIntent);
+                if(Patterns.EMAIL_ADDRESS.matcher(account_email.getText().toString()).matches()) {
+                    email_lay.setError(null);
+                    if (Patterns.PHONE.matcher(account_phone.getText().toString()).matches()) {
+                        phone_lay.setError(null);
+                        mDatabase.child("Accounts").child(String.valueOf(id)).child("name").setValue(account_name.getText().toString());
+                        mDatabase.child("Accounts").child(String.valueOf(id)).child("address").setValue(account_address.getText().toString());
+                        mDatabase.child("Accounts").child(String.valueOf(id)).child("phonenumber").setValue(account_phone.getText().toString());
+                        mDatabase.child("Accounts").child(String.valueOf(id)).child("sector").setValue(sec_spinner.getSelectedItem().toString());
+                        mDatabase.child("Accounts").child(String.valueOf(id)).child("email").setValue(account_email.getText().toString());
+                        Intent myIntent = new Intent(EditAccountActivity.this, HomeActivity.class);
+                        EditAccountActivity.this.startActivity(myIntent);
+                    }else{
+                        phone_lay.setError("Please enter a valid phone number");
+                    }
+                }
+                else{
+                    email_lay.setError("Please entar a valid email address");
+                }
             }
         });
 

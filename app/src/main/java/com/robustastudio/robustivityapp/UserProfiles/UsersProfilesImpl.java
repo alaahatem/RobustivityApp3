@@ -17,6 +17,8 @@ import com.robustastudio.robustivityapp.FirebaseApp;
 import com.robustastudio.robustivityapp.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 public class UsersProfilesImpl extends AppCompatActivity implements UserProfiles {
     TextView viewname ;
     TextView viewemail;
@@ -41,10 +43,17 @@ public class UsersProfilesImpl extends AppCompatActivity implements UserProfiles
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 downloadedImage=dataSnapshot.getValue(String.class);
-                if(!downloadedImage.isEmpty())
-                Picasso.get().load(downloadedImage).centerCrop().fit().into(imageView);
+                if(!downloadedImage.isEmpty()&&   downloadedImage!=null) {
+
+                    Picasso.get().load(downloadedImage).centerCrop().fit().into(imageView);
+                }else{
+
+                    Picasso.get().load(R.drawable.theimage).fit().centerCrop().into(imageView);
+
+                }
 
             }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

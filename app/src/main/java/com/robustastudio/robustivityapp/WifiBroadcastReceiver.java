@@ -15,8 +15,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
     static String bssid;
     public FirebaseAuth mAuth;
     List<UserProfile> userprofiles;
+    List<Activities> activities;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -56,20 +60,26 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context.getApplicationContext(),bssid,Toast.LENGTH_LONG).show();
             final AppDatabase db = Room.databaseBuilder(context.getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
             userprofiles  = db.userDao().getAllprofiles();
+            activities = db.activitiesDao().getAllActivities();
                 Intent i = new Intent(context, HomeActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("bssid", bssid);
 
             if(bssid!=null) {
                 if (bssid.equals("58:2a:f7:39:59:f8")) {
+                    if(mAuth.getCurrentUser()!=null)
+                        if(userprofiles!=null)
                     for (int j = 0; j <userprofiles.size() ; j++) {
+
                         if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){
                            Toast.makeText(context.getApplicationContext(),FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
                             userprofiles.get(j).setStatus("Checked in");
                             db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
 //                            HomeActivity.checkin.setText("Check out");
-
+                            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                            Activities activity = new Activities(activities.size(),"Check in",userprofiles.get(j).getName()+ " has Checked in ",userprofiles.get(j).getName(),time);
+                            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 
                         }
                     }

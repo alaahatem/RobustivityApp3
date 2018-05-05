@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.robustastudio.robustivityapp.HomeActivity"
-    tools:showIn="@layout/activity_home">
+    tools:context="com.robustastudio.robustivityapp.ActivityFeed.ActivityFeed"
+    tools:showIn="@layout/activity_create_profile">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_tasks"
+        android:id="@+id/recycler_view_activity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -26,18 +26,5 @@
         app:layout_constraintVertical_bias="0.177">
 
     </android.support.v7.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/Activities"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Activities"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
