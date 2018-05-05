@@ -3,12 +3,19 @@ package com.robustastudio.robustivityapp.ViewProjects;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.robustastudio.robustivityapp.CreateProject.CreateProjectView;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
@@ -25,17 +32,21 @@ import java.util.List;
  */
 
 
-public class Activity_View_Projects extends AppCompatActivity implements All_Projects_View {
+public class Activity_View_Projects extends AppCompatActivity implements All_Projects_View, SearchView.OnQueryTextListener {
     Button addproj ;
     public List<String> projects;
-     String accountname ;
+
+
+
+    String accountname ;
     Projects proj ;
     public View_Projects_Presenter presenter;
 
 
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private ProjectsAdapter mAdapter;
+    SearchView sv;
 
 
     @Override
@@ -50,17 +61,27 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
         addproj = findViewById(R.id.btnAddProject);
         accountname="";
 
+        //Toolbar toolbar = findViewById(R.id.toolbar_search);
+        //setSupportActionBar(toolbar);
+
+       // sv = findViewById(R.id.search_view);
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             accountname = extras.getString("name");
         }
 
 
+
+
+
+
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
-        //projects = db.userDao().getAllProjects(accountname);
+
+        projects = db.userDao().getAllProjects(accountname);
 
         presenter.get_all_projects(db,accountname);
-
 
 
 
@@ -88,19 +109,63 @@ public class Activity_View_Projects extends AppCompatActivity implements All_Pro
     }
 
 
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.menu_search_items,menu);
+        MenuItem menuItem = menu.findItem(R.id.search_option);
+        SearchView sv = (SearchView) menuItem.getActionView();
+        sv.setOnQueryTextListener(this);
+
+    return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        newText = newText.toLowerCase();
+        List<String> list = new ArrayList<>();
+        if(newText!=null&& !newText.isEmpty()){
+            for(int i=0;i<projects.size();i++){
+                String p = projects.get(i).toLowerCase();
+                if(p.contains(newText)){
+                    list.add(projects.get(i));
+                }
+            }
+            // mAdapter.setFilter(list);
+            mAdapter = new ProjectsAdapter(list,getApplicationContext());
+            mRecyclerView.setAdapter(mAdapter);
+
+        }else{
+            mAdapter = new ProjectsAdapter(projects,getApplicationContext());
+            mRecyclerView.setAdapter(mAdapter);
+
+        }
+
+        return true;
+    }
+
+
 
 
     public void get_details(List<String> projects) {
 
+        //mAdapter = new ProjectsAdapter(projects,getApplicationContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
 
         Toast.makeText(getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
 
 
-         mAdapter = new ProjectsAdapter(projects,getApplicationContext());
-         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-          mRecyclerView.setLayoutManager(mLayoutManager);
-          mRecyclerView.setHasFixedSize(true);
          mAdapter = new ProjectsAdapter(projects,getApplicationContext());
          mRecyclerView.setAdapter(mAdapter);
 

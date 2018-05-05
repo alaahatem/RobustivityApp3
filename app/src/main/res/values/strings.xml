@@ -17,4 +17,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_tabs">Tabs</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="default_notification_channel_name">Notification</string>
+    <string name="channel_description">You were tagged in a todo</string>
+
 </resources>

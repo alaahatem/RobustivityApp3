@@ -8,4 +8,5 @@ public interface CreateUserProf {
     void InsertUserSuccess();
     void InsertUserFailure();
     void DuplicateEmail();
+    void seterror();
 }

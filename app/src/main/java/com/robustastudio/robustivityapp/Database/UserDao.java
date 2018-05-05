@@ -80,6 +80,9 @@ public interface UserDao {
     @Query("SELECT * FROM Sectors")
     List<Sectors> sectors_list();
 
+    @Query("SELECT account_name FROM Accounts")
+    List<String> retrieve_accounts();
+
 
 
 

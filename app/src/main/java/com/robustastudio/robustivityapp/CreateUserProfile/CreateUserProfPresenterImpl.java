@@ -25,10 +25,17 @@ public class CreateUserProfPresenterImpl implements CreateUserProfPresenter {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    public void InsertUser(EditText Email, EditText name, List<UserProfile> userProfiles) {
+    public void InsertUser(EditText phone,EditText Email, EditText name, List<UserProfile> userProfiles) {
 
             if (isValidEmail(Email.getText().toString())) {
-                mCreateUserProfile.InsertUserSuccess();
+                if(Patterns.PHONE.matcher(phone.getText().toString()).matches()){
+                    mCreateUserProfile.InsertUserSuccess();
+
+                }
+                else{
+                    mCreateUserProfile.seterror();
+                }
+
             } else {
                 mCreateUserProfile.InsertUserFailure();
             }

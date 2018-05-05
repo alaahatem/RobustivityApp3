@@ -2,6 +2,7 @@ package com.robustastudio.robustivityapp.Models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
@@ -26,10 +27,33 @@ import java.util.Timer;
  */
 @Entity(tableName = "Todos")
 public class Todo {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "id")
-    public int id;
+    public String id;
+
+    @ColumnInfo(name="todo_creator_email")
+    public String email;
+
+    @ColumnInfo(name="todo_title")
+    public String title;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @ColumnInfo(name="todo_members")
     @TypeConverters({Converter.class})
     public List<String> members;
@@ -41,19 +65,25 @@ public class Todo {
     @ColumnInfo(name = "todo_duration")
     public double duration;
 
-    public Todo(List<String> members, String starttime, Date date, double duration) {
+
+    public Todo(String id,String title,String email,List<String> members, String starttime, Date date, double duration) {
+       this.id=id;
+        this.title=title;
+        this.email=email;
         this.members = members;
         this.starttime = starttime;
         this.date = date;
         this.duration = duration;
     }
 
-    @NonNull
-    public int getId() {
+    public Todo(){}
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(@NonNull int id) {
+    public void setId( String id) {
         this.id = id;
     }
 
@@ -88,4 +118,6 @@ public class Todo {
     public void setDuration(double duration) {
         this.duration = duration;
     }
+
+
 }

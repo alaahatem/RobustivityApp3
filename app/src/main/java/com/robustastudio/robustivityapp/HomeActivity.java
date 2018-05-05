@@ -14,6 +14,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.robustastudio.robustivityapp.Adapters.RecyclerTouchItemHelper;
 import com.robustastudio.robustivityapp.Adapters.RecyclerTouchItemHelperListener;
 import com.robustastudio.robustivityapp.Adapters.TasksAdapter;
@@ -33,13 +35,17 @@ import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
 import com.robustastudio.robustivityapp.CreateTodo.CreateTodoView;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Accounts;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.Projects;
 import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.Models.Tasks;
+import com.robustastudio.robustivityapp.Models.Todo;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
+
+import org.apache.poi.hssf.record.formula.functions.T;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,21 +70,28 @@ String checkout = "Check out";
     List<String > sector_names;
     List<String> projects_id;
     DatabaseReference refac;
+    DatabaseReference refact;
     List<String > available;
     List<Accounts> accounts;
     List<String> projects;
     DatabaseReference ref_sectors;
     DatabaseReference ref_projects;
+    DatabaseReference ref_todos;
     List<String> engagment_list;
     RecyclerView recyclerView;
     List<Tasks>  tasks;
     List<Tasks>  temptask;
+    List<Activities> activities;
     public TasksAdapter adapter;
 
     Tabs_Adapter Tabs_Adapter;
     ViewPager mViewPager;
 
+    List<String> todos_id;
+    List<String> available_todos;
+
 boolean stored;
+    boolean activity_stored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -92,6 +105,8 @@ boolean stored;
         engagment_list = new ArrayList<String >();
         projects_id = new ArrayList<String >();
         available = new ArrayList<String >();
+        todos_id= new ArrayList<String>();
+        available_todos = new ArrayList<String >();
         temptask = new ArrayList<>();
         account_stored =false;
         stored = false;
@@ -109,11 +124,26 @@ boolean stored;
         accounts = db.userDao().getAllAccounts();
         projects= db.userDao().getAllProjects();
         tasks =db.taskDao().getAllTasks();
+        available_todos=db.todoDao().getTodos(mAuth.getCurrentUser().getEmail());
+
+
+        for (int i=0;i<available_todos.size();i++){
+            Toast.makeText(getApplicationContext(), available_todos.get(i), Toast.LENGTH_SHORT).show();
+        }
+
+
 
         DatabaseReference ref = mDatabase.child("user_profile");
         refac = mDatabase.child("Accounts");
-
+        refact =mDatabase.child("Activities");
         ref_projects =mDatabase.child("Projects");
+        ref_todos=mDatabase.child("Todos");
+
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+       // Log.d(TAG,FirebaseInstanceId.getInstance().getToken());
+        Toast.makeText(getApplicationContext(),refreshedToken,Toast.LENGTH_LONG).show();
+
 
         /*for (int i = 0; i <tasks.size() ; i++) {
             Date Taskdate = tasks.get(i).getDue_date();
@@ -153,6 +183,7 @@ boolean stored;
 
         Reminders_fragment fragmentOne = new Reminders_fragment();
         Shortcuts_fragment fragmentTwo= new Shortcuts_fragment();
+        NewsFeed fragmentThree = new NewsFeed();
 
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
@@ -161,6 +192,7 @@ boolean stored;
                         getSupportFragmentManager());
         Tabs_Adapter.addFragment(fragmentOne);
         Tabs_Adapter.addFragment(fragmentTwo);
+        Tabs_Adapter.addFragment(fragmentThree);
 
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(Tabs_Adapter);
@@ -195,6 +227,50 @@ boolean stored;
 
             }
         });
+
+        ref_todos.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d :dataSnapshot.getChildren()) {
+                    Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+
+                    if (d.child("email").getValue(String.class).equals(mAuth.getCurrentUser().getEmail()) ) {
+                        available_todos = db.todoDao().getTodos(mAuth.getCurrentUser().getEmail());
+
+                        if (!available_todos.contains(d.getKey())) {
+
+                            if(d.hasChild("members")){
+                                Todo todonew = d.getValue(Todo.class);
+                                // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
+                                db.todoDao().addTodo(todonew);
+                                Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
+
+                            }else
+                            {
+                                List<String> mm =new ArrayList<>();
+                                Todo todonew = new Todo(d.child("id").getValue(String.class),d.child("title").getValue(String.class),d.child("email").getValue(String.class),
+                                        mm,d.child("starttime").getValue(String.class),d.child("date").getValue(Date.class),
+                                        d.child("duration").getValue(Double.class));
+                                db.todoDao().addTodo(todonew);
+                                Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
+
+                            }
+
+                            // Toast.makeText(getApplicationContext(),pnew.projectid,Toast.LENGTH_LONG).show();
+                            // mpresenter.update_sectors(db,s1);
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         ref_sectors.addValueEventListener(new ValueEventListener() {
             @Override
@@ -272,6 +348,76 @@ boolean stored;
 
             }
         });
+
+        refact.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    activities = db.activitiesDao().getAllActivities();
+                    if (activities != null) {
+                        activity_stored = false;
+                        int id = postSnapshot.child("id").getValue(int.class);
+                        String type = postSnapshot.child("type").getValue(String.class);
+                        String content = postSnapshot.child("content").getValue(String.class);
+                        String cont = postSnapshot.child("cont").getValue(String.class);
+                        String date = postSnapshot.child("date").getValue(String.class);
+                        Activities activity = new Activities(id, type, content, cont,date);
+
+                        for (int i = 0; i < activities.size(); i++) {
+                            if (activities.get(i).getId() == id) {
+                                activity_stored = true;
+
+
+                            }
+                        }
+                        if (!activity_stored) {
+                            db.activitiesDao().insertActivities(activity);
+                        }
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*ref_todos.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot d :dataSnapshot.getChildren()){
+
+                    if(d.child("email").getKey()==mAuth.getCurrentUser().getEmail()){
+
+                    }
+                   // projects_id.add();
+                    projects = db.userDao().getAllProjects();
+                    *//*for (int i = 0; i <projects.size() ; i++) {
+                        Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
+                    }*//*
+
+                    if(!projects.contains(d.getKey())){
+                        Projects pnew = d.getValue(Projects.class);
+                        // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
+                        db.projectDao().addProject(pnew);
+                        // Toast.makeText(getApplicationContext(),pnew.projectid,Toast.LENGTH_LONG).show();
+                        // mpresenter.update_sectors(db,s1);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });*/
+
+
+
         ref.addValueEventListener(new ValueEventListener() {
             List<UserProfile> usertemp= new ArrayList<>();
             @Override
@@ -460,14 +606,25 @@ boolean stored;
                         checkin.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                String Image ="";
+                                if(userprofiles!=null &&mAuth.getCurrentUser()!=null)
+                                    for (int i = 0; i <userprofiles.size() ; i++) {
+                                        if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail()))
+                                            Image = userprofiles.get(i).getName();
+                                    }
+                                activities = db.activitiesDao().getAllActivities();
                                 if (checkin.getText().toString().equals("Check in")) {
+                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                                    Activities activity = new Activities(activities.size(),"Check in", mAuth.getCurrentUser().getDisplayName()+" has checked in",Image,time);
                                     mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
-                                    checkin.setText("Check out");
+                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);                                    checkin.setText("Check out");
                                     db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                                 }
                                 else{
-                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");
-                                    checkin.setText("Check in");
+                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                                    Activities activity = new Activities(activities.size(),"Check out", mAuth.getCurrentUser().getDisplayName()+" has checked out",Image,time);
+                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");                                    checkin.setText("Check in");
                                     db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());
                                 }
                             }

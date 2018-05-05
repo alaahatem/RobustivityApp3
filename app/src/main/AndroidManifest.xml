@@ -23,6 +23,19 @@
             </intent-filter>
         </receiver>
 
+        <service
+            android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".MyFirebaseInstanceIdService" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,7 +50,7 @@
         <activity
             android:name=".Add_sector.Activity_add_sector"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".ViewProjects.Activity_View_Projects"  />
+        <activity android:name=".ViewProjects.Activity_View_Projects"   />
         <activity android:name=".ViewSingleProject.Activity_Project" />
         <activity android:name=".View_Sectors.viewSectors"
             android:label="Sectors"
@@ -47,7 +60,7 @@
         <activity android:name=".ViewProfile.ViewProfileActivity" />
         <activity android:name=".UserProfiles.UsersProfilesImpl" />
         <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
-        <activity android:name=".CreateProject.CreateProjectView" />
+        <activity android:name=".CreateProject.CreateProjectView"  />
         <activity android:name=".CreateTask.CreateTaskView" />
         <activity android:name=".ViewTasks.ViewTasksView" />
         <activity android:name=".ViewTask.ViewTaskView" />
@@ -58,7 +71,11 @@
         <activity android:name=".CollectionDemoActivity" />
         <activity android:name=".EditAccounts.EditAccountActivity"></activity>
 
-        <!-- <activity android:name=".EditTask"/> -->
+         <activity android:name=".EditTask.EditTaskView"/>
+        <activity android:name=".SearchEngine.Activity_Search"></activity>
+        <activity android:name=".ViewAllTodos.Activity_view_Todo"></activity>
+        <activity android:name=".ViewTodo.Activity_Single_Todo"></activity>
+        <activity android:name=".ActivityFeed.ActivityFeed"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

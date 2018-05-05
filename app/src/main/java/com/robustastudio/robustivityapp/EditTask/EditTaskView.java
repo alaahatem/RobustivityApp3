@@ -75,6 +75,7 @@ public class EditTaskView extends AppCompatActivity implements EditTaskViewInt{
                 if(!temp.getName().equals(name.getText().toString())){
                     temp.setName(name.getText().toString());
                     intent1.putExtra("taskName",name.getText().toString());
+                    intent1.putExtra("projectName",projectName.getText().toString());
                 }
                 temp.setProject_name(projectName.getText().toString());
                 temp.setStartDate(new Date(Integer.parseInt(startDatey.getText().toString()),Integer.parseInt(startDatem.getText().toString()),Integer.parseInt(startDated.getText().toString())));

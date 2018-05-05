@@ -3,22 +3,19 @@ package com.robustastudio.robustivityapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.robustastudio.robustivityapp.CreateProfile.CreateProfileActivity;
 import com.robustastudio.robustivityapp.CreateTask.CreateTaskView;
-import com.robustastudio.robustivityapp.CreateTodo.CreateTodoView;
+import com.robustastudio.robustivityapp.SearchEngine.Activity_Search;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
-import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
+import com.robustastudio.robustivityapp.ViewAllTodos.Activity_view_Todo;
 import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
 
 
@@ -55,6 +52,7 @@ public class Shortcuts_fragment extends Fragment {
         CardView profile =  v.findViewById(R.id.myprofile_card);
         CardView sectors =  v.findViewById(R.id.sector_card);
         CardView users =  v.findViewById(R.id.users_cards);
+        CardView search =  v.findViewById(R.id.search_card);
         CardView logout =  v.findViewById(R.id.logout_card);
 
 
@@ -66,6 +64,19 @@ public class Shortcuts_fragment extends Fragment {
 
                 Intent browserIntent =
                         new Intent(getActivity(), viewSectors.class);
+                startActivity(browserIntent);
+
+            }
+
+        });
+
+        search.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent browserIntent =
+                        new Intent(getActivity(), Activity_Search.class);
                 startActivity(browserIntent);
 
             }
@@ -90,7 +101,7 @@ public class Shortcuts_fragment extends Fragment {
             public void onClick(View arg0) {
 
                 Intent browserIntent =
-                        new Intent(getActivity(), CreateTodoView.class);
+                        new Intent(getActivity(), Activity_view_Todo.class);
                 startActivity(browserIntent);
 
             }

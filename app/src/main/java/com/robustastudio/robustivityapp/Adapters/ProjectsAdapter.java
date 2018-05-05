@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.ViewSingleProject.Activity_Project;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -102,5 +104,12 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
 
         //}
 
+    }
+
+    public void setFilter(List<String> newlist){
+       List<String> arrayList = new ArrayList<>();
+       arrayList.addAll(newlist);
+
+        notifyDataSetChanged();
     }
 }

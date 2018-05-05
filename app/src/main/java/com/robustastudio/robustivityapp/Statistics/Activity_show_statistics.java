@@ -77,14 +77,15 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
     private List<Float> finishedHours;
     private List<Float> estimatedHours;
     String value;
-    private Button export_pdf;
-    private Button export_excel;
+     Button export_pdf;
+     Button export_excel;
     private int STORAGE_CODE =1;
     private int STORAGE_CODE_READ =2;
     public List<String> users;
     public List<Tasks> tasks;
     public float total_toggled_hours;
     public Projects project;
+    String projectName;
 
 
 
@@ -92,9 +93,12 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_statistics);
 
-
+        projectName="";
         Bundle extras = getIntent().getExtras();
-        String projectName = extras.getString("projectName");
+        if(extras !=null){
+            projectName = extras.getString("projectName");
+        }
+
         progress = (DonutProgress) findViewById(R.id.donut_progress);
         toggledHours =  findViewById(R.id.toggled_hours);
         stoppage = (DonutProgress) findViewById(R.id.stoppage);
@@ -108,11 +112,32 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
         export_excel = findViewById(R.id.export_excel);
         String val;
         float totalprogress=0.0f;
+        final Statistics_presenter mpresenter = new Statistics_presenter(Activity_show_statistics.this);
 
         grantPermission();
         grantPermission2();
 
-        final Statistics_presenter mpresenter = new Statistics_presenter(Activity_show_statistics.this);
+        export_pdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mpresenter.createFile(projectName);
+               // Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        export_excel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mpresenter.createSheet(projectName);
+
+               // Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
 
 
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "robustivity").allowMainThreadQueries().build();
@@ -162,26 +187,7 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
         final PrintAttributes x = new PrintAttributes.Builder().build();
 
-        export_pdf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(),"ok",Toast.LENGTH_LONG).show();
-                mpresenter.createFile();
-                Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-        export_excel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mpresenter.createSheet();
-                Toast.makeText(getApplicationContext(),Environment.getExternalStorageDirectory().getAbsolutePath(),Toast.LENGTH_LONG).show();
-
-            }
-        });
 
     }
 

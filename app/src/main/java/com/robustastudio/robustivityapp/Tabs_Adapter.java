@@ -45,6 +45,7 @@ public class Tabs_Adapter extends FragmentStatePagerAdapter {
         switch (position){
             case 0:return "Reminders";
             case 1:return "Shortcuts";
+            case 2:return "News Feed";
         }
         return null;
     }

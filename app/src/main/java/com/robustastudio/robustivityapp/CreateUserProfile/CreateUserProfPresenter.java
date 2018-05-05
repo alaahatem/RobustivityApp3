@@ -11,5 +11,5 @@ import java.util.List;
  */
 
 public interface CreateUserProfPresenter {
-    void InsertUser(EditText Email, EditText name, List<UserProfile> userProfiles);
+    void InsertUser( EditText phone,EditText Email, EditText name, List<UserProfile> userProfiles);
 }

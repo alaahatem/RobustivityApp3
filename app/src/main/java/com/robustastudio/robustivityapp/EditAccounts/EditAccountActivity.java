@@ -3,7 +3,9 @@ package com.robustastudio.robustivityapp.EditAccounts;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,11 +28,15 @@ EditText account_address ;
 EditText account_phone ;
 Spinner sec_spinner ;
 Button save ;
+boolean email_checked = false;
+boolean phone_checked = false;
 String name , email, address,phone;
 int id;
     public AppDatabase db = null;
     List<String> sectors;
     public DatabaseReference mDatabase;
+    TextInputLayout phone_lay;
+    TextInputLayout email_lay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,9 @@ int id;
         account_phone = findViewById(R.id.account_phone);
         sec_spinner = findViewById(R.id.sec_spinner);
         save = findViewById(R.id.account_save);
+        phone_lay= findViewById(R.id.phone_lay);
+        email_lay=findViewById(R.id.email_lay);
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
 
@@ -64,14 +73,28 @@ int id;
 //
 //
 //
+            if(Patterns.EMAIL_ADDRESS.matcher(account_email.getText().toString()).matches()) {
+            email_checked= true;
+            }else{
+                email_checked =false;
+                email_lay.setError("Please enter a valid email");
+            }
+                if (Patterns.PHONE.matcher(account_phone.getText().toString()).matches()) {
+                phone_checked = true;
+                }else{
+                phone_checked=false;
+                phone_lay.setError("please enter a valid phone number");
+                }
+                if(email_checked && phone_checked) {
+                    mDatabase.child("Accounts").child(String.valueOf(id)).child("name").setValue(account_name.getText().toString());
+                    mDatabase.child("Accounts").child(String.valueOf(id)).child("address").setValue(account_address.getText().toString());
+                    mDatabase.child("Accounts").child(String.valueOf(id)).child("phonenumber").setValue(account_phone.getText().toString());
+                    mDatabase.child("Accounts").child(String.valueOf(id)).child("sector").setValue(sec_spinner.getSelectedItem().toString());
+                    mDatabase.child("Accounts").child(String.valueOf(id)).child("email").setValue(account_email.getText().toString());
+                    Intent myIntent = new Intent(EditAccountActivity.this, HomeActivity.class);
+                    EditAccountActivity.this.startActivity(myIntent);
+                }
 
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("name").setValue(account_name.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("address").setValue(account_address.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("phonenumber").setValue(account_phone.getText().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("sector").setValue(sec_spinner.getSelectedItem().toString());
-                mDatabase.child("Accounts").child(String.valueOf(id)).child("email").setValue(account_email.getText().toString());
-                Intent myIntent = new Intent(EditAccountActivity.this, HomeActivity.class);
-                EditAccountActivity.this.startActivity(myIntent);
             }
         });
 
