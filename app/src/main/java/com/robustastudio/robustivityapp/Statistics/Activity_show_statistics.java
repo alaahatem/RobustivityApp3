@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.Statistics;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
@@ -19,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -158,26 +160,6 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
        // velocity.setProgress(pvelocity);
 
 
-        ArrayList<BarEntry> BarEntries = new ArrayList<>();
-        BarEntries.add(new BarEntry(0, 30));
-        BarEntries.add(new BarEntry(1, 20));
-        BarEntries.add(new BarEntry(2, 10));
-
-        BarDataSet dataSet = new BarDataSet(BarEntries, "Dates");
-
-        ArrayList<String> Dates = new ArrayList<>();
-        Dates.add("malak");
-        Dates.add("mostafa");
-        Dates.add("mohamed");
-        // bar_data.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
-
-
-        BarData bar_data = new BarData(dataSet);
-        bar_data.setBarWidth(0.3f);
-        contributers.setData(bar_data);
-
-        XAxis xAxis = contributers.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"malak", "mohamed", "mostafa"}));
 
         // progress.donut_text_color();
         //toggledHours.setProgress(40.0f);
@@ -185,7 +167,7 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
 
 
-        final PrintAttributes x = new PrintAttributes.Builder().build();
+       // final PrintAttributes x = new PrintAttributes.Builder().build();
 
 
 
@@ -194,32 +176,101 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
     public void createExcel(FileOutputStream output){
 
         Workbook wb = new HSSFWorkbook();
-
         Cell c = null;
-
         //Cell style for header row
         CellStyle cs = wb.createCellStyle();
-        cs.setFillForegroundColor(HSSFColor.LIME.index);
+        cs.setFillForegroundColor(HSSFColor.AQUA.index);
         cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
         //New Sheet
         Sheet sheet1 = null;
-        sheet1 = wb.createSheet("myOrder");
+        sheet1 = wb.createSheet("Statistics");
 
         // Generate column headings
-        Row row = sheet1.createRow(0);
+        Row row0 = sheet1.createRow(0);
 
-        c = row.createCell(0);
-        c.setCellValue("Item Number");
+        c = row0.createCell(0);
+        c.setCellValue("Project progress:");
         c.setCellStyle(cs);
 
-        c = row.createCell(1);
-        c.setCellValue("Quantity");
+        c = row0.createCell(1);
+        c.setCellValue(progress.getProgress()+"%");
         c.setCellStyle(cs);
 
-        c = row.createCell(2);
-        c.setCellValue("Price");
+        // Generate column headings
+        Row row1 = sheet1.createRow(1);
+
+        c = row1.createCell(0);
+        c.setCellValue("Total toggled hours:");
         c.setCellStyle(cs);
+
+        c = row1.createCell(1);
+        if(toggledHours.getText().toString() ==null ||toggledHours.getText().toString().isEmpty()){
+            c.setCellValue("0.0");
+        }else {
+            c.setCellValue(toggledHours.getText().toString());
+        }
+        c.setCellStyle(cs);
+
+        // Generate column headings
+        Row row2 = sheet1.createRow(2);
+
+        c = row2.createCell(0);
+        c.setCellValue("Project stoppage:");
+        c.setCellStyle(cs);
+
+        c = row2.createCell(1);
+        c.setCellValue(stoppage.getProgress()+"%");
+        c.setCellStyle(cs);
+
+        // Generate column headings
+        Row row3 = sheet1.createRow(3);
+
+        c = row3.createCell(0);
+        c.setCellValue("Project cost:");
+        c.setCellStyle(cs);
+
+        c = row3.createCell(1);
+        if(costview.getText().toString().isEmpty() ||costview.getText().toString()==null){
+            c.setCellValue("0.0");
+        }else{
+            c.setCellValue(costview.getText().toString());
+        }
+        c.setCellStyle(cs);
+
+        // Generate column headings
+        Row row4 = sheet1.createRow(4);
+
+        c = row4.createCell(0);
+        c.setCellValue("Project cost flow:");
+        c.setCellStyle(cs);
+
+        c = row4.createCell(1);
+        c.setCellValue(cost_flow.getProgress()+"%");
+        c.setCellStyle(cs);
+
+        // Generate column headings
+        Row row5 = sheet1.createRow(5);
+
+        c = row5.createCell(0);
+        c.setCellValue("Project profitability:");
+        c.setCellStyle(cs);
+
+        c = row5.createCell(1);
+        c.setCellValue(profitability.getProgress()+"%");
+        c.setCellStyle(cs);
+
+        // Generate column headings
+        Row row6 = sheet1.createRow(6);
+
+        c = row6.createCell(0);
+        c.setCellValue("Project expected progress:");
+        c.setCellStyle(cs);
+
+        c = row6.createCell(1);
+        c.setCellValue(expected_progress.getProgress()+"%");
+        c.setCellStyle(cs);
+
 
         sheet1.setColumnWidth(0, (15 * 500));
         sheet1.setColumnWidth(1, (15 * 500));
@@ -278,17 +329,78 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
 
 
     public void set_project_progress(float x,String v,float stop,String c,float costflow_c,float p,float f){
-        progress.setProgress(x);
+
+        //  progress.setProgress(x);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(progress,"progress",x);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(1000);
+        anim.start();
+
+
         toggledHours.setText(v);
-        stoppage.setProgress(stop);
+
+
+
+        //stoppage.setProgress(stop);
+        anim = ObjectAnimator.ofFloat(stoppage,"progress",stop);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(1000);
+        anim.start();
         //stoppage.setProgress(Float.parseFloat(val));
+
 
         costview.setText(c);
 
-        cost_flow.setProgress(costflow_c);
 
-        profitability.setProgress(p);
-        expected_progress.setProgress(f);
+       // cost_flow.setProgress(costflow_c);
+        anim = ObjectAnimator.ofFloat(cost_flow,"progress",costflow_c);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(1000);
+        anim.start();
+
+       // profitability.setProgress(p);
+        anim = ObjectAnimator.ofFloat(profitability,"progress",p);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(1000);
+        anim.start();
+
+
+       // expected_progress.setProgress(f);
+        anim = ObjectAnimator.ofFloat(expected_progress,"progress",f);
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(1000);
+        anim.start();
+
+        //Top contributers
+        ArrayList<BarEntry> BarEntries = new ArrayList<>();
+        BarEntries.add(new BarEntry(0, 30));
+        BarEntries.add(new BarEntry(1, 20));
+        BarEntries.add(new BarEntry(2, 10));
+
+        BarDataSet dataSet = new BarDataSet(BarEntries, "Members");
+        try{
+            dataSet.setColor(Color.parseColor("#750808"));
+
+        }catch (IllegalArgumentException ex){
+
+        }
+
+        ArrayList<String> Dates = new ArrayList<>();
+        Dates.add("malak");
+        Dates.add("mostafa");
+        Dates.add("mohamed");
+        // bar_data.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
+
+
+        BarData bar_data = new BarData(dataSet);
+        bar_data.setBarWidth(0.3f);
+        contributers.setData(bar_data);
+
+        XAxis xAxis = contributers.getXAxis();
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"malak", "mohamed", "mostafa"}));
+        xAxis.setTextColor(Color.parseColor("#750808"));
+
+
     }
 
     public void onRequestPermissionsResult(int requestcode, @NonNull String[]permissions,@NonNull int[] grant){
@@ -376,6 +488,10 @@ public class Activity_show_statistics extends AppCompatActivity  implements Stat
             Toast.makeText(getApplicationContext(),"failed at PDF",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public void project_empty(){
+        Toast.makeText(getApplicationContext(),"There are no tasks created in this project yet",Toast.LENGTH_LONG).show();
     }
 
 

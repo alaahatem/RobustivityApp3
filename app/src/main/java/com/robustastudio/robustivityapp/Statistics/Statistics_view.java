@@ -14,6 +14,7 @@ public interface Statistics_view {
     public void castclass();
     public void createimage(FileOutputStream out);
     public void createExcel(FileOutputStream out);
+    public void project_empty();
 
 
 }

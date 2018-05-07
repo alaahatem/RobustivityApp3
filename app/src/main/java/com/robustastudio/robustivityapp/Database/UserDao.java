@@ -83,6 +83,13 @@ public interface UserDao {
     @Query("SELECT account_name FROM Accounts")
     List<String> retrieve_accounts();
 
+  /*  @Query("SELECT task_member FROM Tasks WHERE task_project_name=:name")
+    List<String> get_project_contributers(String name);*/
+
+    @Query("SELECT user_email FROM UserProfile")
+    List<String>getUserEmail();
+
+
 
 
 

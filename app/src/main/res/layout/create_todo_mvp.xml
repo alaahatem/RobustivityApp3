@@ -37,7 +37,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <EditText
@@ -48,17 +48,31 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <Button
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/members_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <ImageView
                 android:id="@+id/addMember"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Add Member" />
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_add_black_24dp"
+                android:tint="@color/colorPrimary" />
+
+           <!-- <Button
+                android:id="@+id/addMember"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="+" />-->
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/todoMembersList"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView

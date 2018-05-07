@@ -4,11 +4,10 @@ import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.robustastudio.robustivityapp.Database.AppDatabase;
@@ -16,7 +15,6 @@ import com.robustastudio.robustivityapp.Models.Tasks;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.ViewTask.ViewTaskView;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,15 +22,14 @@ import java.util.List;
  * Created by sa2r_ on 4/19/2018.
  */
 
-public class EditTaskView extends AppCompatActivity implements EditTaskViewInt{
-    TextView name, description, startDated, startDatem, startDatey, dueDated, dueDatem, dueDatey, assignee, estimatedHours, projectName, taskMember;
-    RecyclerView recycle;
-    int id;
+public class EditTaskView extends AppCompatActivity implements EditTaskViewInt {
+    TextView name, description, startDated, startDatem, startDatey, dueDated, dueDatem, dueDatey, estimatedHours, projectName;
+    String id;
     Tasks temp;
-    List<String>members=new ArrayList<>();
-    EditTaskAdapter editTaskAdapter;
+    String members;
+    Spinner taskMember;
     EditTaskPresenter presenter=new EditTaskPresenter(this);
-    Button edit, addMembers;
+    Button edit;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_task_mvp);
@@ -44,46 +41,31 @@ public class EditTaskView extends AppCompatActivity implements EditTaskViewInt{
         dueDated=findViewById(R.id.editDueDated);
         dueDatem=findViewById(R.id.editDueDatem);
         dueDatey=findViewById(R.id.editDueDatey);
-        assignee=findViewById(R.id.editTaskAssignee);
         estimatedHours=findViewById(R.id.editTaskEstimatedHours);
         projectName=findViewById(R.id.editProjectName);
         taskMember=findViewById(R.id.editTaskMembers);
-        recycle=findViewById(R.id.editMemberList);
-        recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").fallbackToDestructiveMigration()
                 .allowMainThreadQueries().build();
         Intent intent=getIntent();
-        id=intent.getIntExtra("id",0);
+        id=intent.getStringExtra("id");
         presenter.taskInfo(db,id);
-        addMembers=findViewById(R.id.addMembers);
         edit=findViewById(R.id.editTask);
-        addMembers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTaskAdapter.getMembers().add(taskMember.getText().toString());
-                editTaskAdapter.notifyItemInserted(editTaskAdapter.getItemCount()-1);
-            }
-        });
+        List<String>temp1=presenter.fillMembers(db);
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp1);
+        taskMember.setAdapter(adapter);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(taskMember.getText())){
-                    editTaskAdapter.getMembers().add(taskMember.getText().toString());
-                    editTaskAdapter.notifyItemInserted(editTaskAdapter.getItemCount()-1);
-                }
                 Intent intent1=new Intent(EditTaskView.this,ViewTaskView.class);
-                if(!temp.getName().equals(name.getText().toString())){
-                    temp.setName(name.getText().toString());
-                    intent1.putExtra("taskName",name.getText().toString());
-                    intent1.putExtra("projectName",projectName.getText().toString());
-                }
-                temp.setProject_name(projectName.getText().toString());
+                temp.setName(name.getText().toString());
+                intent1.putExtra("taskName",name.getText().toString());
+                intent1.putExtra("projectName",projectName.getText().toString());
+                temp.setProjectname(projectName.getText().toString());
                 temp.setStartDate(new Date(Integer.parseInt(startDatey.getText().toString()),Integer.parseInt(startDatem.getText().toString()),Integer.parseInt(startDated.getText().toString())));
                 temp.setDue_date(new Date(Integer.parseInt(dueDatey.getText().toString()),Integer.parseInt(dueDatem.getText().toString()),Integer.parseInt(dueDated.getText().toString())));
-                temp.setAssigne(assignee.getText().toString());
                 temp.setEstimated_hours(Float.valueOf(estimatedHours.getText().toString()));
                 temp.setDescription(description.getText().toString());
-                temp.setMembers(editTaskAdapter.getMembers().isEmpty()?null:editTaskAdapter.getMembers());
+                temp.setMembers(taskMember.getSelectedItem().toString());
                 presenter.editTask(db,temp);
                 startActivity(intent1);
             }
@@ -100,11 +82,8 @@ public class EditTaskView extends AppCompatActivity implements EditTaskViewInt{
         dueDated.setText(String.valueOf(task.getDue_date().getDate()));
         dueDatem.setText(String.valueOf(task.getDue_date().getMonth()));
         dueDatey.setText(String.valueOf(task.getDue_date().getYear()));
-        assignee.setText(task.getAssigne());
         estimatedHours.setText(String.valueOf(task.getEstimated_hours()));
-        projectName.setText(task.getProject_name());
-        editTaskAdapter=new EditTaskAdapter(task.getMembers());
-        recycle.setAdapter(editTaskAdapter);
+        projectName.setText(task.getProjectname());
         temp=task;
     }
 }

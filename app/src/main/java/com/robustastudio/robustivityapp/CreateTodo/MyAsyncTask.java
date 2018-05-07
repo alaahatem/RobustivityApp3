@@ -22,7 +22,7 @@ public class MyAsyncTask extends AsyncTask<String,Void,Void> {
     protected Void doInBackground(String... strings) {
 
         String email = strings[0];
-        String body ="You are tagged in a todo";
+      //  String body ="You are tagged in a todo";
         try {
             int SDK_INT = android.os.Build.VERSION.SDK_INT;
             if (SDK_INT > 8) {
@@ -43,12 +43,12 @@ public class MyAsyncTask extends AsyncTask<String,Void,Void> {
             con.setRequestMethod("POST");
 
             String strJsonBody = "{"
-                    + "\"app_id\": \"0523d5af-d75a-4916-a8dd-3e9109e0f10b\","
+                    + "\"app_id\": \"ad48fdd4-7c63-4dcd-bd26-b6941d648769\","
 
                     + "\"filters\": [{\"field\": \"tag\", \"key\": \"User_ID\", \"relation\": \"=\", \"value\": \"" + email + "\"}],"
 
                     + "\"data\": {\"foo\": \"bar\"},"
-                    + "\"contents\": {\"en\": \"English Message\"}"
+                    + "\"contents\": {\"en\": \"You are tagged in a TO-DO\"}"
                     + "}";
 
 

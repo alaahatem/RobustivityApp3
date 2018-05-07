@@ -77,27 +77,27 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
 //        });
 
         if(tasks!=null)
-        for (int i = 0; i <tasks.size() ; i++) {
-            Date Taskdate = tasks.get(i).getDue_date();
-            Date today = new Date();
+            for (int i = 0; i <tasks.size() ; i++) {
+                Date Taskdate = tasks.get(i).getDue_date();
+                Date today = new Date();
 
-            SimpleDateFormat parser = new SimpleDateFormat("EEE, MM d,yyyy");
-            parser.format(today);
-            parser.format(Taskdate);
+                SimpleDateFormat parser = new SimpleDateFormat("EEE, MM d,yyyy");
+                parser.format(today);
+                parser.format(Taskdate);
 
-            int days = (int) ((today.getTime()- Taskdate.getTime())/(1000 * 60 *60 * 24));
+                int days = (int) ((today.getTime()- Taskdate.getTime())/(1000 * 60 *60 * 24));
 
 
-            Toast.makeText(getActivity().getApplicationContext(),String.valueOf(days),Toast.LENGTH_LONG).show();
-            for (int j = 0; j <tasks.get(i).getMembers().size() ; j++) {
+                Toast.makeText(getActivity().getApplicationContext(),String.valueOf(days),Toast.LENGTH_LONG).show();
 
-                if(tasks.get(i).getMembers().get(j).equals("'"+mAuth.getCurrentUser().getDisplayName()+"'")){
+
+                if(tasks.get(i).getMembers().equals("'"+mAuth.getCurrentUser().getDisplayName()+"'")){
                     if(days+693989==0)
 
                         temptask.add(tasks.get(i));
                 }
+
             }
-        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
         adapter = new TasksAdapter(temptask);
 

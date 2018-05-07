@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (firebaseAuth.getCurrentUser() != null) {
                     DatabaseReference ref = mDatabase.child("user_profile");
-                    ref.addValueEventListener(new ValueEventListener() {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
                         //
                         String temp;
 

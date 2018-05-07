@@ -14,5 +14,5 @@ import java.util.List;
 
 public interface CreateTodoPresenterInt {
     void checkTextField(EditText text, List<String> list);
-    void addTodo(AppDatabase db, DatabaseReference firebase,String title,String email,List<String> list, String startTime, Date date, double duration);
+    void addTodo(AppDatabase db, DatabaseReference firebase,String title,String email,List<String> list,List<String> users_emails, String startTime, Date date, double duration);
 }

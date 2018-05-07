@@ -83,7 +83,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
                 holder.expandableLinearLayout.toggle();
             }
         });
-        holder.TaskViewChild.setText("Description : "+Tasks.get(position).getDescription()+"\n" +"Assigned by : "+Tasks.get(position).getAssigne());
+        holder.TaskViewChild.setText("Description : "+Tasks.get(position).getDescription()+"\n" +"Assigned by : "+Tasks.get(position).getAssignee());
         }
 
     private ObjectAnimator changeRotate(RelativeLayout button, float from, float to) {

@@ -25,25 +25,11 @@
             android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Description:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <EditText
             android:id="@+id/taskDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Assignee"
-            android:textAppearance="@style/TextAppearance.AppCompat" />
-
-        <EditText
-            android:id="@+id/taskAssignee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -56,30 +42,9 @@
             android:text="Members:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
-        <LinearLayout
+        <Spinner
+            android:id="@+id/taskMember"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/taskMember"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
-
-            <Button
-                android:id="@+id/addMember"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Add Member" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/memberList"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView

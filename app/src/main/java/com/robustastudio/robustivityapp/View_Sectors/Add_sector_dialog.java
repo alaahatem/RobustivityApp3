@@ -1,4 +1,4 @@
-package com.robustastudio.robustivityapp.Add_sector;
+package com.robustastudio.robustivityapp.View_Sectors;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

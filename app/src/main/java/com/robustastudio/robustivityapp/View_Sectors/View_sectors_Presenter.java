@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.View_Sectors;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.widget.Toast;
 
@@ -35,37 +36,24 @@ public class View_sectors_Presenter {
         List<String> names = db.userDao().sector_exists(name);
         List<String> show;
         List<Sectors> list = db.userDao().sectors_list();
-        int id=0;
+        int id=list.size();
 
 
         if(names.isEmpty()){
 
-           /* for (int i=0;i<list.size();i++){
-                if(list.get(i).id >id ){
-                    id =list.get(i).id;
-                }
-            }
-            id = id+1;*/
-
-                 Sectors s = new Sectors(name,0);
-                 //s.setId(id);
-
-                 db.userDao().insertSector(s);
-
+                 Sectors s = new Sectors(name,id+1);
+                // db.userDao().insertSector(s);
                  try {
                      reference.child(name).setValue(s);
                  }catch (SQLiteConstraintException x){
                      mview.name_already_exists();
 
                  }
+                // show = get_sectors(db);
+                // mview.show_sectors(show);
+            mview.refresh();
 
-                 show = get_sectors(db);
-                 mview.show_sectors(show);
 
-                 //sectors.add(name);
-                // mview.show_sectors(sectors);
-            //    Intent myIntent = new Intent(Activity_add_sector.this, viewSectors.class);
-            //    Activity_add_sector.this.startActivity(myIntent);
 
         }else {
             mview.name_already_exists();

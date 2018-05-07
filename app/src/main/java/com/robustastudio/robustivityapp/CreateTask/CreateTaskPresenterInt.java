@@ -1,7 +1,7 @@
 package com.robustastudio.robustivityapp.CreateTask;
 
-import android.widget.EditText;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 
 import java.util.Date;
@@ -12,6 +12,6 @@ import java.util.List;
  */
 
 public interface CreateTaskPresenterInt {
-    void checkTextField(EditText text, List<String> list);
-    void addTask(AppDatabase db, String name, String description, String assignee, List<String> list, Date startDate, Date endDate, float estimatedHours, float finishedHours, String projectName,int days);
+    void addTask(AppDatabase db, DatabaseReference firebase, FirebaseAuth mAuth, String name, String description, String member, Date startDate, Date endDate, float estimatedHours, String projectName);
+    List<String> fillMembers(AppDatabase db);
 }

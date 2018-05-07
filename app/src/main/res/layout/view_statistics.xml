@@ -102,6 +102,7 @@
                     android:id="@+id/project_contributers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:fontFamily="sans-serif-smallcaps"
                     android:text="Top Members Contributed :"
                     android:textColor="@color/colorAccent"
@@ -122,6 +123,17 @@
                     android:layout_marginTop="10dp"
                     android:background="@color/colorAccent" />
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/statistics2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
@@ -140,15 +152,6 @@
                     android:layout_marginTop="10dp"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/statistics2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
 
                 <TextView
                     android:id="@+id/project_cost_flow"

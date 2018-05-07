@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.ViewTasks;
 
+import com.google.firebase.database.DatabaseReference;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  */
 
 public interface ViewTasksInt {
-    List<String> viewTasks(AppDatabase db,String name);
+    List<String> viewTasks(AppDatabase db, DatabaseReference fireBase, String name);
 }

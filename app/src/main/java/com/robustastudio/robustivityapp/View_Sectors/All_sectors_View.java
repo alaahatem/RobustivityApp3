@@ -12,4 +12,6 @@ public interface All_sectors_View {
 
    public void show_sectors(List<String> sectors);
    public void name_already_exists();
+   public void refresh();
+
 }

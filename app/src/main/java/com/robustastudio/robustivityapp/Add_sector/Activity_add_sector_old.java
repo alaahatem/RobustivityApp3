@@ -1,26 +1,18 @@
 package com.robustastudio.robustivityapp.Add_sector;
 
 import android.arch.persistence.room.Room;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
-import com.robustastudio.robustivityapp.Models.Sectors;
 import com.robustastudio.robustivityapp.R;
-import com.robustastudio.robustivityapp.View_Sectors.viewSectors;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_add_sector extends AppCompatActivity  implements Add_sector_View{
+public class Activity_add_sector_old extends AppCompatActivity {
 
     public List<String> Accounts;
 
@@ -57,8 +49,8 @@ public class Activity_add_sector extends AppCompatActivity  implements Add_secto
                   //  if(names.isEmpty() ){
                   //      Sectors s = new Sectors(name, Accounts);
                     //    db.userDao().insertSector(s);
-                    //    Intent myIntent = new Intent(Activity_add_sector.this, viewSectors.class);
-                    //    Activity_add_sector.this.startActivity(myIntent);
+                    //    Intent myIntent = new Intent(Activity_add_sector_old.this, viewSectors.class);
+                    //    Activity_add_sector_old.this.startActivity(myIntent);
                   //  }else {
                        // Toast.makeText(getApplicationContext(),"This sector exists",Toast.LENGTH_LONG).show();
                    // }

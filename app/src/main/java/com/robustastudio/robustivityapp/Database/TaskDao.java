@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Dao
 public interface TaskDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void addTask(Tasks task);
 
 
@@ -25,14 +25,17 @@ public interface TaskDao {
     @Query("SELECT task_name FROM Tasks")
     List<String> viewTasks();
     @Query("SELECT id FROM Tasks WHERE task_project_name=:name AND task_name=:tname")
-    int viewTask(String name, String tname);
+    String viewTask(String name, String tname);
 
     @Query("SELECT * FROM Tasks WHERE id=:id")
-    Tasks getUser(int id);
+    Tasks getUser(String id);
     @Delete
     void deleteTask(Tasks task);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void updateTask(Tasks task);
     @Query("SELECT *FROM Tasks")
     List<Tasks> getAllTasks();
+
+    @Query("SELECT * FROM Tasks WHERE task_project_name=:name")
+    List<Tasks> get_tasks_project(String name);
 }

@@ -57,6 +57,7 @@ import Constants.Constants;
 
 public class HomeActivity extends AppCompatActivity implements RecyclerTouchItemHelperListener {
 Context context;
+    DatabaseReference ref;
     List<UserProfile> userprofiles;
 String checkout = "Check out";
     private DatabaseReference mDatabase;
@@ -92,7 +93,9 @@ String checkout = "Check out";
 
 boolean stored;
     boolean activity_stored;
+    ValueEventListener myValueEventListner;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -106,6 +109,7 @@ boolean stored;
         projects_id = new ArrayList<String >();
         available = new ArrayList<String >();
         todos_id= new ArrayList<String>();
+        checkin = (Button)findViewById(R.id.check_in);
         available_todos = new ArrayList<String >();
         temptask = new ArrayList<>();
         account_stored =false;
@@ -133,7 +137,7 @@ boolean stored;
 
 
 
-        DatabaseReference ref = mDatabase.child("user_profile");
+        ref = mDatabase.child("user_profile");
         refac = mDatabase.child("Accounts");
         refact =mDatabase.child("Activities");
         ref_projects =mDatabase.child("Projects");
@@ -198,6 +202,23 @@ boolean stored;
         mViewPager.setAdapter(Tabs_Adapter);
 
      ///////////////TABS/////////////////
+
+
+
+        mDatabase.child("Tasks").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    Tasks t= snapshot.getValue(Tasks.class);
+                    db.taskDao().addTask(t);
+
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         ref_projects.addValueEventListener(new ValueEventListener() {
@@ -418,7 +439,8 @@ boolean stored;
 
 
 
-        ref.addValueEventListener(new ValueEventListener() {
+        myValueEventListner =new ValueEventListener() {
+
             List<UserProfile> usertemp= new ArrayList<>();
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -452,7 +474,8 @@ boolean stored;
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+
+        };
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -472,122 +495,6 @@ boolean stored;
                 }
             }
         };
-
-
-        /*navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-                        if(menuItem.getItemId() == R.id.projectsList){
-                            Intent myIntent = new Intent(HomeActivity.this, CollectionDemoActivity.class);
-                            HomeActivity.this.startActivity(myIntent);
-                            //menuItem.setChecked(false);
-                        }
-
-                        if(menuItem.getItemId() == R.id.myprofile){
-                            Intent myIntent = new Intent(HomeActivity.this, ViewProfileActivity.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-                        if(menuItem.getItemId() == R.id.usersearch){
-                            Intent myIntent = new Intent(HomeActivity.this, CreateProfileActivity.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-                        if(menuItem.getItemId() == R.id.view_sectors){
-                            Intent myIntent = new Intent(HomeActivity.this, viewSectors.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-                        if(menuItem.getItemId() == R.id.createTasknew){
-                            Intent myIntent = new Intent(HomeActivity.this, CreateTaskView.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-                        if(menuItem.getItemId() == R.id.createTodonew){
-                            Intent myIntent = new Intent(HomeActivity.this, CreateTodoView.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-                        if(menuItem.getItemId() == R.id.viewtaskall){
-                            Intent myIntent = new Intent(HomeActivity.this, ViewTasksView.class);
-                            HomeActivity.this.startActivity(myIntent);
-                        }
-
-                        if(menuItem.getItemId() == R.id.logout){
-                            mAuth.signOut();
-                        }
-
-
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
-                        return true;
-                    }
-                });*/
-    /*myprofile.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent myIntent = new Intent(HomeActivity.this, viewprofile.class);
-            HomeActivity.this.startActivity(myIntent);
-
-
-
-        }
-    });
-
-    usersearch.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent myIntent = new Intent(HomeActivity.this, createProfile.class);
-            HomeActivity.this.startActivity(myIntent);
-        }
-    });
-
-    createuser.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent myIntent = new Intent(HomeActivity.this,createuserprof.class);
-            HomeActivity.this.startActivity(myIntent);
-
-        }
-    });
-
-    logout.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-        mAuth.signOut();
-
-        }
-    });
-
-
-
-        projectsList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(HomeActivity.this, Activity_View_Projects.class);
-                HomeActivity.this.startActivity(myIntent);
-
-
-
-            }
-        });
-
-        sectors.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(HomeActivity.this, viewSectors.class);
-                HomeActivity.this.startActivity(myIntent);
-
-
-
-            }
-        });
-*/
-
-
-
         new Thread(new Runnable() {
             @Override
 
@@ -635,11 +542,51 @@ boolean stored;
             }
         }).start();
 
+//                        checkin.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                String current_status = "";
+//                                String Image ="";
+//                                if(userprofiles!=null &&mAuth.getCurrentUser()!=null)
+//                                    for (int i = 0; i <userprofiles.size() ; i++) {
+//                                        if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail()))
+//                                            Image = userprofiles.get(i).getName();
+//                                        current_status = userprofiles.get(i).getStatus();
+//                                        Toast.makeText(getApplicationContext(),userprofiles.get(i).getStatus(),Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(getApplicationContext(),current_status+ " user",Toast.LENGTH_LONG).show();
+//                                    }
+//                                activities = db.activitiesDao().getAllActivities();
+//
+//                                        if(current_status.equals("Off Premises")) {
+//
+//                                            String time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                                            Activities activity = new Activities(activities.size(), "Check in", mAuth.getCurrentUser().getDisplayName() + " has checked in", Image, time);
+//                                            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+//                                            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+////
+//                                            db.userDao().updateUsers("Checked in", mAuth.getCurrentUser().getEmail());
+//                                        }
+//
+//                                else{
+//                                            Toast.makeText(getApplicationContext(),"Clicked not off",Toast.LENGTH_LONG).show();
+//                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                                    Activities activity = new Activities(activities.size(),"Check out", mAuth.getCurrentUser().getDisplayName()+" has checked out",Image,time);
+//                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+//                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off Premises");
+////                                    checkin.setText("Check in");
+//                                    db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());
+//                                }
+//                            }
+//                        });
+
+                    }
 
 
 
 
-    }
+
+
+
     public  void setButton(){
 
         for (int i = 0; i <userprofiles.size() ; i++) {
@@ -665,7 +612,8 @@ boolean stored;
         }
     }
 
-   public void onStart() {
+
+    public void onStart() {
         super.onStart();
 
         // Check if user is signed in (non-null) and update UI accordingly.

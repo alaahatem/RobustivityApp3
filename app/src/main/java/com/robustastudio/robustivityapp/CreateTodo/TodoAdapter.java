@@ -32,6 +32,11 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         holder.item.setText(todoMembers.get(position));
     }
 
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+
     @Override
     public int getItemCount() {
         return todoMembers.size();

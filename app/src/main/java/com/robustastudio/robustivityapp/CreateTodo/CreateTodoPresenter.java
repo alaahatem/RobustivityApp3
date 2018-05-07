@@ -3,7 +3,9 @@ package com.robustastudio.robustivityapp.CreateTodo;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ import okhttp3.MediaType;
 public class CreateTodoPresenter implements CreateTodoPresenterInt {
     CreateTodoView view;
 
+
     public final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     public CreateTodoPresenter(CreateTodoView view) {
@@ -40,7 +43,7 @@ public class CreateTodoPresenter implements CreateTodoPresenterInt {
     }
 
     @Override
-    public void addTodo(AppDatabase db, DatabaseReference firebase, String title, final String email, List<String> list, String startTime, Date date, double duration) {
+    public void addTodo(AppDatabase db, DatabaseReference firebase, String title, final String email, List<String> list,List<String> users_emails, String startTime, Date date, double duration) {
         boolean flag=false;
 
         if (date.before(new Date())){
@@ -56,8 +59,20 @@ public class CreateTodoPresenter implements CreateTodoPresenterInt {
             }else{
 
                 Todo todo=new Todo(key,title,email,list,startTime,date,duration);
-                db.todoDao().addTodo(todo);
-                firebase.child("Todos").child(title).setValue(todo);
+               // db.todoDao().addTodo(todo);
+                firebase.child("Todos").child(key).setValue(todo);
+                for (int i =0;i<users_emails.size();i++){
+                    new MyAsyncTask().execute(users_emails.get(i));
+                    String key1 = firebase.child("Todos").push().getKey();
+                    if(key1==null){
+                        Toast.makeText(view,"Can't tag members" +
+                                "check the internet",Toast.LENGTH_LONG).show();
+                    }else{
+                        Todo todo_tagged_members =new Todo(key1,title,users_emails.get(i),list,startTime,date,duration);
+                        firebase.child("Todos").child(key1).setValue(todo);
+                    }
+                }
+
 
             }
 

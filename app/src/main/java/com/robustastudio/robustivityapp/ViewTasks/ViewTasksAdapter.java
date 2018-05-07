@@ -20,7 +20,7 @@ import java.util.List;
 public class ViewTasksAdapter extends RecyclerView.Adapter<ViewTasksAdapter.ViewHolder> {
     List<String> names;
     String name;
-    public ViewTasksAdapter(List<String> names,String name) {
+    public ViewTasksAdapter(List<String> names, String name) {
 
         this.names = names;
         this.name=name;

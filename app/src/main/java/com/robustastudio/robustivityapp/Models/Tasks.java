@@ -3,86 +3,65 @@ package com.robustastudio.robustivityapp.Models;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.text.format.DateFormat;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by hp on 28/03/2018.
  */
-@Entity
+@Entity(tableName = "Tasks")
 public class Tasks {
-
-    @PrimaryKey(autoGenerate = true)
-    public int id ;
+    @PrimaryKey
+    @ColumnInfo(name ="id")
+    @NonNull
+    public String id;
 
     @ColumnInfo(name="task_name")
     public String name ;
-
-    @ColumnInfo(name ="task_description")
+    @ColumnInfo(name="task_description")
     public String description;
+    @ColumnInfo(name="task_assignee")
+    public String assignee ;
+    @ColumnInfo(name="task_members")
+    public String members;
+    @ColumnInfo(name="task_estimated_hours")
+    public float estimated_hours;
 
-    @ColumnInfo(name ="task_assigne")
-    public String assigne ;
-
-    @ColumnInfo(name="task_members_list")
-    public List<String> members;
-
-    @ColumnInfo(name ="task_estimated_hours")
-    public Float estimated_hours;
-
-    @ColumnInfo(name ="task_due_date")
+    @ColumnInfo(name="task_due_date")
+    @TypeConverters({DateConverter.class})
     public Date due_date;
 
-    @ColumnInfo(name ="task_project_name")
-    public String project_name;
+    @ColumnInfo(name="task_finished_hours")
+    public float finished_hours;
+    @ColumnInfo(name="task_start_date")
+    @TypeConverters({DateConverter.class})
+    public Date startDate ;
+    @ColumnInfo(name = "task_project_name")
+    public String projectname;
 
-    @ColumnInfo(name ="task_finished_hours")
-    public Float finished_hours;
-
-    @ColumnInfo(name ="task_start_date")
-    public Date StartDate ;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @ColumnInfo(name ="task_toggled_days")
-    public int days ;
-
-
-    public Tasks(String name, String description, String assigne, List<String> members, Float estimated_hours, Date due_date, String project_name, Float finished_hours, Date StartDate, int days) {
+    public Tasks(String id, String name, String description, String assignee, String members, float estimated_hours, Date due_date, float finished_hours, Date startDate, String projectname) {
+        this.id=id;
         this.name = name;
         this.description = description;
-        this.assigne = assigne;
+        this.assignee = assignee;
         this.members = members;
         this.estimated_hours = estimated_hours;
         this.due_date = due_date;
-        this.project_name = project_name;
         this.finished_hours = finished_hours;
-        this.StartDate = StartDate;
-        this.days=days;
+        this.startDate = startDate;
+        this.projectname = projectname;
     }
 
-    public int getDays() {
-        return days;
+    public Tasks(){}
+
+    public String getId() {
+        return id;
     }
 
-    public void setDays(int days) {
-        this.days = days;
-    }
-
-    public String getProject_name() {
-        return project_name;
-    }
-
-    public void setProject_name(String project_name) {
-        this.project_name = project_name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -101,27 +80,27 @@ public class Tasks {
         this.description = description;
     }
 
-    public String getAssigne() {
-        return assigne;
+    public String getAssignee() {
+        return assignee;
     }
 
-    public void setAssigne(String assigne) {
-        this.assigne = assigne;
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
     }
 
-    public List<String> getMembers() {
+    public String getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(String members) {
         this.members = members;
     }
 
-    public Float getEstimated_hours() {
+    public float getEstimated_hours() {
         return estimated_hours;
     }
 
-    public void setEstimated_hours(Float estimated_hours) {
+    public void setEstimated_hours(float estimated_hours) {
         this.estimated_hours = estimated_hours;
     }
 
@@ -133,22 +112,27 @@ public class Tasks {
         this.due_date = due_date;
     }
 
-    public Float getFinished_hours() {
+    public float getFinished_hours() {
         return finished_hours;
     }
 
-    public void setFinished_hours(Float finished_hours) {
+    public void setFinished_hours(float finished_hours) {
         this.finished_hours = finished_hours;
     }
 
     public Date getStartDate() {
-        return StartDate;
+        return startDate;
     }
 
     public void setStartDate(Date startDate) {
-        StartDate = startDate;
+        this.startDate = startDate;
     }
 
+    public String getProjectname() {
+        return projectname;
+    }
 
-
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
+    }
 }

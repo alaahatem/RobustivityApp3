@@ -48,7 +48,7 @@
             android:label="@string/title_activity_create_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Add_sector.Activity_add_sector"
+            android:name=".Add_sector.Activity_add_sector_old"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity android:name=".ViewProjects.Activity_View_Projects"   />
         <activity android:name=".ViewSingleProject.Activity_Project" />

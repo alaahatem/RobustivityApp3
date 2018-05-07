@@ -113,10 +113,10 @@ public class CreateProjectView extends AppCompatActivity {
                         new Date(Integer.parseInt(duedatey.getText().toString()),Integer.parseInt(duedatem.getText().toString()),
                                 Integer.parseInt(duedated.getText().toString())),
                                 engagementList,tagLine.getText().toString(),accountName.getText().toString(),Float.valueOf(projectCost.getText().toString()),Float.valueOf(contractedCost.getText().toString()),Float.valueOf(plannedCost.getText().toString()));
-
-                Intent intent = new Intent(CreateProjectView.this, HomeActivity.class);
-
-                startActivity(intent);
+//
+//                Intent intent = new Intent(CreateProjectView.this, HomeActivity.class);
+//
+//                startActivity(intent);
             }
         });
     }
