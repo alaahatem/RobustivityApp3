@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.robustastudio.robustivityapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:installLocation="auto"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <receiver android:name=".WifiBroadcastReceiver">
+            <intent-filter android:priority="100">
+                <action android:name="android.net.wifi.STATE_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CreateProfile.CreateProfileActivity"
+            android:label="@string/title_activity_create_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Add_sector.Activity_add_sector"
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".ViewProjects.Activity_View_Projects"  />
+        <activity android:name=".ViewSingleProject.Activity_Project" />
+        <activity android:name=".View_Sectors.viewSectors"
+            android:label="Sectors"
+             />
+        <activity android:name=".Statistics.Activity_show_statistics" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".ViewProfile.ViewProfileActivity" />
+        <activity android:name=".UserProfiles.UsersProfilesImpl" />
+        <activity android:name=".CreateUserProfile.CreateUserProfActivity" />
+        <activity android:name=".CreateProject.CreateProjectView" />
+        <activity android:name=".CreateTask.CreateTaskView" />
+        <activity android:name=".ViewTasks.ViewTasksView" />
+        <activity android:name=".ViewTask.ViewTaskView" />
+        <activity android:name=".Accounts.AccountActivity" />
+        <activity android:name=".CreateAccounts.CreateActivity" />
+        <activity android:name=".ViewAccount" android:label="Accounts"/>
+        <activity android:name=".CreateTodo.CreateTodoView" />
+        <activity android:name=".CollectionDemoActivity" />
+        <activity android:name=".EditAccounts.EditAccountActivity"></activity>
+
+        <activity android:name=".EditTask.EditTaskView"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.robustastudio.robustivityapp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+            ...
+        </provider>
+
+        <activity
+            android:name=".Main_Trial"
+            android:label="@string/title_activity_main__trial"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>
