@@ -1,5 +1,6 @@
 package com.robustastudio.robustivityapp.ViewProfile;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.robustastudio.robustivityapp.MainActivity;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 
@@ -12,14 +13,16 @@ import java.util.List;
 public class ViewProfilePresenterImpl implements ViewProfilePresenter {
     List<UserProfile> userprofiles;
     ViewProfile mViewProfile;
+    FirebaseAuth mAuth;
 
     public ViewProfilePresenterImpl(ViewProfile mViewProfile) {
         this.mViewProfile = mViewProfile;
     }
 
     public void ShowProfile(List<UserProfile> userProf){
+        mAuth = FirebaseAuth.getInstance();
         for (int i = 0; i <userProf.size() ; i++) {
-            if(userProf.get(i).getEmail().equals(MainActivity.mAuth.getCurrentUser().getEmail())){
+            if(userProf.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
             String name = userProf.get(i).getName();
             String email = userProf.get(i).getEmail();
             String phone = userProf.get(i).getPhone();

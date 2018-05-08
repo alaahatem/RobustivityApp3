@@ -58,7 +58,7 @@ String tempImage;
         if(userProfiles!=null)
         for (int i = 0; i <userProfiles.size() ; i++) {
 
-            if (userProfiles.get(i).getName().equals(Activities.get(position).getCont())) {
+            if (userProfiles.get(i).getEmail().equals(Activities.get(position).getCont())) {
                 if (!userProfiles.isEmpty()) {
 
                     tempImage = userProfiles.get(i).getImage();

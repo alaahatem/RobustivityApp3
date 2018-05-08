@@ -5,6 +5,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.Models.Activities;
 import com.robustastudio.robustivityapp.Models.Tasks;
 
 import java.util.Date;
@@ -113,6 +114,26 @@ public class CreateTaskPresenter implements CreateTaskPresenterInt {
 
     }
 
+    public void addActivity(DatabaseReference mDatabase, AppDatabase db, String type, String content, String assignee, String time){
+        List<Activities> activities;
+//        List<UserProfile> userProfiles;
+//        String Image ="";
+//        userProfiles = db.userDao().getAllprofiles();
+        activities= db.activitiesDao().getAllActivities();
+//        for (int i = 0; i < userProfiles.size(); i++) {
+//            if (userProfiles.get(i).getName().equals(assignee)) {
+//                if (userProfiles.get(i).getImage() != null)
+//                    Image = userProfiles.get(i).getImage();
+//
+//            }
+//        }
+
+        Activities activity = new Activities(activities.size(), type, content,assignee ,time);
+
+        mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+
+
+    }
     @Override
     public List<String> fillMembers(AppDatabase db) {
        List<String> list=db.userDao().getUserEmail();

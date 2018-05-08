@@ -33,8 +33,12 @@ public interface UserDao {
     @Query("SELECT project_name FROM Projects WHERE project_accountName = :Account")
     List<String> getAllProjects(String Account);
     @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone ,user_status=:status WHERE user_email = :email")
-    void updateProfile(String name,String email,String phone,String status);
-    @Query("UPDATE Accounts SET account_name =:name,account_email=:email ,account_phone=:phone ,account_address=:address ,account_sector=:sector   WHERE account_id= :id")
+    void updateProfileInfo(String name,String email,String phone,String status);
+
+    @Query("UPDATE userprofile SET user_name=:name ,user_phone=:phone ,user_status=:status , image_uri=:image WHERE user_email = :email")
+    void updateProfile(String name,String email,String phone,String status , String image);
+
+    @Query("UPDATE Accounts SET account_name =:name,account_email=:email ,account_phone=:phone ,account_address=:address ,account_sector=:sector  WHERE account_id= :id")
     void updateAccount(String name,String email,String phone,String address ,String sector,int id);
 
     @Insert

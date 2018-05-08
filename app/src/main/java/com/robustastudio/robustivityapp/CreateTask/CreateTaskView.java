@@ -17,6 +17,7 @@ import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Tasks;
 import com.robustastudio.robustivityapp.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,11 @@ public class CreateTaskView extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 presenter.addTask(db,fireBase,mAuth,name.getText().toString(),description.getText().toString(),spinner.getSelectedItem().toString(),new Date(Integer.parseInt(startDatey.getText().toString()),Integer.parseInt(startDatem.getText().toString()),Integer.parseInt(startDated.getText().toString())),new Date(Integer.parseInt(dueDatey.getText().toString()),Integer.parseInt(dueDatem.getText().toString()),Integer.parseInt(dueDated.getText().toString())),Float.valueOf(estimatedHours.getText().toString()),projectName.getText().toString());
+                String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                presenter.addActivity(fireBase,db,"Task Creation",mAuth.getCurrentUser().getDisplayName()+" "+"Created a new Task called"+" "+name.getText().toString()+" in Project"+" "+projectName.getText().toString(),mAuth.getCurrentUser().getEmail(),time);
+
                 Toast.makeText(CreateTaskView.this, "kollo fel konafa", Toast.LENGTH_SHORT).show();
             }
         });

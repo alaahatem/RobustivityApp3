@@ -17,7 +17,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,7 +67,7 @@ String checkout = "Check out";
     public static  boolean account_stored;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    static Button checkin;
+    public Spinner checkin;
     static String checkedin = "checkout";
     private DrawerLayout mDrawerLayout;
     static AppDatabase db=null;
@@ -90,10 +93,11 @@ String checkout = "Check out";
 
     List<String> todos_id;
     List<String> available_todos;
-
+boolean firstime=false;
 boolean stored;
     boolean activity_stored;
     ValueEventListener myValueEventListner;
+    List<String> Status= new ArrayList<>();
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,18 +113,18 @@ boolean stored;
         projects_id = new ArrayList<String >();
         available = new ArrayList<String >();
         todos_id= new ArrayList<String>();
-        checkin = (Button)findViewById(R.id.check_in);
+        checkin = findViewById(R.id.check_in);
         available_todos = new ArrayList<String >();
         temptask = new ArrayList<>();
         account_stored =false;
         stored = false;
         recyclerView =findViewById(R.id.recycler_view_tasks);
-       // Button projectsList = (Button) findViewById(R.id.projectsList);
-        //Button sectors = (Button) findViewById(R.id.view_sectors);
-       // Button myprofile = (Button) findViewById(R.id.myprofile);
-       // Button usersearch = (Button) findViewById(R.id.usersearch);
-       // Button createuser = (Button) findViewById(R.id.CreateUser);
-       // Button logout = (Button) findViewById(R.id.logout);
+        Status.add("Off Premises");
+        Status.add("Checked in");
+
+        Status.add("Working from Home");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,Status );
+        checkin.setAdapter(adapter);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
@@ -130,7 +134,7 @@ boolean stored;
         tasks =db.taskDao().getAllTasks();
         available_todos=db.todoDao().getTodos(mAuth.getCurrentUser().getEmail());
 
-
+        setDefaultValues();
         for (int i=0;i<available_todos.size();i++){
             Toast.makeText(getApplicationContext(), available_todos.get(i), Toast.LENGTH_SHORT).show();
         }
@@ -438,8 +442,7 @@ boolean stored;
         });*/
 
 
-
-        myValueEventListner =new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
 
             List<UserProfile> usertemp= new ArrayList<>();
             @Override
@@ -463,7 +466,7 @@ boolean stored;
                         db.userDao().insertAll(userp);
                     }
                     else{
-                        db.userDao().updateProfile(name,email,phone,status);
+                        db.userDao().updateProfile(name,email,phone,status,image);
                     }
 
                 }
@@ -474,9 +477,7 @@ boolean stored;
             public void onCancelled(DatabaseError databaseError) {
 
             }
-
-        };
-
+        });
 
         mAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
@@ -484,7 +485,7 @@ boolean stored;
 
         if(bssid!=null) {
             if (bssid.equals("58:2a:f7:39:59:f8")) {
-            checkin.setText(checkedin);
+            checkin.setSelection(1);
             }
         }
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -495,52 +496,92 @@ boolean stored;
                 }
             }
         };
-        new Thread(new Runnable() {
+        checkin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String thename="";
 
-            public void run() {
+                if(mAuth.getCurrentUser()!=null && userprofiles!=null)
+        for (int i = 0; i <userprofiles.size(); i++) {
+            if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail()))
+                 thename = userprofiles.get(i).getName();
+        }
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        checkin = (Button)findViewById(R.id.check_in);
-                        //checkin = (Button)findViewById(R.id.Checkin);
-                        //your code
-                        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
-                        userprofiles =db.userDao().getAllprofiles();
-                        setButton();
-                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                        checkin.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String Image ="";
-                                if(userprofiles!=null &&mAuth.getCurrentUser()!=null)
-                                    for (int i = 0; i <userprofiles.size() ; i++) {
-                                        if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail()))
-                                            Image = userprofiles.get(i).getName();
-                                    }
-                                activities = db.activitiesDao().getAllActivities();
-                                if (checkin.getText().toString().equals("Check in")) {
-                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
-                                    Activities activity = new Activities(activities.size(),"Check in", mAuth.getCurrentUser().getDisplayName()+" has checked in",Image,time);
-                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
-                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);                                    checkin.setText("Check out");
-                                    db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
-                                }
-                                else{
-                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
-                                    Activities activity = new Activities(activities.size(),"Check out", mAuth.getCurrentUser().getDisplayName()+" has checked out",Image,time);
-                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
-                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");                                    checkin.setText("Check in");
-                                    db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());
-                                }
-                            }
-                        });
+        if(checkin.getSelectedItem().equals("Checked in")){
+            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+            Activities activity = new Activities(activities.size(),"Check in", thename+" has checked in",mAuth.getCurrentUser().getEmail(),time);
+            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 
-                    }
-                });
+        }
+        else if(checkin.getSelectedItem().equals("Off Premises")){
+            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+            Activities activity = new Activities(activities.size(),"Check out", thename+" has checked out",mAuth.getCurrentUser().getEmail(),time);
+            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off Premises");
+            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+        }
+        else{
+            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+            Activities activity = new Activities(activities.size(),"From Home", thename+" is working from home",mAuth.getCurrentUser().getEmail(),time);
+            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Working from Home");
+            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+
+        }
             }
-        }).start();
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+//        new Thread(new Runnable() {
+//            @Override
+//
+//            public void run() {
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        checkin = (Button)findViewById(R.id.check_in);
+//
+//                        final AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
+//                        userprofiles =db.userDao().getAllprofiles();
+//                        setButton();
+//                        mDatabase = FirebaseDatabase.getInstance().getReference();
+//                        checkin.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                String Image ="";
+//                                if(userprofiles!=null &&mAuth.getCurrentUser()!=null)
+//                                    for (int i = 0; i <userprofiles.size() ; i++) {
+//                                        if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail()))
+//                                            Image = userprofiles.get(i).getName();
+//                                    }
+//                                activities = db.activitiesDao().getAllActivities();
+//
+//                                if (checkin.getText().toString().equals("Check in")) {
+//                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                                    Activities activity = new Activities(activities.size(),"Check in", mAuth.getCurrentUser().getDisplayName()+" has checked in",Image,time);
+//                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+//                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);                                    checkin.setText("Check out");
+//                                    db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
+//                                }
+//                                else{
+//                                    String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                                    Activities activity = new Activities(activities.size(),"Check out", mAuth.getCurrentUser().getDisplayName()+" has checked out",Image,time);
+//                                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+//                                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off premises");                                    checkin.setText("Check in");
+//                                    db.userDao().updateUsers("off Premises",mAuth.getCurrentUser().getEmail());
+//                                }
+//                            }
+//                        });
+//
+//                    }
+//                });
+//            }
+//        }).start();
 
 //                        checkin.setOnClickListener(new View.OnClickListener() {
 //                            @Override
@@ -587,20 +628,20 @@ boolean stored;
 
 
 
-    public  void setButton(){
-
-        for (int i = 0; i <userprofiles.size() ; i++) {
-            if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail())){
-                if(userprofiles.get(i).getStatus().equals("Checked in")){
-                    checkin.setText("Check out");
-                }
-                else{
-                    checkin.setText("Check in");
-                }
-            }
-        }
-
-    }
+//    public  void setButton(){
+//
+//        for (int i = 0; i <userprofiles.size() ; i++) {
+//            if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(i).getEmail())){
+//                if(userprofiles.get(i).getStatus().equals("Checked in")){
+//                    checkin.setSelection(1);
+//                }
+//                else{
+//                    checkin.setSelection(0);
+//                }
+//            }
+//        }
+//
+//    }
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         if(viewHolder instanceof TasksAdapter.ViewHolder){
             String name = temptask.get(viewHolder.getAdapterPosition()).getName();
@@ -611,7 +652,20 @@ boolean stored;
 
         }
     }
-
+public void setDefaultValues(){
+        String status ="";
+        if(userprofiles!=null && mAuth.getCurrentUser()!=null)
+    for (int i = 0; i <userprofiles.size() ; i++) {
+        if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
+            status = userprofiles.get(i).getStatus();
+        }
+    }
+    if( status.equals("Checked in"))
+        checkin.setSelection(1);
+        else if (status.equals("Off Premises"))
+            checkin.setSelection(0);
+        else checkin.setSelection(2);
+}
 
     public void onStart() {
         super.onStart();
