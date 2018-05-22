@@ -68,6 +68,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             if(bssid!=null) {
                 if(mAuth.getCurrentUser()!=null && userprofiles!=null)
                 if (bssid.equals("58:2a:f7:39:59:f8")) {
+
                     for (int j = 0; j <userprofiles.size() ; j++) {
                         if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){
                            Toast.makeText(context.getApplicationContext(),FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail()),Toast.LENGTH_LONG).show();
@@ -75,7 +76,8 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
                             db.userDao().updateUsers("Checked in",mAuth.getCurrentUser().getEmail());
                         mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
 //                            HomeActivity.checkin.setText("Check out");
-                            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                            long time = System.currentTimeMillis();
                             Activities activity = new Activities(activities.size(),"Check in",userprofiles.get(j).getName()+ " has Checked in ",userprofiles.get(j).getName(),time);
                             mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 

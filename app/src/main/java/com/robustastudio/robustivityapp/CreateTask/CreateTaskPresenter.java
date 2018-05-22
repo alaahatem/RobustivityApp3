@@ -114,7 +114,7 @@ public class CreateTaskPresenter implements CreateTaskPresenterInt {
 
     }
 
-    public void addActivity(DatabaseReference mDatabase, AppDatabase db, String type, String content, String assignee, String time){
+    public void addActivity(DatabaseReference mDatabase, AppDatabase db, String type, String content, String assignee, long time){
         List<Activities> activities;
 //        List<UserProfile> userProfiles;
 //        String Image ="";

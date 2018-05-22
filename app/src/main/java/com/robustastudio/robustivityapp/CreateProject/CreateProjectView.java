@@ -105,7 +105,8 @@ public class CreateProjectView extends AppCompatActivity {
                 id = p.size();
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
                         .fallbackToDestructiveMigration().allowMainThreadQueries().build();
-                String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//                String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+               long time =System.currentTimeMillis();
                 presenter.addActivity(firebase,db,"Project Creation","Project has been created referring to Client : " +accountName.getText().toString(),accountName.getText().toString(),time);
                 presenter.addProject(db,ref,id,name.getText().toString(), type.getText().toString(),new Date(Integer.parseInt(startdatey.getText().toString()),Integer.parseInt(startdatem.getText().toString()),
 

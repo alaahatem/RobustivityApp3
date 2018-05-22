@@ -2,6 +2,7 @@ package com.robustastudio.robustivityapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +53,9 @@ String tempImage;
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         userProfiles = db.userDao().getAllprofiles();
-
+        long now = System.currentTimeMillis();
         holder.activity_content.setText(Activities.get(position).getContent());
-        holder.time.setText(Activities.get(position).getDate());
+        holder.time.setText(DateUtils.getRelativeTimeSpanString(Activities.get(position).getDate(),now,DateUtils.MINUTE_IN_MILLIS));
         if(userProfiles!=null)
         for (int i = 0; i <userProfiles.size() ; i++) {
 
@@ -77,6 +78,7 @@ String tempImage;
 //            Picasso.get().load(R.drawable.theimage).fit().centerCrop().into(holder.image);
 //
 //        }
+
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -225,33 +226,33 @@ boolean stored;
         });
 
 
-        ref_projects.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot d :dataSnapshot.getChildren()){
-                    projects_id.add(d.getKey());
-                    projects = db.userDao().getAllProjects();
-                    /*for (int i = 0; i <projects.size() ; i++) {
-                        Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
-                    }*/
+//        ref_projects.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for(DataSnapshot d :dataSnapshot.getChildren()){
+//                    projects_id.add(d.getKey());
+//                    projects = db.userDao().getAllProjects();
+//                    /*for (int i = 0; i <projects.size() ; i++) {
+//                        Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
+//                    }*/
+//
+//                    if(!projects.contains(d.getKey())){
+//                        Projects pnew = d.getValue(Projects.class);
+//                       // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
+//                        db.projectDao().addProject(pnew);
+//                       // Toast.makeText(getApplicationContext(),pnew.projectid,Toast.LENGTH_LONG).show();
+//                        // mpresenter.update_sectors(db,s1);
+//                    }
+//                }
 
-                    if(!projects.contains(d.getKey())){
-                        Projects pnew = d.getValue(Projects.class);
-                       // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
-                        db.projectDao().addProject(pnew);
-                       // Toast.makeText(getApplicationContext(),pnew.projectid,Toast.LENGTH_LONG).show();
-                        // mpresenter.update_sectors(db,s1);
-                    }
-                }
 
+//            }
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         ref_todos.addValueEventListener(new ValueEventListener() {
             @Override
@@ -385,7 +386,7 @@ boolean stored;
                         String type = postSnapshot.child("type").getValue(String.class);
                         String content = postSnapshot.child("content").getValue(String.class);
                         String cont = postSnapshot.child("cont").getValue(String.class);
-                        String date = postSnapshot.child("date").getValue(String.class);
+                        long date = postSnapshot.child("date").getValue(long.class);
                         Activities activity = new Activities(id, type, content, cont,date);
 
                         for (int i = 0; i < activities.size(); i++) {
@@ -463,6 +464,7 @@ boolean stored;
 
                     }
                     if(!stored){
+                        if(userp.getEmail()!=null)
                         db.userDao().insertAll(userp);
                     }
                     else{
@@ -507,22 +509,29 @@ boolean stored;
             if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail()))
                  thename = userprofiles.get(i).getName();
         }
+        List<Activities> activities = db.activitiesDao().getAllActivities();
 
         if(checkin.getSelectedItem().equals("Checked in")){
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//            checkin.setBackgroundColor(Color.parseColor("#7CFC00"));
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+            long time = System.currentTimeMillis();
+
             Activities activity = new Activities(activities.size(),"Check in", thename+" has checked in",mAuth.getCurrentUser().getEmail(),time);
             mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
             mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 
         }
         else if(checkin.getSelectedItem().equals("Off Premises")){
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//            checkin.setBackgroundColor(Color.parseColor("#ff0000"));
+            long time = System.currentTimeMillis();
             Activities activity = new Activities(activities.size(),"Check out", thename+" has checked out",mAuth.getCurrentUser().getEmail(),time);
             mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off Premises");
             mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
         }
         else{
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+            long time = System.currentTimeMillis();
             Activities activity = new Activities(activities.size(),"From Home", thename+" is working from home",mAuth.getCurrentUser().getEmail(),time);
             mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Working from Home");
             mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
@@ -660,10 +669,14 @@ public void setDefaultValues(){
             status = userprofiles.get(i).getStatus();
         }
     }
-    if( status.equals("Checked in"))
+    if( status.equals("Checked in")) {
         checkin.setSelection(1);
-        else if (status.equals("Off Premises"))
+//        checkin.setBackgroundColor(Color.parseColor("#7CFC00"));
+    }else if (status.equals("Off Premises")){
             checkin.setSelection(0);
+//            checkin.setBackgroundColor(Color.parseColor("#ff0000"));
+    }
+
         else checkin.setSelection(2);
 }
 

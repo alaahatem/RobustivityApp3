@@ -13,8 +13,10 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.robustastudio.robustivityapp.Adapters.ActivityAdapter;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Tasks;
+import com.robustastudio.robustivityapp.NewsFeed;
 import com.robustastudio.robustivityapp.R;
 
 import java.text.SimpleDateFormat;
@@ -56,17 +58,17 @@ public class CreateTaskView extends AppCompatActivity {
                 .fallbackToDestructiveMigration().allowMainThreadQueries().build();
         List<String>temp=presenter.fillMembers(db);
         spinner=findViewById(R.id.taskMember);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp);
+        final ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,temp);
         spinner.setAdapter(adapter);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 presenter.addTask(db,fireBase,mAuth,name.getText().toString(),description.getText().toString(),spinner.getSelectedItem().toString(),new Date(Integer.parseInt(startDatey.getText().toString()),Integer.parseInt(startDatem.getText().toString()),Integer.parseInt(startDated.getText().toString())),new Date(Integer.parseInt(dueDatey.getText().toString()),Integer.parseInt(dueDatem.getText().toString()),Integer.parseInt(dueDated.getText().toString())),Float.valueOf(estimatedHours.getText().toString()),projectName.getText().toString());
-                String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                long time =  System.currentTimeMillis();
                 presenter.addActivity(fireBase,db,"Task Creation",mAuth.getCurrentUser().getDisplayName()+" "+"Created a new Task called"+" "+name.getText().toString()+" in Project"+" "+projectName.getText().toString(),mAuth.getCurrentUser().getEmail(),time);
-
                 Toast.makeText(CreateTaskView.this, "kollo fel konafa", Toast.LENGTH_SHORT).show();
+
             }
         });
 

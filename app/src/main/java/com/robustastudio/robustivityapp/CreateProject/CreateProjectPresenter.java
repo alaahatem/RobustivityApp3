@@ -103,7 +103,7 @@ public class CreateProjectPresenter implements CreateProjectPresenterInt {
         }
 
     }
-    public void addActivity(DatabaseReference firebase , AppDatabase db, String type , String content, String account_name, String time){
+    public void addActivity(DatabaseReference firebase , AppDatabase db, String type , String content, String account_name, long time){
         List<Activities> activities;
         activities = db.activitiesDao().getAllActivities();
         Activities activity = new Activities(activities.size(),type,content,account_name,time);

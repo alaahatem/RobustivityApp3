@@ -57,7 +57,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             <Spinner
                 android:id="@+id/check_in"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
 
 

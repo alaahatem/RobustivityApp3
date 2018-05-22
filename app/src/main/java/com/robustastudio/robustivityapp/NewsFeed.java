@@ -44,7 +44,12 @@ public class NewsFeed extends Fragment {
         db = Room.databaseBuilder(getActivity().getApplicationContext(),AppDatabase.class,"robustivity").allowMainThreadQueries().build();
 
         activities =db.activitiesDao().getAllActivities();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager mlayoutManager= new LinearLayoutManager(getActivity());
+        mlayoutManager.setReverseLayout(true);
+        mlayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(mlayoutManager);
+
+
         adapter = new ActivityAdapter(activities,getActivity().getApplicationContext(),db);
         recyclerView.setAdapter(adapter);
 

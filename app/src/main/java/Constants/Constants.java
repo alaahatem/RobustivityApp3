@@ -6,5 +6,6 @@ package Constants;
 
 public class Constants {
     public static final String AppdatabaseName = "robustivity";
+    public static final String EmptyField = "Not Supplied";
 
 }

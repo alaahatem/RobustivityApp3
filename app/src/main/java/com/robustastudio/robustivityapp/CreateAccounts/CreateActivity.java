@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.robustastudio.robustivityapp.Accounts.AccountActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.EditAccounts.EditAccountActivity;
 import com.robustastudio.robustivityapp.HomeActivity;
@@ -74,7 +75,7 @@ public class CreateActivity extends AppCompatActivity {
 
 
 
-                Intent myIntent = new Intent(CreateActivity.this,HomeActivity.class);
+                Intent myIntent = new Intent(CreateActivity.this,AccountActivity.class);
                 CreateActivity.this.startActivity(myIntent);
             }
         });

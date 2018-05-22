@@ -43,6 +43,8 @@ import java.util.List;
 
 import Constants.Constants;
 
+import static Constants.Constants.EmptyField;
+
 public class ViewProfileActivity extends AppCompatActivity implements  ViewProfile {
 
     private ViewProfilePresenter mViewProfilePresenter;
@@ -139,21 +141,31 @@ Upload.setOnClickListener(new View.OnClickListener() {
     }
 });
         DatabaseReference ref = mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                downloadedImage=dataSnapshot.getValue(String.class);
-                if(!downloadedImage.isEmpty())
-                Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
-
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                downloadedImage=dataSnapshot.getValue(String.class);
+//                if(!downloadedImage.isEmpty())
+//                Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+String URI="";
+if(userprofiles!=null)
+        for (int i = 0; i <userprofiles.size() ; i++) {
+            if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
+              URI = userprofiles.get(i).getImage();
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
+        }
+        if(URI!=null && !URI.isEmpty())
+        Picasso.get().load(URI).centerCrop().fit().into(Image);
+        else
+            Picasso.get().load(R.drawable.theimage).centerCrop().fit().into(Image);
 
     }
     private String getFileExtension(Uri uri) {
@@ -178,11 +190,9 @@ Upload.setOnClickListener(new View.OnClickListener() {
                                     mprogressBar.setProgress(0);
                                 }
                             }, 500);
-                            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/taskmanagement-1522006863027.appspot.com/o/Uploads%2F1523667879875.jpeg?alt=media&token=7c3effa9-4035-42ea-8bde-f83fcaf16fea").centerCrop().fit().into(Image);
+
                             Toast.makeText(ViewProfileActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                             mprogressBar.setVisibility(View.INVISIBLE);
-
-
                             mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image").setValue(taskSnapshot.getDownloadUrl().toString());
                         }
                     })
@@ -228,10 +238,18 @@ Upload.setOnClickListener(new View.OnClickListener() {
 
 
         emailtv.setText(Email);
+        if(!name.isEmpty())
         nametv.setText(name);
+       else
+           nametv.setText(EmptyField);
+       if(!phone.isEmpty())
         userphone.setText(phone);
-        userstatus.setText(status);
-
+       else
+           userphone.setText(EmptyField);
+       if(!status.isEmpty())
+       userstatus.setText(status);
+        else
+            userstatus.setText(EmptyField);
     }
 
 

@@ -3,6 +3,7 @@ package com.robustastudio.robustivityapp.Database;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.robustastudio.robustivityapp.Models.Accounts;
@@ -23,7 +24,7 @@ public interface UserDao {
     List<UserProfile> getAllprofiles();
     @Query("SELECT *FROM Accounts")
     List<Accounts> getAllAccounts();
-    @Insert
+     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(UserProfile...userProfiles);
     @Query("UPDATE userprofile SET user_status=:status WHERE user_email = :email")
 

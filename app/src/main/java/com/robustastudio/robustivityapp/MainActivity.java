@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -58,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     List<UserProfile> userprofiles;
     public List<String> sector_names;
     public List<String> available;
-
+    TextView logindiff;
 
     private String webClientId = "734558269858-a9m110bdaccgh81elqd4pfo5iv4f5lv6.apps.googleusercontent.com";
 
@@ -79,31 +82,21 @@ public class MainActivity extends AppCompatActivity {
         sector_names = new ArrayList<>();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ref_sectors = mDatabase.child("Sectors");
-
+        logindiff = findViewById(R.id.logindiff);
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Firebase Token: " + refreshedToken);
 
-
-
-//        ref.addValueEventListener(new ValueEventListener() {
-//
-//            String temp;
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-//                    temp = postSnapshot.getKey();
-//                    mails.add(temp);
-//                    Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
+        logindiff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                        .requestScopes(new Scope(Scopes.PLUS_ME))
+                        .requestEmail()
+                        .requestIdToken(webClientId)
+                        .build();
+            }
+        });
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
 
@@ -178,50 +171,31 @@ public class MainActivity extends AppCompatActivity {
         };
 
 
-//
-//                    }else{
-//                        UserProfile userprofile = new UserProfile(firebaseAuth.getCurrentUser().getDisplayName(),
-//                                firebaseAuth.getCurrentUser().getEmail(), firebaseAuth.getCurrentUser().getPhoneNumber(), temp, "Off Premises");
-//
-//
-//
-//                        mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).setValue(userprofile);
-//                        Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
-//                        MainActivity.this.startActivity(myIntent);
-//                        Logged_user = mAuth.getCurrentUser().getEmail();
-//                        OneSignal.sendTag("User_ID", Logged_user);
-//
-//                    }
-//                }
 
 
-
-
-        user=mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .requestScopes(new Scope(Scopes.PLUS_ME))
                 .requestEmail()
                 .requestIdToken(webClientId)
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 signIn();
             }
-
-
         });
-
-//        Logged_user = user.getEmail();
-//        OneSignal.sendTag("User_ID",Logged_in_user_email);
-
     }
+
+
+
+
     int RC_SIGN_IN = 10;
     private void signIn() {
         @SuppressLint("RestrictedApi") Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -258,21 +232,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-//    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-//        try {
-//             account = completedTask.getResult(ApiException.class);
-//
-//            // Signed in successfully, show authenticated UI.
-//            Toast.makeText(this,"Email :"+account.getEmail()+"SUCCESS",Toast.LENGTH_LONG).show();
-//            CheckNewUser();
-//        } catch (ApiException e) {
-//            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class ref_sectors for more information.
-//           Toast.makeText(this,"Something went wrong",Toast.LENGTH_LONG).show();
-//        }
-//    }
-
     private void firebaseAuthWithGoogle(final GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
 
@@ -286,7 +245,8 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             Toast.makeText(MainActivity.this,"Signed in successfully",Toast.LENGTH_SHORT).show();
-
+                            Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
+                            MainActivity.this.startActivity(myIntent);
                             user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.

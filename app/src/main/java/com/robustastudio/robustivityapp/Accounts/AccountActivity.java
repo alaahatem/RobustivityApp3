@@ -6,13 +6,16 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.Button;
 
 import com.robustastudio.robustivityapp.Adapters.AccountAdapter;
+import com.robustastudio.robustivityapp.Adapters.Search_Adapter;
 import com.robustastudio.robustivityapp.CreateAccounts.CreateActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
 import com.robustastudio.robustivityapp.Models.Accounts;
+import com.robustastudio.robustivityapp.Models.Search_Model;
 import com.robustastudio.robustivityapp.R;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class AccountActivity extends AppCompatActivity {
     public AccountAdapter adapter;
     public AppDatabase db = null;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         filteredaccounts = new ArrayList<>();
@@ -53,7 +56,9 @@ public class AccountActivity extends AppCompatActivity {
                     filteredaccounts.add(accounts.get(i));
                 }
             }
+
         adapter = new AccountAdapter(filteredaccounts);
         recyclerView.setAdapter(adapter);
     }
+
 }

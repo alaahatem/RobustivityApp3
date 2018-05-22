@@ -35,4 +35,13 @@ public class ActivityFeed extends AppCompatActivity {
         adapter = new ActivityAdapter(activities,getApplicationContext(),db);
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onResume() {
+    super.onResume();
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }

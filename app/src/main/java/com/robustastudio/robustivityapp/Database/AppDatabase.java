@@ -19,7 +19,7 @@ import com.robustastudio.robustivityapp.Models.UserProfile;
  */
 
 @Database(entities = {UserProfile.class,Projects.class, Sectors.class,Tasks.class,Todo.class, Accounts.class,Activities.class
-},version = 38)
+},version = 39)
 @TypeConverters({DateConverter.class, Converter.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();

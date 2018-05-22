@@ -16,6 +16,8 @@ import com.robustastudio.robustivityapp.EditAccounts.EditAccountActivity;
 import com.robustastudio.robustivityapp.ViewProfile.ViewProfileActivity;
 import com.robustastudio.robustivityapp.ViewProjects.Activity_View_Projects;
 
+import static Constants.Constants.EmptyField;
+
 public class ViewAccount extends AppCompatActivity {
     ImageView Image;
     TextView emailtv;
@@ -77,12 +79,21 @@ public class ViewAccount extends AppCompatActivity {
     }
     public void SetTextViews(){
 
+        if(!name.isEmpty())
         nametv.setText(name);
+        else nametv.setText(EmptyField);
+       if(!email.isEmpty())
         emailtv.setText(email);
+       else emailtv.setText(EmptyField);
+       if(!address.isEmpty())
         addresstv.setText(address);
+       else addresstv.setText(EmptyField);
+       if(!phone.isEmpty())
         phonetv.setText(phone);
+       else phonetv.setText(EmptyField);
+       if(!sector.isEmpty())
         sectortv.setText(sector);
-
+        else sectortv.setText(EmptyField);
     }
 
 }

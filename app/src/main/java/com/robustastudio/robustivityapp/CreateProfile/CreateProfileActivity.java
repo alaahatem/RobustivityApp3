@@ -25,6 +25,8 @@ import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +34,7 @@ import java.util.Set;
 public class CreateProfileActivity extends AppCompatActivity implements CreateProfile {
     List<UserProfile> filteredList;
     List<UserProfile> userprofiles;
+
     private CreateProfilePresenter mCreateProfilePresenter;
     private static final String TAG = "CreateProfileActivity";
     RecyclerView recyclerView;
@@ -56,29 +59,8 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
         userprofiles= db.userDao().getAllprofiles();
         DatabaseReference ref = mDatabase.child("user_profile");
         final List<UserProfile> userProfs = new ArrayList<>();
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    UserProfile userprof = postSnapshot.getValue(UserProfile.class);
-                   userProfs.add(userprof);
-                    List<UserProfile>Sync= union(userProfs,userprofiles);
-                    for (int i = 0; i <Sync.size() ; i++) {
-//                       Toast.makeText(getApplicationContext(),Sync.get(i).getEmail(),Toast.LENGTH_LONG).show();
-                    }
 
 
-
-                    // here you can access to name property like university.name
-
-                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,9 +82,15 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        Collections.sort(userprofiles, new Comparator<UserProfile>() {
+            @Override
+            public int compare(UserProfile o1, UserProfile o2) {
+              return  o1.getName().compareTo(o2.getName());
+            }
+        });
         adapter = new UserAdapter(userprofiles);
-        recyclerView.setAdapter(adapter);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                recyclerView.setAdapter(adapter);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

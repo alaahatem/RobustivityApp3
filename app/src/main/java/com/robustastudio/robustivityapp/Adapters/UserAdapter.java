@@ -13,6 +13,8 @@ import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.UserProfiles.UsersProfilesImpl;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -64,7 +66,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return user_profile.size();
     }
     public void filterlist(List<UserProfile> filteredList) {
-
+       Collections.sort(filteredList, new Comparator<UserProfile>() {
+           @Override
+           public int compare(UserProfile o1, UserProfile o2) {
+               return o1.getName().compareTo(o2.getName());
+           }
+       });
         user_profile = filteredList;
 
         notifyDataSetChanged();
