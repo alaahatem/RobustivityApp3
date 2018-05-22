@@ -36,7 +36,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,6 +55,7 @@
         <activity android:name=".View_Sectors.viewSectors"
             android:label="Sectors"
              />
+        <activity android:name=".MainActivity"/>
         <activity android:name=".Statistics.Activity_show_statistics" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".ViewProfile.ViewProfileActivity" />
@@ -74,7 +75,7 @@
          <activity android:name=".EditTask.EditTaskView"/>
         <activity android:name=".SearchEngine.Activity_Search"></activity>
         <activity android:name=".ViewAllTodos.Activity_view_Todo"></activity>
-        <activity android:name=".ViewTodo.Activity_Single_Todo"></activity>
+        <activity android:name=".ViewAllTodos.Activity_Todo_Members"></activity>
         <activity android:name=".ActivityFeed.ActivityFeed"></activity>
 
         <provider

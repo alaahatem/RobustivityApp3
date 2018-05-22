@@ -63,7 +63,7 @@ public class Activity_Search extends AppCompatActivity implements  SearchView.On
         }
 
             for (int y =0;y<list.size();y++){
-                Toast.makeText(getApplicationContext(),""+list.get(y).getName()+"-"+list.get(y).getList(),Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(),""+list.get(y).getName()+"-"+list.get(y).getList(),Toast.LENGTH_LONG).show();
             }
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());

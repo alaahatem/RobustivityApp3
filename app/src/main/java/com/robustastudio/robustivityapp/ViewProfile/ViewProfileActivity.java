@@ -43,6 +43,8 @@ import java.util.List;
 
 import Constants.Constants;
 
+import static Constants.Constants.EmptyField;
+
 public class ViewProfileActivity extends AppCompatActivity implements  ViewProfile {
 
     private ViewProfilePresenter mViewProfilePresenter;
@@ -69,7 +71,7 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
     private List<com.robustastudio.robustivityapp.ViewProfile.Upload> mUploads;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-    mViewProfilePresenter = new ViewProfilePresenterImpl(this);
+        mViewProfilePresenter = new ViewProfilePresenterImpl(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewprofile);
         emailtv = findViewById(R.id.viewEmail);
@@ -89,71 +91,81 @@ public class ViewProfileActivity extends AppCompatActivity implements  ViewProfi
         userprofiles  = db.userDao().getAllprofiles();
         mprogressBar = findViewById(R.id.progress);
         mprogressBar.setVisibility(View.INVISIBLE);
-    mViewProfilePresenter.ShowProfile(userprofiles);
+        mViewProfilePresenter.ShowProfile(userprofiles);
 
 
 
-MyImage.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        try {
-        if (ActivityCompat.checkSelfPermission(ViewProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ViewProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_REQUEST);
-        }
-        else {
-            Toast.makeText(getApplicationContext(),"ACCESS",Toast.LENGTH_LONG).show();
-            OpenFileChooser();
-
-        }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-});
-
-
-Edit.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-
-        Intent myIntent = new Intent(ViewProfileActivity.this, CreateUserProfActivity.class);
-        myIntent.putExtra("name",nametv.getText().toString() );
-        myIntent.putExtra("email",emailtv.getText().toString());
-        myIntent.putExtra("phone",userphone.getText().toString());
-        myIntent.putExtra("status",userstatus.getText().toString());
-        ViewProfileActivity.this.startActivity(myIntent);
-    }
-});
-
-Upload.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        if (mUploadTask != null && mUploadTask.isInProgress()) {
-
-            Toast.makeText(ViewProfileActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
-        } else {
-            mprogressBar.setVisibility(View.VISIBLE);
-            uploadFile();
-        }
-    }
-});
-        DatabaseReference ref = mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image");
-        ref.addValueEventListener(new ValueEventListener() {
+        MyImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                downloadedImage=dataSnapshot.getValue(String.class);
-                if(!downloadedImage.isEmpty())
-                Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
+            public void onClick(View v) {
+                try {
+                    if (ActivityCompat.checkSelfPermission(ViewProfileActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ViewProfileActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PICK_IMAGE_REQUEST);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(),"ACCESS",Toast.LENGTH_LONG).show();
+                        OpenFileChooser();
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         });
 
+
+        Edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent myIntent = new Intent(ViewProfileActivity.this, CreateUserProfActivity.class);
+                myIntent.putExtra("name",nametv.getText().toString() );
+                myIntent.putExtra("email",emailtv.getText().toString());
+                myIntent.putExtra("phone",userphone.getText().toString());
+                myIntent.putExtra("status",userstatus.getText().toString());
+                ViewProfileActivity.this.startActivity(myIntent);
+            }
+        });
+
+        Upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mUploadTask != null && mUploadTask.isInProgress()) {
+
+                    Toast.makeText(ViewProfileActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
+                } else {
+                    mprogressBar.setVisibility(View.VISIBLE);
+                    uploadFile();
+                }
+            }
+        });
+        DatabaseReference ref = mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image");
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                downloadedImage=dataSnapshot.getValue(String.class);
+//                if(!downloadedImage.isEmpty())
+//                Picasso.get().load(downloadedImage).centerCrop().fit().into(Image);
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+        String URI="";
+        if(userprofiles!=null)
+            for (int i = 0; i <userprofiles.size() ; i++) {
+                if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                    URI = userprofiles.get(i).getImage();
+                }
+            }
+        if(URI!=null && !URI.isEmpty())
+            Picasso.get().load(URI).centerCrop().fit().into(Image);
+        else
+            Picasso.get().load(R.drawable.theimage).centerCrop().fit().into(Image);
 
     }
     private String getFileExtension(Uri uri) {
@@ -178,11 +190,9 @@ Upload.setOnClickListener(new View.OnClickListener() {
                                     mprogressBar.setProgress(0);
                                 }
                             }, 500);
-                            Picasso.get().load("https://firebasestorage.googleapis.com/v0/b/taskmanagement-1522006863027.appspot.com/o/Uploads%2F1523667879875.jpeg?alt=media&token=7c3effa9-4035-42ea-8bde-f83fcaf16fea").centerCrop().fit().into(Image);
+
                             Toast.makeText(ViewProfileActivity.this, "Upload successful", Toast.LENGTH_LONG).show();
                             mprogressBar.setVisibility(View.INVISIBLE);
-
-
                             mDatabaseRef.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("image").setValue(taskSnapshot.getDownloadUrl().toString());
                         }
                     })
@@ -204,7 +214,7 @@ Upload.setOnClickListener(new View.OnClickListener() {
         }
     }
     private void OpenFileChooser() {
-    Intent intent = new Intent();
+        Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -228,10 +238,18 @@ Upload.setOnClickListener(new View.OnClickListener() {
 
 
         emailtv.setText(Email);
-        nametv.setText(name);
-        userphone.setText(phone);
-        userstatus.setText(status);
-
+        if(!name.isEmpty())
+            nametv.setText(name);
+        else
+            nametv.setText(EmptyField);
+        if(!phone.isEmpty())
+            userphone.setText(phone);
+        else
+            userphone.setText(EmptyField);
+        if(!status.isEmpty())
+            userstatus.setText(status);
+        else
+            userstatus.setText(EmptyField);
     }
 
 
@@ -253,4 +271,4 @@ Upload.setOnClickListener(new View.OnClickListener() {
 
 
 
-    }
+}

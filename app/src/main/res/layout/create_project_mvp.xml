@@ -28,12 +28,21 @@
             android:text="Type:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
-        <EditText
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/project_type_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorAccent"
+            android:layout_margin="5dp">
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+        <!--<EditText
             android:id="@+id/projectType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName" />-->
 
         <TextView
             android:id="@+id/textView30"
@@ -47,20 +56,29 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <EditText
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/engagement_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:layout_margin="5dp">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+          <!--  <EditText
                 android:id="@+id/projectEngagement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName" />-->
 
-            <Button
+           <!-- <Button
                 android:id="@+id/addEngagement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Add Team" />
+                android:text="Add Team" />-->
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -88,7 +106,17 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <EditText
+            <ImageView
+                android:id="@+id/datepickericon_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="180dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_date_range_black_24dp"
+                android:tint="@color/colorAccent" />
+
+          <!--  <EditText
                 android:id="@+id/startMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName" />-->
         </LinearLayout>
 
         <TextView
@@ -125,7 +153,17 @@
                 android:ems="10"
                 android:inputType="textPersonName" />
 
-            <EditText
+            <ImageView
+                android:id="@+id/datepickericon_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="180dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_date_range_black_24dp"
+                android:tint="@color/colorAccent" />
+
+           <!-- <EditText
                 android:id="@+id/endMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName" />-->
         </LinearLayout>
 
         <TextView
@@ -163,12 +201,21 @@
             android:text="Account Name:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
-        <EditText
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/account_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorAccent"
+            android:layout_margin="5dp">
+
+        </android.support.v7.widget.AppCompatSpinner>
+
+    <!--    <EditText
             android:id="@+id/projectAccountName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName" />-->
 
         <TextView
             android:id="@+id/textView40"

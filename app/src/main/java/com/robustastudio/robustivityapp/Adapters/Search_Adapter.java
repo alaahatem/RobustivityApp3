@@ -60,7 +60,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
         Search_projectsAdapter mAdapter = new Search_projectsAdapter(list.get(position).getList(),ctx);
         VH.projects.setAdapter(mAdapter);
 
-        VH.accountName.setOnClickListener(new View.OnClickListener() {
+        /*VH.accountName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ctx, Activity_Project.class);
@@ -68,7 +68,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
                 i.putExtra("projectName",list.get(position).getName());
                 ctx.startActivity(i);
             }
-        });
+        });*/
 
     }
 

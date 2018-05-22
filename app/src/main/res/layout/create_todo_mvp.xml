@@ -113,46 +113,51 @@
                 android:ems="10"
                 android:hint="MM"
                 android:inputType="number" />
+
+            <ImageView
+                android:id="@+id/timepickericon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="115dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_access_time_black_24dp"
+                android:tint="@color/colorAccent" />
         </LinearLayout>
 
+
         <TextView
-            android:id="@+id/textView45"
+            android:id="@+id/textView50"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Date:"
             android:textAppearance="@style/TextAppearance.AppCompat" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/todoDated"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="DD"
-                android:inputType="number" />
 
             <EditText
-                android:id="@+id/todoDatem"
+                android:id="@+id/todoDateall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="MM"
+                android:hint="Date"
                 android:inputType="number" />
 
-            <EditText
-                android:id="@+id/todoDatey"
+            <ImageView
+                android:id="@+id/datepickericon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="YYYY"
-                android:inputType="number" />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_date_range_black_24dp"
+                android:tint="@color/colorAccent" />
+
+
         </LinearLayout>
 
         <TextView
@@ -167,21 +172,27 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <EditText
+           <!-- <EditText
                 android:id="@+id/todoDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="number" />
+                android:inputType="number" />-->
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/duration_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-            <TextView
+            </android.support.v7.widget.AppCompatSpinner>
+
+         <!--   <TextView
                 android:id="@+id/textView47"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Hours"
-                android:textAppearance="@style/TextAppearance.AppCompat" />
+                android:textAppearance="@style/TextAppearance.AppCompat" />-->
         </LinearLayout>
 
         <Button

@@ -17,6 +17,8 @@ import com.robustastudio.robustivityapp.R;
 import com.robustastudio.robustivityapp.Statistics.Activity_show_statistics;
 import com.robustastudio.robustivityapp.ViewTasks.ViewTasksView;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +39,8 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
     public TextView contractedCost;
     private List<String> list;
 
+    private TextView engaged;
+
     private Button statistics ;
     private Button tasks ;
 
@@ -51,7 +55,7 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
         setContentView(R.layout.activity_project);
         mpresenter = new Project_presenter(Activity_Project.this);
 
-        mRecyclerView = findViewById(R.id.engagement);
+        engaged = findViewById(R.id.engagement);
         name = findViewById(R.id.pname);
         type = findViewById(R.id.type);
         StartDate = findViewById(R.id.startDate);
@@ -110,8 +114,9 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
 
     public void view_details(Projects p){
 
-        list =p.getEngagement();
+       // list =p.getEngagement();
         name.setText(p.getName());
+        engaged.setText(p.getEngagement());
         type.setText(p.getType());
         SimpleDateFormat format = new SimpleDateFormat(
                 "EEE, d/MM/yy");
@@ -125,13 +130,13 @@ public class Activity_Project extends AppCompatActivity implements Project_View{
         plannedCost.setText(""+p.getPlanned_cost());
 
 
-        mRecyclerView.setHasFixedSize(true);
+   /*     mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new EngagementListAdapter(list);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);*/
 
     }
 

@@ -23,7 +23,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.create_todo_card,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_member_row,parent,false);
         return new ViewHolder(view);
     }
 
@@ -47,7 +47,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            item=itemView.findViewById(R.id.todomembercard);
+            item=itemView.findViewById(R.id.todo_member_name);
         }
     }
 }

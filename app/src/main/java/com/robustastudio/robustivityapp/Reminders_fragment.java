@@ -91,14 +91,17 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
                 Toast.makeText(getActivity().getApplicationContext(),String.valueOf(days),Toast.LENGTH_LONG).show();
 
 
-                if(tasks.get(i).getMembers().equals("'"+mAuth.getCurrentUser().getDisplayName()+"'")){
-                    if(days+693989==0)
+                if(tasks.get(i).getMembers().equals(mAuth.getCurrentUser().getEmail())){
 
-                        temptask.add(tasks.get(i));
+
+                    temptask.add(tasks.get(i));
                 }
 
             }
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
+        LinearLayoutManager mlayoutManager= new LinearLayoutManager(getActivity().getApplicationContext());
+        mlayoutManager.setReverseLayout(true);
+        mlayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(mlayoutManager);
         adapter = new TasksAdapter(temptask);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());

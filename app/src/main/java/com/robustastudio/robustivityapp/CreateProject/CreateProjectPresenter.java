@@ -24,14 +24,14 @@ public class CreateProjectPresenter implements CreateProjectPresenterInt {
         this.view=view;
     }
 
-    @Override
+   /* @Override
     public void checkTextField(EditText text,List<String>list) {
         if (!TextUtils.isEmpty(text.getText()))
             list.add(text.getText().toString());
-    }
+    }*/
 
     @Override
-    public void addProject(AppDatabase db, DatabaseReference ref,int id,String name, String type, Date startDate, Date dueDate, List<String> list, String tagLine, String accountName, float projectCost,float contractedCost, float plannedCost) {
+    public void addProject(AppDatabase db, DatabaseReference ref,int id,String name, String type, Date startDate, Date dueDate, String list, String tagLine, String accountName, float projectCost,float contractedCost, float plannedCost) {
         boolean flag=false;
         Projects project=new Projects(id+1,name,type,list,startDate,dueDate,tagLine,accountName,projectCost,contractedCost, plannedCost);
         if(dueDate.before(startDate)){
@@ -103,7 +103,7 @@ public class CreateProjectPresenter implements CreateProjectPresenterInt {
         }
 
     }
-    public void addActivity(DatabaseReference firebase , AppDatabase db, String type , String content, String account_name, String time){
+    public void addActivity(DatabaseReference firebase , AppDatabase db, String type , String content, String account_name, long time){
         List<Activities> activities;
         activities = db.activitiesDao().getAllActivities();
         Activities activity = new Activities(activities.size(),type,content,account_name,time);

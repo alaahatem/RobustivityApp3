@@ -63,10 +63,10 @@ public class Todo {
     @TypeConverters({DateConverter.class})
     public Date date;
     @ColumnInfo(name = "todo_duration")
-    public double duration;
+    public int duration;
 
 
-    public Todo(String id,String title,String email,List<String> members, String starttime, Date date, double duration) {
+    public Todo(String id,String title,String email,List<String> members, String starttime, Date date, int duration) {
        this.id=id;
         this.title=title;
         this.email=email;
@@ -111,11 +111,11 @@ public class Todo {
         this.date = date;
     }
 
-    public double getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(double duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 

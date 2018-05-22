@@ -30,7 +30,7 @@ public class Projects {
     {
 
     }
-    public Projects(int id, @NonNull String name, String type,List<String> engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
+    public Projects(int id, @NonNull String name, String type,String engagement, Date startDate, Date endDate, String tagline, String accountName, float project_cost, float contracted_cost, float planned_cost ) {
         this.projectid=id;
         this.name = name;
         this.type = type;
@@ -53,8 +53,8 @@ public class Projects {
     @ColumnInfo(name = "project_type")
     public String type;
 
-    @TypeConverters({Converter.class})
-    public List<String> engagement;
+    @ColumnInfo(name="engagement_team")
+    public String engagement;
 
     @ColumnInfo(name = "project_tagline")
     public String tagline;
@@ -109,7 +109,7 @@ public class Projects {
         return type;
     }
 
-    public List<String> getEngagement() {
+    public String getEngagement() {
         return engagement;
     }
 
@@ -142,7 +142,7 @@ public class Projects {
         this.type = type;
     }
 
-    public void setEngagement(List<String> engagement) {
+    public void setEngagement(String engagement) {
         this.engagement = engagement;
     }
 

@@ -33,7 +33,9 @@
                 android:layout_alignBottom="@+id/upload"
                 android:layout_toEndOf="@+id/upload"
                 android:layout_toRightOf="@+id/upload"
-                android:text="Browse" />
+                android:text="Browse"
+                android:background="@drawable/roundedred"
+                />
 
             <Button
                 android:id="@+id/upload"
@@ -42,7 +44,8 @@
                 android:layout_alignBottom="@+id/edit"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:text="Button"
+                android:text="Upload"
+                android:background="@drawable/roundedbuttons"
                 tools:text="Upload" />
 
             <LinearLayout
@@ -87,7 +90,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="22dp"
-                android:text="Edit" />
+                android:text="Edit"
+                android:background="@drawable/roundedbuttons"
+                />
 
 
         </RelativeLayout>

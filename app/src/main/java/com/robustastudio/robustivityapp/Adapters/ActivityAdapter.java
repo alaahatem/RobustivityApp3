@@ -2,6 +2,7 @@ package com.robustastudio.robustivityapp.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,10 @@ import java.util.List;
  */
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
-DatabaseReference mDatabaseRef;
-List<UserProfile> userProfiles;
-AppDatabase db =null;
-String tempImage;
+    DatabaseReference mDatabaseRef;
+    List<UserProfile> userProfiles;
+    AppDatabase db =null;
+    String tempImage;
 
     List<Activities> Activities;
     Context ctx;
@@ -52,20 +53,20 @@ String tempImage;
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         userProfiles = db.userDao().getAllprofiles();
-
+        long now = System.currentTimeMillis();
         holder.activity_content.setText(Activities.get(position).getContent());
-        holder.time.setText(Activities.get(position).getDate());
+        holder.time.setText(DateUtils.getRelativeTimeSpanString(Activities.get(position).getDate(),now,DateUtils.MINUTE_IN_MILLIS));
         if(userProfiles!=null)
-        for (int i = 0; i <userProfiles.size() ; i++) {
+            for (int i = 0; i <userProfiles.size() ; i++) {
 
-            if (userProfiles.get(i).getEmail().equals(Activities.get(position).getCont())) {
-                if (!userProfiles.isEmpty()) {
+                if (userProfiles.get(i).getEmail().equals(Activities.get(position).getCont())) {
+                    if (!userProfiles.isEmpty()) {
 
-                    tempImage = userProfiles.get(i).getImage();
-                    break;
+                        tempImage = userProfiles.get(i).getImage();
+                        break;
+                    }
                 }
             }
-        }
         if(!tempImage.isEmpty()){
             Picasso.get().load(tempImage).centerCrop().fit().into(holder.image);
         }else{
@@ -77,6 +78,7 @@ String tempImage;
 //            Picasso.get().load(R.drawable.theimage).fit().centerCrop().into(holder.image);
 //
 //        }
+
     }
 
     @Override
@@ -92,7 +94,7 @@ String tempImage;
         public ViewHolder(View itemView) {
             super(itemView);
             activity_content= itemView.findViewById(R.id.activity_content);
-           image = itemView.findViewById(R.id.Image_act);
+            image = itemView.findViewById(R.id.Image_act);
             time= itemView.findViewById(R.id.time);
 
             linearLayout =itemView.findViewById(R.id.linear_layout_activityfeed);

@@ -28,7 +28,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
 
     public TasksAdapter(List<com.robustastudio.robustivityapp.Models.Tasks> tasks) {
-       this.Tasks = tasks;
+        this.Tasks = tasks;
         for (int i = 0; i <tasks.size() ; i++) {
             expandState.append(i,false);
         }
@@ -64,8 +64,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
             @Override
             public void onPreOpen() {
-            changeRotate(holder.button,0f,180f).start();
-            expandState.put(position,true);
+                changeRotate(holder.button,0f,180f).start();
+                expandState.put(position,true);
             }
 
             @Override
@@ -84,7 +84,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             }
         });
         holder.TaskViewChild.setText("Description : "+Tasks.get(position).getDescription()+"\n" +"Assigned by : "+Tasks.get(position).getAssignee());
-        }
+    }
 
     private ObjectAnimator changeRotate(RelativeLayout button, float from, float to) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(button,"rotation",from ,to);

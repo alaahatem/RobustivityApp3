@@ -60,15 +60,15 @@ public class  viewSectors extends AppCompatActivity implements All_sectors_View,
 
 
 
-        reference.addValueEventListener(new ValueEventListener() {
+      /*  reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot d :dataSnapshot.getChildren()){
                     sector_names.add(d.getKey());
                     available_sectors = db.userDao().getAllSectors();
-                  /*  for (int i = 0; i <available.size() ; i++) {
+                  *//*  for (int i = 0; i <available.size() ; i++) {
                         Toast.makeText(getApplicationContext(),available.get(i),Toast.LENGTH_LONG).show();
-                    }*/
+                    }*//*
 
                     if(!available_sectors.contains(d.getKey())){
 
@@ -89,7 +89,7 @@ public class  viewSectors extends AppCompatActivity implements All_sectors_View,
 
             }
         });
-
+*/
 
         AddSector = (Button) findViewById(R.id.buttonSector);
         mRecyclerView = findViewById(R.id.sectors_list);
@@ -109,7 +109,6 @@ public class  viewSectors extends AppCompatActivity implements All_sectors_View,
             public void onClick(View v){
                     Add_sector_dialog mdialog = new Add_sector_dialog();
                     mdialog.show(getSupportFragmentManager(),"");
-
 
                 //startActivity(new Intent(viewSectors.this,Activity_add_sector_old.class));
             }

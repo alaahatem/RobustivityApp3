@@ -136,7 +136,7 @@ boolean stored;
 
         setDefaultValues();
         for (int i=0;i<available_todos.size();i++){
-            Toast.makeText(getApplicationContext(), available_todos.get(i), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getApplicationContext(), available_todos.get(i), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -150,7 +150,7 @@ boolean stored;
 
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
        // Log.d(TAG,FirebaseInstanceId.getInstance().getToken());
-        Toast.makeText(getApplicationContext(),refreshedToken,Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getApplicationContext(),refreshedToken,Toast.LENGTH_LONG).show();
 
 
         /*for (int i = 0; i <tasks.size() ; i++) {
@@ -257,7 +257,7 @@ boolean stored;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot d :dataSnapshot.getChildren()) {
-                    Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(getApplicationContext(),mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
 
                     if (d.child("email").getValue(String.class).equals(mAuth.getCurrentUser().getEmail()) ) {
                         available_todos = db.todoDao().getTodos(mAuth.getCurrentUser().getEmail());
@@ -268,16 +268,16 @@ boolean stored;
                                 Todo todonew = d.getValue(Todo.class);
                                 // Toast.makeText(getApplicationContext(),"id"+pnew.projectid,Toast.LENGTH_LONG).show();
                                 db.todoDao().addTodo(todonew);
-                                Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
 
                             }else
                             {
                                 List<String> mm =new ArrayList<>();
                                 Todo todonew = new Todo(d.child("id").getValue(String.class),d.child("title").getValue(String.class),d.child("email").getValue(String.class),
                                         mm,d.child("starttime").getValue(String.class),d.child("date").getValue(Date.class),
-                                        d.child("duration").getValue(Double.class));
+                                        d.child("duration").getValue(Integer.class));
                                 db.todoDao().addTodo(todonew);
-                                Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
+                               // Toast.makeText(getApplicationContext(),d.child("title").getValue(String.class)+"inserted",Toast.LENGTH_LONG).show();
 
                             }
 
@@ -311,7 +311,7 @@ boolean stored;
 
                         Sectors s1 = (d.getValue(Sectors.class));
                         db.userDao().insertSector(s1);
-                        Toast.makeText(getApplicationContext(),"sec id"+s1.name,Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(),"sec id"+s1.name,Toast.LENGTH_LONG).show();
                         // mpresenter.update_sectors(db,s1);
                     }
 
@@ -385,7 +385,7 @@ boolean stored;
                         String type = postSnapshot.child("type").getValue(String.class);
                         String content = postSnapshot.child("content").getValue(String.class);
                         String cont = postSnapshot.child("cont").getValue(String.class);
-                        String date = postSnapshot.child("date").getValue(String.class);
+                        long date = postSnapshot.child("date").getValue(long.class);
                         Activities activity = new Activities(id, type, content, cont,date);
 
                         for (int i = 0; i < activities.size(); i++) {
@@ -408,6 +408,7 @@ boolean stored;
 
             }
         });
+
 
         /*ref_todos.addValueEventListener(new ValueEventListener() {
             @Override
@@ -463,6 +464,7 @@ boolean stored;
 
                     }
                     if(!stored){
+                        if(userp.getEmail()!=null)
                         db.userDao().insertAll(userp);
                     }
                     else{
@@ -507,27 +509,33 @@ boolean stored;
             if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail()))
                  thename = userprofiles.get(i).getName();
         }
+                List<Activities> activities = db.activitiesDao().getAllActivities();
+                if(checkin.getSelectedItem().equals("Checked in")){
+//            checkin.setBackgroundColor(Color.parseColor("#7CFC00"));
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                    long time = System.currentTimeMillis();
 
-        if(checkin.getSelectedItem().equals("Checked in")){
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
-            Activities activity = new Activities(activities.size(),"Check in", thename+" has checked in",mAuth.getCurrentUser().getEmail(),time);
-            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
-            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+                    Activities activity = new Activities(activities.size(),"Check in", thename+" has checked in",mAuth.getCurrentUser().getEmail(),time);
+                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Checked in");
+                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 
-        }
-        else if(checkin.getSelectedItem().equals("Off Premises")){
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
-            Activities activity = new Activities(activities.size(),"Check out", thename+" has checked out",mAuth.getCurrentUser().getEmail(),time);
-            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off Premises");
-            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
-        }
-        else{
-            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
-            Activities activity = new Activities(activities.size(),"From Home", thename+" is working from home",mAuth.getCurrentUser().getEmail(),time);
-            mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Working from Home");
-            mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+                }
+                else if(checkin.getSelectedItem().equals("Off Premises")){
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+//            checkin.setBackgroundColor(Color.parseColor("#ff0000"));
+                    long time = System.currentTimeMillis();
+                    Activities activity = new Activities(activities.size(),"Check out", thename+" has checked out",mAuth.getCurrentUser().getEmail(),time);
+                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Off Premises");
+                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
+                }
+                else{
+//            String time= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new java.util.Date());
+                    long time = System.currentTimeMillis();
+                    Activities activity = new Activities(activities.size(),"From Home", thename+" is working from home",mAuth.getCurrentUser().getEmail(),time);
+                    mDatabase.child("user_profile").child(FirebaseApp.EncodeString(mAuth.getCurrentUser().getEmail())).child("status").setValue("Working from Home");
+                    mDatabase.child("Activities").child(String.valueOf(activities.size())).setValue(activity);
 
-        }
+                }
             }
 
             @Override
@@ -652,20 +660,24 @@ boolean stored;
 
         }
     }
-public void setDefaultValues(){
+    public void setDefaultValues(){
         String status ="";
         if(userprofiles!=null && mAuth.getCurrentUser()!=null)
-    for (int i = 0; i <userprofiles.size() ; i++) {
-        if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
-            status = userprofiles.get(i).getStatus();
-        }
-    }
-    if( status.equals("Checked in"))
-        checkin.setSelection(1);
-        else if (status.equals("Off Premises"))
+            for (int i = 0; i <userprofiles.size() ; i++) {
+                if(userprofiles.get(i).getEmail().equals(mAuth.getCurrentUser().getEmail())){
+                    status = userprofiles.get(i).getStatus();
+                }
+            }
+        if( status.equals("Checked in")) {
+            checkin.setSelection(1);
+//        checkin.setBackgroundColor(Color.parseColor("#7CFC00"));
+        }else if (status.equals("Off Premises")){
             checkin.setSelection(0);
+//            checkin.setBackgroundColor(Color.parseColor("#ff0000"));
+        }
+
         else checkin.setSelection(2);
-}
+    }
 
     public void onStart() {
         super.onStart();

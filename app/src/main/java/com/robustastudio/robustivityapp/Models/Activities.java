@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.Date;
+
 /**
  * Created by hp on 02/05/2018.
  */
@@ -28,9 +30,9 @@ public class Activities {
     @ColumnInfo(name = "activity_cont")
     private String cont;
     @ColumnInfo(name = "activity_date")
-    public String date;
+    public long date;
 
-    public Activities(int id, String type, String content, String cont , String date) {
+    public Activities(int id, String type, String content, String cont , long date) {
         this.id = id;
         this.type = type;
         this.content = content;
@@ -39,11 +41,11 @@ public class Activities {
         this.date= date;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

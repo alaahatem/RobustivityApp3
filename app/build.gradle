@@ -64,7 +64,7 @@ dependencies {
     //compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.itextpdf:itextg:5.5.9'
-    compile 'com.github.tajchert:nammu:1.2.0'
+    //compile 'com.github.tajchert:nammu:1.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
