@@ -214,10 +214,11 @@ public class CreateProjectView extends AppCompatActivity {
                 //presenter.checkTextField(engagement,engagementList);
                 id = p.size();
                 AppDatabase db = Room.databaseBuilder(getApplicationContext(),AppDatabase.class,"robustivity")
-                        .fallbackToDestructiveMigration().allowMainThreadQueries().build();
+                        .allowMainThreadQueries().build();
 
                 long time =System.currentTimeMillis();
-                presenter.addActivity(firebase,db,"Project Creation","Project has been created referring to Client : " +accountName.getText().toString(),accountName.getText().toString(),time);
+
+                presenter.addActivity(firebase,db,"Project Creation","Project has been created referring to Client : " +account_name.getSelectedItem().toString(),account_name.getSelectedItem().toString(),time);
                 presenter.addProject(db,ref,id,name.getText().toString(), project_types.get(type.getSelectedItemPosition()),new Date(start_y,start_m, start_d),
                         new Date(end_y,end_m, end_d),
                                 engagement_types.get(engagement_spinner.getSelectedItemPosition()),tagLine.getText().toString(),accounts.get(account_name.getSelectedItemPosition()),Float.valueOf(projectCost.getText().toString()),Float.valueOf(contractedCost.getText().toString()),Float.valueOf(plannedCost.getText().toString()));

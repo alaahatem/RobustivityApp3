@@ -67,7 +67,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
 
             if(bssid!=null) {
                 if(mAuth.getCurrentUser()!=null && userprofiles!=null)
-                    if (bssid.equals("58:2a:f7:39:59:f8")) {
+                    if (bssid.equals("44:d9:e7:f3:d8:aa")) {
 
                         for (int j = 0; j <userprofiles.size() ; j++) {
                             if(mAuth.getCurrentUser().getEmail().equals(userprofiles.get(j).getEmail())){

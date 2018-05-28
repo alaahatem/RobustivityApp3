@@ -123,13 +123,13 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                                 if (checked) {
-                                    Toast.makeText(getApplicationContext(), "already there", Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(getApplicationContext(), "already there", Toast.LENGTH_LONG).show();
                                     Intent myIntent = new Intent(MainActivity.this, HomeActivity.class);
                                     MainActivity.this.startActivity(myIntent);
                                     Logged_user = mAuth.getCurrentUser().getEmail();
                                     OneSignal.sendTag("User_ID", Logged_user);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "am new here", Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(getApplicationContext(), "am new here", Toast.LENGTH_LONG).show();
                                     UserProfile userprofile = new UserProfile("",firebaseAuth.getCurrentUser().getDisplayName(),
                                             "", firebaseAuth.getCurrentUser().getEmail(),  "Off Premises");
 
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                             else{
-                                Toast.makeText(getApplicationContext(), "am the first here", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "am the first here", Toast.LENGTH_LONG).show();
                                 UserProfile userprofile = new UserProfile("",firebaseAuth.getCurrentUser().getDisplayName(),
                                         "", firebaseAuth.getCurrentUser().getEmail(), "Off Premises");
 
@@ -217,11 +217,11 @@ public class MainActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
 
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if(account.getEmail().endsWith("@gmail.com"))
+
 
 
                     firebaseAuthWithGoogle(account);
-                else Toast.makeText(getApplicationContext(), "wrong domain sir", Toast.LENGTH_SHORT).show();
+
 
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately

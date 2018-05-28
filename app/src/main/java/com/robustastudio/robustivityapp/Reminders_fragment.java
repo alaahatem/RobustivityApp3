@@ -4,9 +4,11 @@ package com.robustastudio.robustivityapp;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +45,7 @@ import static com.robustastudio.robustivityapp.MainActivity.mAuth;
  */
 // Instances of this class are fragments representing a single
 // object in our collection.
-public class Reminders_fragment extends Fragment implements RecyclerTouchItemHelperListener {
+public class Reminders_fragment extends Fragment implements RecyclerTouchItemHelperListener ,SwipeRefreshLayout.OnRefreshListener{
     public FirebaseAuth mAuth;
     RecyclerView recyclerView;
     List<Tasks> tasks;
@@ -51,7 +53,7 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
     public TasksAdapter adapter;
     private DrawerLayout mDrawerLayout;
     Button Activities;
-
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -59,10 +61,12 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
 
         View rootView = inflater.inflate(
                 R.layout.activity_home, container, false);
-
+        mSwipeRefreshLayout = rootView.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         temptask = new ArrayList<>();
         tasks= new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.recycler_view_tasks);
+
         mDrawerLayout = rootView.findViewById(R.id.drawer_layout);
         final AppDatabase db = Room.databaseBuilder(getActivity().getApplicationContext(),AppDatabase.class, Constants.AppdatabaseName).allowMainThreadQueries().build();
         tasks =db.taskDao().getAllTasks();
@@ -88,7 +92,6 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
                 int days = (int) ((today.getTime()- Taskdate.getTime())/(1000 * 60 *60 * 24));
 
 
-                Toast.makeText(getActivity().getApplicationContext(),String.valueOf(days),Toast.LENGTH_LONG).show();
 
 
                 if(tasks.get(i).getMembers().equals(mAuth.getCurrentUser().getEmail())){
@@ -127,4 +130,15 @@ public class Reminders_fragment extends Fragment implements RecyclerTouchItemHel
         }
     }
 
+    @Override
+    public void onRefresh() {
+
+                adapter.notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },2000);
+    }
 }

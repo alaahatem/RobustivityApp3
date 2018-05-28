@@ -3,10 +3,12 @@ package com.robustastudio.robustivityapp;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -58,7 +60,7 @@ import java.util.List;
 import Constants.Constants;
 
 
-public class HomeActivity extends AppCompatActivity implements RecyclerTouchItemHelperListener {
+public class HomeActivity extends AppCompatActivity implements RecyclerTouchItemHelperListener  {
 Context context;
     DatabaseReference ref;
     List<UserProfile> userprofiles;
@@ -98,15 +100,19 @@ boolean stored;
     boolean activity_stored;
     ValueEventListener myValueEventListner;
     List<String> Status= new ArrayList<>();
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+
+
 
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_home);
         setContentView(R.layout.activity_tabs);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
         sector_names = new ArrayList<>();
          ref_sectors =mDatabase.child("Sectors");
         engagment_list = new ArrayList<String >();
@@ -123,6 +129,8 @@ boolean stored;
         Status.add("Checked in");
 
         Status.add("Working from Home");
+
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,Status );
         checkin.setAdapter(adapter);
         mDrawerLayout = findViewById(R.id.drawer_layout);
@@ -133,7 +141,19 @@ boolean stored;
         projects= db.userDao().getAllProjects();
         tasks =db.taskDao().getAllTasks();
         available_todos=db.todoDao().getTodos(mAuth.getCurrentUser().getEmail());
-
+//        mSwipeRefreshLayout = findViewById(R.id.swiperefresh);
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                Toast.makeText(getApplicationContext(),"refresh from home ", Toast.LENGTH_SHORT).show();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        mSwipeRefreshLayout.setRefreshing(false);
+//                    }
+//                },2000);
+//            }
+//        });
         setDefaultValues();
         for (int i=0;i<available_todos.size();i++){
            // Toast.makeText(getApplicationContext(), available_todos.get(i), Toast.LENGTH_SHORT).show();
@@ -486,7 +506,7 @@ boolean stored;
         String bssid = intent.getStringExtra("bssid");
 
         if(bssid!=null) {
-            if (bssid.equals("58:2a:f7:39:59:f8")) {
+            if (bssid.equals("44:d9:e7:f3:d8:aa")) {
             checkin.setSelection(1);
             }
         }
@@ -684,4 +704,6 @@ boolean stored;
 
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth.addAuthStateListener(mAuthListener);}
+
+
 }

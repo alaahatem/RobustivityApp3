@@ -21,6 +21,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.robustastudio.robustivityapp.Adapters.UserAdapter;
 import com.robustastudio.robustivityapp.CreateUserProfile.CreateUserProfActivity;
 import com.robustastudio.robustivityapp.Database.AppDatabase;
+import com.robustastudio.robustivityapp.HomeActivity;
+import com.robustastudio.robustivityapp.MainActivity;
 import com.robustastudio.robustivityapp.Models.UserProfile;
 import com.robustastudio.robustivityapp.R;
 
@@ -109,6 +111,9 @@ public class CreateProfileActivity extends AppCompatActivity implements CreatePr
         return new ArrayList<T>(set);
     }
 
-
-
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        startActivity(new Intent(CreateProfileActivity.this, HomeActivity.class));
+//    }
 }

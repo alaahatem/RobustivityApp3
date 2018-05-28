@@ -12,7 +12,14 @@ repositories {
 
 
 android {
-
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'gucbachelor'
+            storeFile file('C:/Users/hp/Desktop/apks/mykeys.jks')
+            storePassword 'gucbachelor'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         manifestPlaceholders = [onesignal_app_id               : "ad48fdd4-7c63-4dcd-bd26-b6941d648769",
@@ -31,9 +38,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.config
         }
     }
-
 }
 
 dependencies {

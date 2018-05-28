@@ -98,7 +98,7 @@ public class UsersProfilesImpl extends AppCompatActivity implements UserProfiles
     }
 
     public void setTextViews(String username , String email ,String phone , String status){
-        Toast.makeText(this,username,Toast.LENGTH_LONG);
+//        Toast.makeText(this,username,Toast.LENGTH_LONG);
         viewname = findViewById(R.id.viewName);
         viewemail = findViewById(R.id.viewEmail);
         viewphone=findViewById(R.id.viewPhone);
